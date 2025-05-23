@@ -306,7 +306,10 @@ function initializeEnhancedAnimations() {
             }
         });
     });
-}
+} // Inicializar EmailJS con tu Public Key
+(function() {
+    emailjs.init("1xIo82HGvVGU1cRST");
+})();
 
 // Menú flotante mejorado
 function initializeFloatingMenu() {
@@ -333,14 +336,18 @@ function initializeFloatingMenu() {
 
             // Efectos visuales
             const rect = floatingMenu.getBoundingClientRect();
-            VisualEffects.createShockwave(
-                rect.left + rect.width / 2,
-                rect.top + rect.height / 2
-            );
+            if (typeof VisualEffects !== 'undefined') {
+                VisualEffects.createShockwave(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2
+                );
+            }
 
             // Animación de click
             floatingMenu.style.transform = 'scale(0.95)';
-            HapticFeedback.medium();
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
 
             setTimeout(() => {
                 floatingMenu.style.transform = 'scale(1)';
@@ -356,7 +363,9 @@ function initializeFloatingMenu() {
         // Efecto de hover mejorado
         floatingMenu.addEventListener('mouseenter', () => {
             floatingMenu.style.transform = 'scale(1.05) translateY(-3px)';
-            HapticFeedback.light();
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.light();
+            }
         });
 
         floatingMenu.addEventListener('mouseleave', () => {
@@ -395,7 +404,9 @@ function initializeProjectCards() {
             `;
 
             card.appendChild(ripple);
-            HapticFeedback.light();
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.light();
+            }
 
             // Limpiar después de la animación
             setTimeout(() => {
@@ -417,14 +428,18 @@ function initializeProjectCards() {
         // Efecto de click mejorado
         card.addEventListener('click', (e) => {
             const rect = card.getBoundingClientRect();
-            VisualEffects.createStarBurst(
-                rect.left + rect.width / 2,
-                rect.top + rect.height / 2,
-                card
-            );
+            if (typeof VisualEffects !== 'undefined') {
+                VisualEffects.createStarBurst(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2,
+                    card
+                );
+            }
 
             card.style.transform = 'translateY(-12px) scale(1.01)';
-            HapticFeedback.medium();
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
 
             setTimeout(() => {
                 card.style.transform = 'translateY(-15px) scale(1.03)';
@@ -480,12 +495,46 @@ function initializeProjectCards() {
                     opacity: 0;
                 }
             }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            @keyframes slideIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            @keyframes slideOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(-10px); }
+            }
+
+            @keyframes slideInLeft {
+                from { opacity: 0; transform: translateX(-50px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            @keyframes slideIndicator {
+                0% {
+                    transform: translateX(50px);
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(0);
+                    opacity: 0;
+                }
+            }
         `;
         document.head.appendChild(style);
     }
 }
 
-// Formulario de contacto mejorado
+// Formulario de contacto mejorado y funcional
 function initializeContactForm() {
     const contactForm = document.querySelector('.contact-form');
 
@@ -497,7 +546,9 @@ function initializeContactForm() {
             input.addEventListener('focus', () => {
                 input.parentElement.style.transform = 'scale(1.02)';
                 input.style.transform = 'translateZ(0)';
-                HapticFeedback.light();
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.light();
+                }
             });
 
             input.addEventListener('blur', () => {
@@ -509,7 +560,9 @@ function initializeContactForm() {
                 if (input.value.length > 0) {
                     input.style.borderColor = 'var(--accent-color)';
                     if (input.value.length === 1) {
-                        HapticFeedback.light();
+                        if (typeof HapticFeedback !== 'undefined') {
+                            HapticFeedback.light();
+                        }
                     }
                 } else {
                     input.style.borderColor = 'var(--border-color)';
@@ -517,20 +570,45 @@ function initializeContactForm() {
             });
         });
 
-        // Manejo de envío con animaciones y efectos
+        // Manejo de envío con funcionalidad real de email
         contactForm.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             const submitBtn = contactForm.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
 
+            // Obtener datos del formulario
+            const formData = new FormData(contactForm);
+            const templateParams = {
+                name: formData.get('name') || formData.get('nombre'),
+                email: formData.get('email') || formData.get('correo'),
+                title: formData.get('subject') || formData.get('asunto') || 'Nuevo mensaje desde el formulario de contacto',
+                message: formData.get('message') || formData.get('mensaje')
+            };
+
+            // Validar campos requeridos
+            if (!templateParams.name || !templateParams.email || !templateParams.message) {
+                showMessage('Por favor completa todos los campos requeridos', 'error');
+                return;
+            }
+
+            // Validar email
+            if (!isValidEmail(templateParams.email)) {
+                showMessage('Por favor ingresa un email válido', 'error');
+                return;
+            }
+
             // Efectos visuales de inicio
             const rect = submitBtn.getBoundingClientRect();
-            VisualEffects.createShockwave(
-                rect.left + rect.width / 2,
-                rect.top + rect.height / 2
-            );
-            HapticFeedback.medium();
+            if (typeof VisualEffects !== 'undefined') {
+                VisualEffects.createShockwave(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2
+                );
+            }
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
 
             // Animación de carga
             submitBtn.innerHTML = `
@@ -542,50 +620,62 @@ function initializeContactForm() {
             submitBtn.disabled = true;
             submitBtn.style.transform = 'scale(0.98)';
 
-            // Añadir animación de spin si no existe
-            if (!document.getElementById('spin-animation')) {
-                const style = document.createElement('style');
-                style.id = 'spin-animation';
-                style.textContent = `
-                    @keyframes spin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
+            try {
+                // Enviar email usando EmailJS con tus datos configurados
+                const response = await emailjs.send(
+                    'service_orkf6p3', // Tu Service ID de Gmail
+                    'template_nv8fa3e', // Tu Template ID
+                    templateParams
+                );
 
-            // Simular envío
-            await new Promise(resolve => setTimeout(resolve, 2000));
+                console.log('Email enviado exitosamente:', response);
 
-            // Éxito con efectos
-            submitBtn.innerHTML = '✓ ¡Mensaje Enviado!';
-            submitBtn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
-            submitBtn.style.transform = 'scale(1.02)';
+                // Éxito con efectos
+                submitBtn.innerHTML = '✓ ¡Mensaje Enviado!';
+                submitBtn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
+                submitBtn.style.transform = 'scale(1.02)';
 
-            // Efectos de éxito
-            VisualEffects.createStarBurst(
-                rect.left + rect.width / 2,
-                rect.top + rect.height / 2
-            );
-            VisualEffects.createFloatingText(
-                '¡Éxito!',
-                rect.left + rect.width / 2,
-                rect.top - 20
-            );
-            HapticFeedback.success();
+                // Efectos de éxito
+                if (typeof VisualEffects !== 'undefined') {
+                    VisualEffects.createStarBurst(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2
+                    );
+                    VisualEffects.createFloatingText(
+                        '¡Éxito!',
+                        rect.left + rect.width / 2,
+                        rect.top - 20
+                    );
+                }
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.success();
+                }
 
-            // Limpiar formulario con animación
-            inputs.forEach((input, index) => {
-                setTimeout(() => {
-                    input.style.transform = 'translateX(-10px)';
+                // Mostrar mensaje de éxito
+                showMessage('¡Mensaje enviado exitosamente! Te responderemos pronto.', 'success');
+
+                // Limpiar formulario con animación
+                inputs.forEach((input, index) => {
                     setTimeout(() => {
-                        input.value = '';
-                        input.style.transform = 'translateX(0)';
-                        input.style.borderColor = 'var(--border-color)';
-                    }, 100);
-                }, index * 100);
-            });
+                        input.style.transform = 'translateX(-10px)';
+                        setTimeout(() => {
+                            input.value = '';
+                            input.style.transform = 'translateX(0)';
+                            input.style.borderColor = 'var(--border-color)';
+                        }, 100);
+                    }, index * 100);
+                });
+
+            } catch (error) {
+                console.error('Error al enviar email:', error);
+
+                // Error con efectos
+                submitBtn.innerHTML = '✗ Error al Enviar';
+                submitBtn.style.background = 'linear-gradient(135deg, #ff4444 0%, #cc0000 100%)';
+
+                // Mostrar mensaje de error
+                showMessage('Hubo un error al enviar el mensaje. Por favor intenta nuevamente.', 'error');
+            }
 
             // Restaurar botón
             setTimeout(() => {
@@ -596,6 +686,61 @@ function initializeContactForm() {
             }, 3000);
         });
     }
+}
+
+// Función para validar email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Función para mostrar mensajes
+function showMessage(text, type = 'info') {
+    // Remover mensaje anterior si existe
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+
+    const message = document.createElement('div');
+    message.className = 'form-message';
+    message.textContent = text;
+
+    // Estilos según el tipo
+    const styles = {
+        success: 'background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: white;',
+        error: 'background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%); color: white;',
+        info: 'background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white;'
+    };
+
+    message.style.cssText = `
+        ${styles[type]}
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        text-align: center;
+        font-weight: 600;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    `;
+
+    // Insertar mensaje después del formulario
+    const form = document.querySelector('.contact-form');
+    if (form && form.parentNode) {
+        form.parentNode.insertBefore(message, form.nextSibling);
+    }
+
+    // Remover mensaje después de 5 segundos
+    setTimeout(() => {
+        if (message && message.parentNode) {
+            message.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (message && message.parentNode) {
+                    message.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
 }
 
 // Smooth scroll mejorado para enlaces internos
@@ -609,7 +754,9 @@ function initializeSmoothScroll() {
             const targetElement = document.getElementById(targetId);
 
             if (targetElement) {
-                HapticFeedback.light();
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.light();
+                }
 
                 // Añadir indicador visual durante el scroll
                 const indicator = document.createElement('div');
@@ -642,28 +789,6 @@ function initializeSmoothScroll() {
             }
         });
     });
-
-    // Añadir estilos para el indicador
-    if (!document.getElementById('indicator-styles')) {
-        const style = document.createElement('style');
-        style.id = 'indicator-styles';
-        style.textContent = `
-            @keyframes slideIndicator {
-                0% {
-                    transform: translateX(50px);
-                    opacity: 0;
-                }
-                50% {
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateX(0);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
 }
 
 // Efecto parallax mejorado y optimizado
@@ -755,8 +880,7 @@ class ParticleSystem {
 
     setupMouseTracking() {
         document.addEventListener('mousemove', (e) => {
-            // Crear partículas que siguen al mouse
-            if (Math.random() < 0.1) { // 10% de probabilidad
+            if (Math.random() < 0.1) {
                 this.mouseParticles.push({
                     x: e.clientX,
                     y: e.clientY,
@@ -843,12 +967,10 @@ class NotificationSystem {
         notification.textContent = message;
         document.body.appendChild(notification);
 
-        // Animar entrada
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
 
-        // Animar salida
         setTimeout(() => {
             notification.style.transform = 'translateX(400px)';
             setTimeout(() => {
@@ -858,43 +980,10 @@ class NotificationSystem {
             }, 300);
         }, duration);
 
-        // Haptic feedback
-        HapticFeedback.light();
+        if (typeof HapticFeedback !== 'undefined') {
+            HapticFeedback.light();
+        }
     }
-}
-
-// Inicialización completa mejorada
-function initializeAll() {
-    // Inicializar sistemas principales
-    initializeEnhancedAnimations();
-    initializeFloatingMenu();
-    initializeProjectCards();
-    initializeContactForm();
-    initializeSmoothScroll();
-    initializeParallax();
-
-    // Inicializar sistema de partículas
-    const particleSystem = new ParticleSystem();
-    particleSystem.init();
-
-    // Mostrar notificación de bienvenida
-    setTimeout(() => {
-        NotificationSystem.show('¡Portfolio by Santino!', 'success');
-    }, 1000);
-
-    // Detectar características del dispositivo
-    if (HapticFeedback.isSupported()) {
-        console.log('🎮 Feedback háptico disponible');
-    }
-
-    console.log('✨ Sistema de animaciones mejoradas inicializado');
-}
-
-// Auto-inicialización cuando el DOM esté listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeAll);
-} else {
-    initializeAll();
 }
 
 // Sistema de gestos táctiles para dispositivos móviles
@@ -939,14 +1028,12 @@ class TouchGestureManager {
 
         if (Math.abs(deltaX) > this.minSwipeDistance || Math.abs(deltaY) > this.minSwipeDistance) {
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                // Swipe horizontal
                 if (deltaX > 0) {
                     this.onSwipeRight();
                 } else {
                     this.onSwipeLeft();
                 }
             } else {
-                // Swipe vertical
                 if (deltaY > 0) {
                     this.onSwipeDown();
                 } else {
@@ -957,458 +1044,126 @@ class TouchGestureManager {
     }
 
     onSwipeLeft() {
-        // Navegar a la siguiente sección
         const sections = document.querySelectorAll('section[id]');
         const currentSection = this.getCurrentSection();
         const currentIndex = Array.from(sections).indexOf(currentSection);
 
         if (currentIndex < sections.length - 1) {
             sections[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
-            HapticFeedback.medium();
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
             NotificationSystem.show('Siguiente sección', 'info', 1500);
         }
     }
 
     onSwipeRight() {
-        // Navegar a la sección anterior
         const sections = document.querySelectorAll('section[id]');
         const currentSection = this.getCurrentSection();
         const currentIndex = Array.from(sections).indexOf(currentSection);
 
         if (currentIndex > 0) {
             sections[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
-            HapticFeedback.medium();
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
             NotificationSystem.show('Sección anterior', 'info', 1500);
         }
     }
 
     onSwipeUp() {
-        // Scroll hacia arriba más rápido
         window.scrollBy({ top: -window.innerHeight / 2, behavior: 'smooth' });
-        HapticFeedback.light();
+        if (typeof HapticFeedback !== 'undefined') {
+            HapticFeedback.light();
+        }
     }
 
     onSwipeDown() {
-        // Scroll hacia abajo más rápido
         window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
-        HapticFeedback.light();
+        if (typeof HapticFeedback !== 'undefined') {
+            HapticFeedback.light();
+        }
     }
 
     handleDoubleTap(e) {
-        // Crear efecto visual en el punto del doble tap
         const touch = e.changedTouches[0];
         const x = touch.clientX;
         const y = touch.clientY;
 
-        VisualEffects.createStarBurst(x, y);
-        HapticFeedback.heavy();
-
-        // Acción especial: mostrar/ocultar menú de navegación
-        this.toggleQuickNav();
+        if (typeof VisualEffects !== 'undefined') {
+            VisualEffects.createStarBurst(x, y);
+        }
+        if (typeof HapticFeedback !== 'undefined') {
+            HapticFeedback.heavy();
+        }
     }
 
     getCurrentSection() {
         const sections = document.querySelectorAll('section[id]');
-        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        const scrollPos = window.scrollY + window.innerHeight / 2;
 
         for (let section of sections) {
             const rect = section.getBoundingClientRect();
             const sectionTop = rect.top + window.scrollY;
             const sectionBottom = sectionTop + rect.height;
 
-            if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+            if (scrollPos >= sectionTop && scrollPos <= sectionBottom) {
                 return section;
             }
         }
         return sections[0];
     }
+}
 
-    toggleQuickNav() {
-        let quickNav = document.getElementById('quick-nav');
+// Inicialización completa mejorada
+function initializeAll() {
+    try {
+        // Inicializar sistemas principales
+        initializeFloatingMenu();
+        initializeProjectCards();
+        initializeContactForm();
+        initializeSmoothScroll();
+        initializeParallax();
 
-        if (!quickNav) {
-            this.createQuickNav();
-        } else {
-            quickNav.style.display = quickNav.style.display === 'none' ? 'flex' : 'none';
-        }
-    }
+        // Inicializar sistema de partículas
+        const particleSystem = new ParticleSystem();
+        particleSystem.init();
 
-    createQuickNav() {
-        const sections = document.querySelectorAll('section[id]');
-        const quickNav = document.createElement('div');
-        quickNav.id = 'quick-nav';
-        quickNav.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
-            animation: slideInLeft 0.3s ease;
-        `;
+        // Inicializar gestor de gestos táctiles
+        const touchManager = new TouchGestureManager();
 
-        sections.forEach((section, index) => {
-            const navDot = document.createElement('div');
-            navDot.style.cssText = `
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                background: rgba(0, 212, 255, 0.3);
-                cursor: pointer;
-                transition: all 0.3s ease;
-                border: 2px solid rgba(0, 212, 255, 0.6);
-            `;
-
-            navDot.addEventListener('click', () => {
-                section.scrollIntoView({ behavior: 'smooth' });
-                HapticFeedback.medium();
-                quickNav.style.display = 'none';
-            });
-
-            quickNav.appendChild(navDot);
-        });
-
-        document.body.appendChild(quickNav);
-
-        // Auto-ocultar después de 3 segundos
+        // Mostrar notificación de bienvenida
         setTimeout(() => {
-            if (quickNav && quickNav.parentNode) {
-                quickNav.style.display = 'none';
-            }
-        }, 3000);
+            NotificationSystem.show('¡Portfolio by Santino!', 'success');
+        }, 1000);
+
+        // Detectar características del dispositivo
+        if (typeof HapticFeedback !== 'undefined' && HapticFeedback.isSupported()) {
+            console.log('🎮 Feedback háptico disponible');
+        }
+
+        console.log('✨ Sistema de animaciones mejoradas inicializado');
+    } catch (error) {
+        console.error('Error al inicializar sistemas:', error);
     }
 }
 
-// Sistema de efectos de clima (partículas ambientales)
-class WeatherEffects {
-    constructor() {
-        this.isActive = false;
-        this.effectType = 'none';
-        this.particles = [];
-        this.canvas = null;
-        this.ctx = null;
-    }
-
-    init() {
-        this.canvas = document.createElement('canvas');
-        this.canvas.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -2;
-            opacity: 0.7;
-        `;
-
-        this.ctx = this.canvas.getContext('2d');
-        document.body.appendChild(this.canvas);
-
-        this.resize();
-        window.addEventListener('resize', () => this.resize());
-    }
-
-    resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-    }
-
-    startEffect(type = 'snow') {
-        this.effectType = type;
-        this.isActive = true;
-        this.createParticles();
-        this.animate();
-    }
-
-    stopEffect() {
-        this.isActive = false;
-        this.particles = [];
-    }
-
-    createParticles() {
-        this.particles = [];
-        const particleCount = this.effectType === 'rain' ? 100 : 50;
-
-        for (let i = 0; i < particleCount; i++) {
-            this.particles.push(this.createParticle());
-        }
-    }
-
-    createParticle() {
-        const particle = {
-            x: Math.random() * this.canvas.width,
-            y: -10,
-            size: Math.random() * 3 + 1,
-            speed: Math.random() * 3 + 1,
-            opacity: Math.random() * 0.8 + 0.2
-        };
-
-        if (this.effectType === 'rain') {
-            particle.speed = Math.random() * 5 + 3;
-            particle.size = Math.random() * 2 + 0.5;
-            particle.length = Math.random() * 10 + 5;
-        } else if (this.effectType === 'stars') {
-            particle.x = Math.random() * this.canvas.width;
-            particle.y = Math.random() * this.canvas.height;
-            particle.speed = 0;
-            particle.twinkle = Math.random() * 0.02 + 0.005;
-        }
-
-        return particle;
-    }
-
-    animate() {
-        if (!this.isActive) return;
-
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.particles.forEach((particle, index) => {
-            if (this.effectType === 'snow') {
-                particle.y += particle.speed;
-                particle.x += Math.sin(particle.y * 0.01) * 0.5;
-
-                this.ctx.globalAlpha = particle.opacity;
-                this.ctx.fillStyle = '#ffffff';
-                this.ctx.beginPath();
-                this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                this.ctx.fill();
-
-            } else if (this.effectType === 'rain') {
-                particle.y += particle.speed;
-
-                this.ctx.globalAlpha = particle.opacity;
-                this.ctx.strokeStyle = '#4ec8f0';
-                this.ctx.lineWidth = particle.size;
-                this.ctx.beginPath();
-                this.ctx.moveTo(particle.x, particle.y);
-                this.ctx.lineTo(particle.x, particle.y + particle.length);
-                this.ctx.stroke();
-
-            } else if (this.effectType === 'stars') {
-                particle.opacity += particle.twinkle;
-                if (particle.opacity > 1 || particle.opacity < 0.2) {
-                    particle.twinkle *= -1;
-                }
-
-                this.ctx.globalAlpha = particle.opacity;
-                this.ctx.fillStyle = '#ffffff';
-                this.ctx.beginPath();
-                this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                this.ctx.fill();
-            }
-
-            // Reciclar partículas que salen de pantalla
-            if (particle.y > this.canvas.height + 10) {
-                this.particles[index] = this.createParticle();
-            }
-        });
-
-        this.ctx.globalAlpha = 1;
-        requestAnimationFrame(() => this.animate());
-    }
+// Auto-inicialización cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAll);
+} else {
+    initializeAll();
 }
 
-// Sistema de temas dinámicos
-class ThemeManager {
-    constructor() {
-        this.themes = {
-            default: {
-                primary: '#00d4ff',
-                secondary: '#ff6b6b',
-                accent: '#4ecdc4',
-                background: '#0a0a0a'
-            },
-            sunset: {
-                primary: '#ff6b6b',
-                secondary: '#ffa726',
-                accent: '#ff7043',
-                background: '#1a0f0a'
-            },
-            ocean: {
-                primary: '#00bcd4',
-                secondary: '#0097a7',
-                accent: '#00acc1',
-                background: '#0a1a1a'
-            },
-            forest: {
-                primary: '#4caf50',
-                secondary: '#66bb6a',
-                accent: '#81c784',
-                background: '#0f1a0f'
-            }
-        };
-        this.currentTheme = 'default';
-    }
-
-    applyTheme(themeName) {
-        if (!this.themes[themeName]) return;
-
-        const theme = this.themes[themeName];
-        const root = document.documentElement;
-
-        // Aplicar colores CSS custom properties
-        root.style.setProperty('--primary-color', theme.primary);
-        root.style.setProperty('--secondary-color', theme.secondary);
-        root.style.setProperty('--accent-color', theme.accent);
-        root.style.setProperty('--background-color', theme.background);
-
-        this.currentTheme = themeName;
-
-        // Efecto visual de cambio
-        document.body.style.transition = 'all 0.5s ease';
-        NotificationSystem.show(`Tema ${themeName} aplicado`, 'success', 2000);
-        HapticFeedback.medium();
-    }
-
-    createThemeSelector() {
-        const selector = document.createElement('div');
-        selector.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-            background: rgba(0,0,0,0.8);
-            padding: 10px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        `;
-
-        Object.keys(this.themes).forEach(themeName => {
-            const themeButton = document.createElement('div');
-            themeButton.style.cssText = `
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                background: ${this.themes[themeName].primary};
-                cursor: pointer;
-                transition: transform 0.2s ease;
-                border: 2px solid rgba(255,255,255,0.3);
-            `;
-
-            themeButton.addEventListener('click', () => {
-                this.applyTheme(themeName);
-                HapticFeedback.light();
-            });
-
-            themeButton.addEventListener('mouseenter', () => {
-                themeButton.style.transform = 'scale(1.2)';
-            });
-
-            themeButton.addEventListener('mouseleave', () => {
-                themeButton.style.transform = 'scale(1)';
-            });
-
-            selector.appendChild(themeButton);
-        });
-
-        document.body.appendChild(selector);
-    }
-}
-
-// Inicializar todos los nuevos sistemas
-function initializeAdvancedSystems() {
-    // Gestor de gestos táctiles
-    const touchManager = new TouchGestureManager();
-
-    // Sistema de efectos de clima
-    const weatherEffects = new WeatherEffects();
-    weatherEffects.init();
-
-    // Gestor de temas
-    const themeManager = new ThemeManager();
-    themeManager.createThemeSelector();
-
-    // Controles especiales con teclado
-    document.addEventListener('keydown', (e) => {
-        switch (e.key) {
-            case 'ArrowUp':
-                if (e.ctrlKey) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    HapticFeedback.medium();
-                }
-                break;
-
-            case 'ArrowDown':
-                if (e.ctrlKey) {
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                    HapticFeedback.medium();
-                }
-                break;
-
-            case '1':
-                if (e.altKey) {
-                    weatherEffects.startEffect('snow');
-                    NotificationSystem.show('Efecto nieve activado', 'info');
-                }
-                break;
-
-            case '2':
-                if (e.altKey) {
-                    weatherEffects.startEffect('rain');
-                    NotificationSystem.show('Efecto lluvia activado', 'info');
-                }
-                break;
-
-            case '3':
-                if (e.altKey) {
-                    weatherEffects.startEffect('stars');
-                    NotificationSystem.show('Efecto estrellas activado', 'info');
-                }
-                break;
-
-            case 'Escape':
-                weatherEffects.stopEffect();
-                NotificationSystem.show('Efectos desactivados', 'warning');
-                break;
-        }
-    });
-
-    // Mostrar instrucciones después de un tiempo
-    setTimeout(() => {
-        NotificationSystem.show('💡 Usa Alt+1/2/3 para efectos, Ctrl+↑/↓ para navegar', 'info', 5000);
-    }, 3000);
-
-    console.log('🚀 Sistemas avanzados inicializados');
-}
-
-// Mejorar la inicialización principal
-const originalInitializeAll = initializeAll;
-initializeAll = function() {
-    originalInitializeAll();
-    initializeAdvancedSystems();
-};
-
-// Añadir estilos adicionales para los nuevos efectos
-if (!document.getElementById('advanced-effects-styles')) {
-    const style = document.createElement('style');
-    style.id = 'advanced-effects-styles';
-    style.textContent = `
-        @keyframes slideInLeft {
-            0% {
-                transform: translateX(-100px) translateY(-50%);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(0) translateY(-50%);
-                opacity: 1;
-            }
-        }
-        
-        body {
-            --primary-color: #00d4ff;
-            --secondary-color: #ff6b6b;
-            --accent-color: #4ecdc4;
-            --background-color: #0a0a0a;
-        }
-        
-        .theme-transition {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-    `;
-    document.head.appendChild(style);
+// Cargar EmailJS si no está disponible
+if (typeof emailjs === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js';
+    script.onload = () => {
+        console.log('EmailJS cargado correctamente');
+    };
+    script.onerror = () => {
+        console.error('Error al cargar EmailJS');
+    };
+    document.head.appendChild(script);
 }
