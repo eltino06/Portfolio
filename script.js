@@ -1150,3 +1150,326 @@ class ThemeManager {
         HapticFeedback.medium();
     }
 }
+
+// Inicializar EmailJS con tu Public Key
+/**
+ * Initializes the EmailJS service with the provided user ID.
+ * This function must be called before sending emails using EmailJS.
+ *
+ * @function
+ * @see {@link https://www.emailjs.com/docs/sdk/installation/|EmailJS SDK Documentation}
+ */
+function initEmailJS() {
+    emailjs.init("1xIo82HGvVGU1cRST");
+}
+
+// Llamar la inicialización
+initEmailJS();
+
+// Formulario de contacto mejorado y funcional
+function initializeContactForm() {
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+        const inputs = contactForm.querySelectorAll('input, textarea');
+
+        // Efectos de foco mejorados
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+                input.style.transform = 'translateZ(0)';
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.light();
+                }
+            });
+
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+
+            // Validación en tiempo real con efectos
+            input.addEventListener('input', () => {
+                if (input.value.length > 0) {
+                    input.style.borderColor = 'var(--accent-color)';
+                    if (input.value.length === 1) {
+                        if (typeof HapticFeedback !== 'undefined') {
+                            HapticFeedback.light();
+                        }
+                    }
+                } else {
+                    input.style.borderColor = 'var(--border-color)';
+                }
+            });
+        });
+
+        // Manejo de envío con funcionalidad real de email
+        contactForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+
+            // Obtener datos del formulario
+            const formData = new FormData(contactForm);
+            const templateParams = {
+                name: formData.get('name') || formData.get('nombre'), // {{name}} en el template
+                email: formData.get('email') || formData.get('correo'), // {{email}} en el template
+                title: formData.get('subject') || formData.get('asunto') || 'Nuevo mensaje desde el formulario de contacto', // {{title}} en el template
+                message: formData.get('message') || formData.get('mensaje') // {{message}} en el template
+            };
+
+            // Validar campos requeridos
+            if (!templateParams.name || !templateParams.email || !templateParams.message) {
+                showMessage('Por favor completa todos los campos requeridos', 'error');
+                return;
+            }
+
+            // Validar email
+            if (!isValidEmail(templateParams.email)) {
+                showMessage('Por favor ingresa un email válido', 'error');
+                return;
+            }
+
+            // Efectos visuales de inicio
+            const rect = submitBtn.getBoundingClientRect();
+            if (typeof VisualEffects !== 'undefined') {
+                VisualEffects.createShockwave(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2
+                );
+            }
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
+
+            // Animación de carga
+            submitBtn.innerHTML = `
+                <span style="display: inline-flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    Enviando...
+                </span>
+            `;
+            submitBtn.disabled = true;
+            submitBtn.style.transform = 'scale(0.98)';
+
+            // Añadir animación de spin si no existe
+            if (!document.getElementById('spin-animation')) {
+                const style = document.createElement('style');
+                style.id = 'spin-animation';
+                style.textContent = `
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            try {
+                // Enviar email usando EmailJS con tus datos configurados
+                const response = await emailjs.send(
+                    'service_orkf6p3', // Tu Service ID de Gmail
+                    'template_nv8fa3e', // Tu Template ID
+                    templateParams
+                );
+
+                console.log('Email enviado exitosamente:', response);
+
+                // Éxito con efectos
+                submitBtn.innerHTML = '✓ ¡Mensaje Enviado!';
+                submitBtn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
+                submitBtn.style.transform = 'scale(1.02)';
+
+                // Efectos de éxito
+                if (typeof VisualEffects !== 'undefined') {
+                    VisualEffects.createStarBurst(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2
+                    );
+                    VisualEffects.createFloatingText(
+                        '¡Éxito!',
+                        rect.left + rect.width / 2,
+                        rect.top - 20
+                    );
+                }
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.success();
+                }
+
+                // Mostrar mensaje de éxito
+                showMessage('¡Mensaje enviado exitosamente! Te responderemos pronto.', 'success');
+
+                // Limpiar formulario con animación
+                inputs.forEach((input, index) => {
+                    setTimeout(() => {
+                        input.style.transform = 'translateX(-10px)';
+                        setTimeout(() => {
+                            input.value = '';
+                            input.style.transform = 'translateX(0)';
+                            input.style.borderColor = 'var(--border-color)';
+                        }, 100);
+                    }, index * 100);
+                });
+
+            } catch (error) {
+                console.error('Error al enviar email:', error);
+
+                // Error con efectos
+                submitBtn.innerHTML = '✗ Error al Enviar';
+                submitBtn.style.background = 'linear-gradient(135deg, #ff4444 0%, #cc0000 100%)';
+
+                // Mostrar mensaje de error
+                showMessage('Hubo un error al enviar el mensaje. Por favor intenta nuevamente.', 'error');
+            }
+
+            // Restaurar botón
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = 'var(--gradient-primary)';
+                submitBtn.style.transform = 'scale(1)';
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+}
+
+// Función para validar email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Función para mostrar mensajes
+function showMessage(text, type = 'info') {
+    // Remover mensaje anterior si existe
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+
+    const message = document.createElement('div');
+    message.className = 'form-message';
+    message.textContent = text;
+
+    // Estilos según el tipo
+    const styles = {
+        success: 'background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: white;',
+        error: 'background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%); color: white;',
+        info: 'background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white;'
+    };
+
+    message.style.cssText = `
+        ${styles[type]}
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        text-align: center;
+        font-weight: 600;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    `;
+
+    // Añadir animación si no existe
+    if (!document.getElementById('slideIn-animation')) {
+        const style = document.createElement('style');
+        style.id = 'slideIn-animation';
+        style.textContent = `
+            @keyframes slideIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Insertar mensaje después del formulario
+    const form = document.querySelector('.contact-form');
+    if (form && form.parentNode) {
+        form.parentNode.insertBefore(message, form.nextSibling);
+    }
+
+    // Remover mensaje después de 5 segundos
+    setTimeout(() => {
+        if (message && message.parentNode) {
+            message.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (message && message.parentNode) {
+                    message.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
+}
+
+// Función alternativa usando Formspree (más fácil de configurar)
+function initializeContactFormWithFormspree() {
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+        // Cambiar la acción del formulario para usar Formspree
+        // Regístrate en https://formspree.io/ y reemplaza 'TU_FORM_ID' con tu ID
+        contactForm.action = 'https://formspree.io/f/TU_FORM_ID';
+        contactForm.method = 'POST';
+
+        // Agregar campo oculto para redirigir el email
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = '_replyto';
+        hiddenInput.value = 'santibon12345@gmail.com';
+        contactForm.appendChild(hiddenInput);
+
+        // El resto del código de efectos visuales permanece igual
+        const inputs = contactForm.querySelectorAll('input, textarea');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+                input.style.transform = 'translateZ(0)';
+            });
+
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+
+            input.addEventListener('input', () => {
+                if (input.value.length > 0) {
+                    input.style.borderColor = 'var(--accent-color)';
+                } else {
+                    input.style.borderColor = 'var(--border-color)';
+                }
+            });
+        });
+    }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si EmailJS ya está cargado
+    if (typeof emailjs !== 'undefined') {
+        initEmailJS();
+        initializeContactForm();
+    } else {
+        // Cargar EmailJS si no está disponible
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js';
+        script.onload = function() {
+            initEmailJS();
+            initializeContactForm();
+        };
+        script.onerror = function() {
+            console.error('Error al cargar EmailJS');
+            showMessage('Error al cargar el servicio de email. Por favor recarga la página.', 'error');
+        };
+        document.head.appendChild(script);
+    }
+});
+
+// Exportar funciones para uso externo
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initializeContactForm,
+        initializeContactFormWithFormspree,
+        isValidEmail,
+        showMessage
+    };
+}
