@@ -766,7 +766,7 @@ function initializeAll() {
 
     // Mostrar notificación de bienvenida
     setTimeout(() => {
-        NotificationSystem.show('¡Sitio web cargado con efectos mejorados!', 'success');
+        NotificationSystem.show('portfolio by Sant', 'success');
     }, 1000);
 
     // Detectar características del dispositivo
@@ -1152,13 +1152,6 @@ class ThemeManager {
 }
 
 // Inicializar EmailJS con tu Public Key
-/**
- * Initializes the EmailJS service with the provided user ID.
- * This function must be called before sending emails using EmailJS.
- *
- * @function
- * @see {@link https://www.emailjs.com/docs/sdk/installation/|EmailJS SDK Documentation}
- */
 function initEmailJS() {
     emailjs.init("1xIo82HGvVGU1cRST");
 }
@@ -1172,6 +1165,53 @@ function initializeContactForm() {
 
     if (contactForm) {
         const inputs = contactForm.querySelectorAll('input, textarea');
+
+        // Agregar placeholders automáticamente
+        inputs.forEach(input => {
+            if (!input.placeholder) {
+                const type = input.type;
+                const name = input.name ? input.name.toLowerCase() : '';
+
+                if (type === 'email' || name.includes('email') || name.includes('correo')) {
+                    input.placeholder = 'example@gmail.com';
+                    input.style.setProperty('--placeholder-color', '#666');
+                } else if (input.tagName.toLowerCase() === 'textarea' || name.includes('message') || name.includes('mensaje')) {
+                    input.placeholder = 'Hi, here goes your message!';
+                    input.style.setProperty('--placeholder-color', '#666');
+                } else if (type === 'text' && (name.includes('name') || name.includes('nombre'))) {
+                    input.placeholder = 'Your name';
+                    input.style.setProperty('--placeholder-color', '#666');
+                } else if (type === 'text' && (name.includes('subject') || name.includes('asunto'))) {
+                    input.placeholder = 'Subject';
+                    input.style.setProperty('--placeholder-color', '#666');
+                }
+
+                // Aplicar estilos de placeholder
+                const style = document.createElement('style');
+                if (!document.getElementById('placeholder-styles')) {
+                    style.id = 'placeholder-styles';
+                    style.textContent = `
+                        input::placeholder, textarea::placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                        input::-moz-placeholder, textarea::-moz-placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                        input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+        });
 
         // Efectos de foco mejorados
         inputs.forEach(input => {
@@ -1209,23 +1249,58 @@ function initializeContactForm() {
             const submitBtn = contactForm.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
 
+            console.log('Formulario enviado, texto original del botón:', originalText);
+
             // Obtener datos del formulario
             const formData = new FormData(contactForm);
+
+            // Detectar automáticamente los campos del formulario
+            const inputs = contactForm.querySelectorAll('input, textarea');
+            let nameField = '';
+            let emailField = '';
+            let messageField = '';
+            let subjectField = 'Nuevo mensaje desde el formulario';
+
+            // Identificar campos por tipo o name
+            inputs.forEach(input => {
+                const name = input.name.toLowerCase();
+                const type = input.type;
+                const placeholder = input.placeholder ? input.placeholder.toLowerCase() : '';
+
+                if (type === 'email' || name.includes('email') || name.includes('correo')) {
+                    emailField = input.value;
+                } else if (input.tagName.toLowerCase() === 'textarea' || name.includes('message') || name.includes('mensaje') || placeholder.includes('mensaje')) {
+                    messageField = input.value;
+                } else if (type === 'text' && (name.includes('name') || name.includes('nombre') || placeholder.includes('nombre'))) {
+                    nameField = input.value;
+                } else if (type === 'text' && (name.includes('subject') || name.includes('asunto') || placeholder.includes('asunto'))) {
+                    subjectField = input.value || 'Nuevo mensaje desde el formulario';
+                } else if (type === 'text' && !nameField) {
+                    // Si no hemos encontrado un campo de nombre, usar el primer campo de texto
+                    nameField = input.value;
+                }
+            });
+
             const templateParams = {
-                name: formData.get('name') || formData.get('nombre'), // {{name}} en el template
-                email: formData.get('email') || formData.get('correo'), // {{email}} en el template
-                title: formData.get('subject') || formData.get('asunto') || 'Nuevo mensaje desde el formulario de contacto', // {{title}} en el template
-                message: formData.get('message') || formData.get('mensaje') // {{message}} en el template
+                name: nameField || 'Usuario Anónimo',
+                email: emailField,
+                title: subjectField,
+                message: messageField
             };
 
             // Validar campos requeridos
-            if (!templateParams.name || !templateParams.email || !templateParams.message) {
-                showMessage('Por favor completa todos los campos requeridos', 'error');
+            if (!emailField) {
+                showMessage('Por favor ingresa tu email', 'error');
+                return;
+            }
+
+            if (!messageField) {
+                showMessage('Por favor escribe un mensaje', 'error');
                 return;
             }
 
             // Validar email
-            if (!isValidEmail(templateParams.email)) {
+            if (!isValidEmail(emailField)) {
                 showMessage('Por favor ingresa un email válido', 'error');
                 return;
             }
@@ -1266,6 +1341,8 @@ function initializeContactForm() {
             }
 
             try {
+                console.log('Enviando email con datos:', templateParams);
+
                 // Enviar email usando EmailJS con tus datos configurados
                 const response = await emailjs.send(
                     'service_orkf6p3', // Tu Service ID de Gmail
@@ -1322,10 +1399,11 @@ function initializeContactForm() {
                 showMessage('Hubo un error al enviar el mensaje. Por favor intenta nuevamente.', 'error');
             }
 
-            // Restaurar botón
+            // Restaurar botón después de 3 segundos
             setTimeout(() => {
+                console.log('Restaurando botón al estado original:', originalText);
                 submitBtn.innerHTML = originalText;
-                submitBtn.style.background = 'var(--gradient-primary)';
+                submitBtn.style.background = '';
                 submitBtn.style.transform = 'scale(1)';
                 submitBtn.disabled = false;
             }, 3000);
