@@ -365,422 +365,56 @@ function initializeFloatingMenu() {
     }
 }
 
-// Detección de dispositivo móvil mejorada
-const DeviceDetector = {
-    isMobile: () => {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-            window.innerWidth <= 768 ||
-            ('ontouchstart' in window) ||
-            (navigator.maxTouchPoints > 0);
-    },
-    isTablet: () => {
-        return /iPad|Android.*(?!.*Mobile)/i.test(navigator.userAgent) ||
-            (window.innerWidth > 768 && window.innerWidth <= 1024);
-    },
-    isDesktop: () => {
-        return !DeviceDetector.isMobile() && !DeviceDetector.isTablet();
-    },
-    getViewportSize: () => {
-        return {
-            width: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
-            height: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-        };
-    }
-};
-
-// Sistema de efectos visuales optimizado para móviles
-const VisualEffects = {
-    createStarBurst: (x, y, element = document.body) => {
-        // Reducir partículas en móviles para mejor rendimiento
-        const particleCount = DeviceDetector.isMobile() ? 6 : 12;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            const angle = (360 / particleCount) * i;
-            const distance = DeviceDetector.isMobile() ? 30 : 50;
-
-            particle.style.cssText = `
-                position: fixed;
-                width: ${DeviceDetector.isMobile() ? '4px' : '6px'};
-                height: ${DeviceDetector.isMobile() ? '4px' : '6px'};
-                background: var(--primary-color, #00d4ff);
-                border-radius: 50%;
-                left: ${x}px;
-                top: ${y}px;
-                pointer-events: none;
-                z-index: 9999;
-                --end-x: ${Math.cos(angle * Math.PI / 180) * distance}px;
-                --end-y: ${Math.sin(angle * Math.PI / 180) * distance}px;
-                animation: starBurst 0.6s ease-out forwards;
-            `;
-
-            document.body.appendChild(particle);
-
-            setTimeout(() => {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-            }, 600);
-        }
-    },
-
-    createShockwave: (x, y) => {
-        const shockwave = document.createElement('div');
-        const size = DeviceDetector.isMobile() ? '100px' : '200px';
-
-        shockwave.style.cssText = `
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary-color, #00d4ff);
-            border-radius: 50%;
-            left: ${x}px;
-            top: ${y}px;
-            pointer-events: none;
-            z-index: 9999;
-            animation: shockwave 0.8s ease-out forwards;
-        `;
-
-        document.body.appendChild(shockwave);
-
-        setTimeout(() => {
-            if (shockwave.parentNode) {
-                shockwave.parentNode.removeChild(shockwave);
-            }
-        }, 800);
-    },
-
-    createFloatingText: (text, x, y) => {
-        const floatingText = document.createElement('div');
-        const fontSize = DeviceDetector.isMobile() ? '14px' : '18px';
-
-        floatingText.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            color: var(--primary-color, #00d4ff);
-            font-weight: bold;
-            font-size: ${fontSize};
-            pointer-events: none;
-            z-index: 9999;
-            animation: floatUp 2s ease-out forwards;
-        `;
-
-        floatingText.textContent = text;
-        document.body.appendChild(floatingText);
-
-        setTimeout(() => {
-            if (floatingText.parentNode) {
-                floatingText.parentNode.removeChild(floatingText);
-            }
-        }, 2000);
-    }
-};
-
-// Sistema de feedback háptico
-const HapticFeedback = {
-    isSupported: () => {
-        return 'vibrate' in navigator;
-    },
-
-    light: () => {
-        if (HapticFeedback.isSupported()) {
-            navigator.vibrate(10);
-        }
-    },
-
-    medium: () => {
-        if (HapticFeedback.isSupported()) {
-            navigator.vibrate(25);
-        }
-    },
-
-    heavy: () => {
-        if (HapticFeedback.isSupported()) {
-            navigator.vibrate([50, 10, 50]);
-        }
-    },
-
-    success: () => {
-        if (HapticFeedback.isSupported()) {
-            navigator.vibrate([20, 10, 20, 10, 20]);
-        }
-    }
-};
-
-// Animaciones mejoradas con optimización móvil
-function initializeEnhancedAnimations() {
-    // Reducir animaciones en móviles para mejor rendimiento
-    const animationIntensity = DeviceDetector.isMobile() ? 0.5 : 1;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animationPlayState = 'running';
-
-                // Añadir clase de animación responsiva
-                if (DeviceDetector.isMobile()) {
-                    entry.target.classList.add('mobile-animation');
-                } else {
-                    entry.target.classList.add('desktop-animation');
-                }
-            }
-        });
-    }, {
-        threshold: DeviceDetector.isMobile() ? 0.1 : 0.3
-    });
-
-    document.querySelectorAll('.card, .project-card, .skill-item').forEach(el => {
-        observer.observe(el);
-    });
-}
-
-// Menú flotante optimizado para móviles
-function initializeFloatingMenu() {
-    const floatingMenu = document.createElement('div');
-    floatingMenu.className = 'floating-menu';
-
-    const menuSize = DeviceDetector.isMobile() ? '50px' : '60px';
-    const menuPosition = DeviceDetector.isMobile() ? '15px' : '30px';
-
-    floatingMenu.style.cssText = `
-        position: fixed;
-        bottom: ${menuPosition};
-        right: ${menuPosition};
-        width: ${menuSize};
-        height: ${menuSize};
-        background: linear-gradient(135deg, var(--primary-color, #00d4ff), var(--secondary-color, #ff6b6b));
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 1000;
-        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        user-select: none;
-        -webkit-tap-highlight-color: transparent;
-    `;
-
-    floatingMenu.innerHTML = `
-        <div style="
-            width: 24px; 
-            height: 24px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-around;
-            align-items: center;
-        ">
-            <div style="width: 20px; height: 2px; background: white; border-radius: 1px; transition: all 0.3s;"></div>
-            <div style="width: 20px; height: 2px; background: white; border-radius: 1px; transition: all 0.3s;"></div>
-            <div style="width: 20px; height: 2px; background: white; border-radius: 1px; transition: all 0.3s;"></div>
-        </div>
-    `;
-
-    document.body.appendChild(floatingMenu);
-
-    let isMenuOpen = false;
-    const menuItems = [];
-
-    // Crear elementos del menú
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((section, index) => {
-        const menuItem = document.createElement('div');
-        const itemSize = DeviceDetector.isMobile() ? '40px' : '45px';
-        const distance = DeviceDetector.isMobile() ? 60 : 70;
-
-        menuItem.style.cssText = `
-            position: fixed;
-            bottom: ${menuPosition};
-            right: ${menuPosition};
-            width: ${itemSize};
-            height: ${itemSize};
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 999;
-            transform: scale(0);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            color: #333;
-            font-weight: bold;
-            font-size: ${DeviceDetector.isMobile() ? '10px' : '12px'};
-            text-align: center;
-            line-height: 1;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        `;
-
-        // Texto del menú según la sección
-        const sectionId = section.id.toLowerCase();
-        let menuText = '•';
-        if (sectionId.includes('home') || sectionId.includes('inicio')) menuText = '🏠';
-        else if (sectionId.includes('about') || sectionId.includes('sobre')) menuText = '👤';
-        else if (sectionId.includes('skill') || sectionId.includes('habilidad')) menuText = '⚡';
-        else if (sectionId.includes('project') || sectionId.includes('proyecto')) menuText = '💼';
-        else if (sectionId.includes('contact') || sectionId.includes('contacto')) menuText = '📧';
-
-        menuItem.textContent = menuText;
-
-        menuItem.addEventListener('click', () => {
-            section.scrollIntoView({
-                behavior: 'smooth',
-                block: DeviceDetector.isMobile() ? 'start' : 'center'
-            });
-            HapticFeedback.medium();
-            toggleMenu();
-        });
-
-        document.body.appendChild(menuItem);
-        menuItems.push({
-            element: menuItem,
-            angle: (index * 45) - 90,
-            distance: distance
-        });
-    });
-
-    function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
-        const hamburgerLines = floatingMenu.querySelectorAll('div > div');
-
-        if (isMenuOpen) {
-            // Transformar hamburguesa en X
-            hamburgerLines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-            hamburgerLines[1].style.opacity = '0';
-            hamburgerLines[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-
-            // Mostrar elementos del menú
-            menuItems.forEach((item, index) => {
-                setTimeout(() => {
-                    const radian = item.angle * (Math.PI / 180);
-                    const x = Math.cos(radian) * item.distance;
-                    const y = Math.sin(radian) * item.distance;
-
-                    item.element.style.transform = `translate(${x}px, ${y}px) scale(1)`;
-                }, index * 50);
-            });
-        } else {
-            // Restaurar hamburguesa
-            hamburgerLines.forEach(line => {
-                line.style.transform = '';
-                line.style.opacity = '1';
-            });
-
-            // Ocultar elementos del menú
-            menuItems.forEach(item => {
-                item.element.style.transform = 'scale(0)';
-            });
-        }
-
-        HapticFeedback.light();
-    }
-
-    floatingMenu.addEventListener('click', toggleMenu);
-
-    // Cerrar menú al hacer scroll
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        if (isMenuOpen) {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                if (isMenuOpen) toggleMenu();
-            }, 1000);
-        }
-    }, { passive: true });
-}
-
-// Tarjetas de proyecto optimizadas para móviles
+// Tarjetas de proyecto con efectos avanzados
 function initializeProjectCards() {
     const projectCards = document.querySelectorAll('.project-card');
 
     projectCards.forEach((card, index) => {
+        // Efecto de entrada escalonado
         card.style.animationDelay = `${index * 0.1}s`;
 
-        // Eventos optimizados para móviles
-        if (DeviceDetector.isMobile()) {
-            // Usar touchstart para mejor respuesta en móviles
-            card.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const touch = e.touches[0];
-                const rect = card.getBoundingClientRect();
-                const x = touch.clientX - rect.left;
-                const y = touch.clientY - rect.top;
+        // Hover effects mejorados
+        card.addEventListener('mouseenter', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
 
-                const ripple = document.createElement('div');
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: 4px;
-                    height: 4px;
-                    background: rgba(0, 212, 255, 0.6);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.4s linear;
-                    left: ${x}px;
-                    top: ${y}px;
-                    pointer-events: none;
-                `;
+            // Crear efecto de ondas mejorado
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: rgba(0, 212, 255, 0.6);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                left: ${x}px;
+                top: ${y}px;
+                pointer-events: none;
+            `;
 
-                card.appendChild(ripple);
-                HapticFeedback.light();
+            card.appendChild(ripple);
+            HapticFeedback.light();
 
-                setTimeout(() => {
-                    if (ripple.parentNode) {
-                        ripple.parentNode.removeChild(ripple);
-                    }
-                }, 400);
+            // Limpiar después de la animación
+            setTimeout(() => {
+                if (ripple.parentNode) {
+                    ripple.parentNode.removeChild(ripple);
+                }
+            }, 600);
 
-                card.style.transform = 'translateY(-8px) scale(1.02)';
-                card.style.boxShadow = '0 15px 40px rgba(0, 212, 255, 0.25)';
-            }, { passive: false });
+            // Transformación de la tarjeta
+            card.style.transform = 'translateY(-15px) scale(1.03)';
+            card.style.boxShadow = '0 25px 80px rgba(0, 212, 255, 0.25)';
+        });
 
-            card.addEventListener('touchend', () => {
-                card.style.transform = 'translateY(0) scale(1)';
-                card.style.boxShadow = '';
-            });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+            card.style.boxShadow = '';
+        });
 
-        } else {
-            // Eventos para desktop
-            card.addEventListener('mouseenter', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const ripple = document.createElement('div');
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: 4px;
-                    height: 4px;
-                    background: rgba(0, 212, 255, 0.6);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    left: ${x}px;
-                    top: ${y}px;
-                    pointer-events: none;
-                `;
-
-                card.appendChild(ripple);
-
-                setTimeout(() => {
-                    if (ripple.parentNode) {
-                        ripple.parentNode.removeChild(ripple);
-                    }
-                }, 600);
-
-                card.style.transform = 'translateY(-15px) scale(1.03)';
-                card.style.boxShadow = '0 25px 80px rgba(0, 212, 255, 0.25)';
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) scale(1)';
-                card.style.boxShadow = '';
-            });
-        }
-
-        // Evento de click común
+        // Efecto de click mejorado
         card.addEventListener('click', (e) => {
             const rect = card.getBoundingClientRect();
             VisualEffects.createStarBurst(
@@ -789,21 +423,16 @@ function initializeProjectCards() {
                 card
             );
 
-            const scale = DeviceDetector.isMobile() ? 1.01 : 1.01;
-            const translateY = DeviceDetector.isMobile() ? -8 : -12;
-
-            card.style.transform = `translateY(${translateY}px) scale(${scale})`;
+            card.style.transform = 'translateY(-12px) scale(1.01)';
             HapticFeedback.medium();
 
             setTimeout(() => {
-                const hoverScale = DeviceDetector.isMobile() ? 1.02 : 1.03;
-                const hoverTranslateY = DeviceDetector.isMobile() ? -8 : -15;
-                card.style.transform = `translateY(${hoverTranslateY}px) scale(${hoverScale})`;
+                card.style.transform = 'translateY(-15px) scale(1.03)';
             }, 150);
         });
     });
 
-    // Estilos CSS optimizados
+    // Añadir estilos CSS para los efectos
     if (!document.getElementById('enhanced-effects-styles')) {
         const style = document.createElement('style');
         style.id = 'enhanced-effects-styles';
@@ -814,7 +443,7 @@ function initializeProjectCards() {
                     opacity: 1;
                 }
                 100% {
-                    transform: scale(${DeviceDetector.isMobile() ? '15' : '20'});
+                    transform: scale(20);
                     opacity: 0;
                 }
             }
@@ -847,46 +476,8 @@ function initializeProjectCards() {
                     opacity: 1;
                 }
                 100% {
-                    transform: translate(-50%, -50%) scale(${DeviceDetector.isMobile() ? '15' : '20'});
+                    transform: translate(-50%, -50%) scale(20);
                     opacity: 0;
-                }
-            }
-
-            /* Optimizaciones para móviles */
-            @media (max-width: 768px) {
-                .project-card {
-                    transform-origin: center center;
-                    will-change: transform, box-shadow;
-                }
-                
-                .mobile-animation {
-                    animation-duration: 0.4s !important;
-                }
-                
-                .floating-menu {
-                    -webkit-tap-highlight-color: transparent;
-                    touch-action: manipulation;
-                }
-            }
-
-            /* Mejoras de rendimiento */
-            .project-card, .card {
-                will-change: transform, box-shadow;
-                backface-visibility: hidden;
-                -webkit-backface-visibility: hidden;
-            }
-
-            /* Estilos para dispositivos con hover */
-            @media (hover: hover) and (pointer: fine) {
-                .project-card:hover {
-                    transform: translateY(-15px) scale(1.03);
-                }
-            }
-
-            /* Estilos para dispositivos táctiles */
-            @media (hover: none) and (pointer: coarse) {
-                .project-card:active {
-                    transform: translateY(-8px) scale(1.02);
                 }
             }
         `;
@@ -894,7 +485,9 @@ function initializeProjectCards() {
     }
 }
 
-// Smooth scroll mejorado y optimizado
+
+
+// Smooth scroll mejorado para enlaces internos
 function initializeSmoothScroll() {
     const links = document.querySelectorAll('a[href^="#"]');
 
@@ -907,19 +500,15 @@ function initializeSmoothScroll() {
             if (targetElement) {
                 HapticFeedback.light();
 
-                // Indicador visual adaptado a móviles
+                // Añadir indicador visual durante el scroll
                 const indicator = document.createElement('div');
-                const indicatorSize = DeviceDetector.isMobile() ? '3px' : '4px';
-                const indicatorHeight = DeviceDetector.isMobile() ? '30px' : '40px';
-                const indicatorPosition = DeviceDetector.isMobile() ? '15px' : '30px';
-
                 indicator.style.cssText = `
                     position: fixed;
                     top: 50%;
-                    right: ${indicatorPosition};
-                    width: ${indicatorSize};
-                    height: ${indicatorHeight};
-                    background: var(--gradient-primary, linear-gradient(135deg, #00d4ff, #ff6b6b));
+                    right: 30px;
+                    width: 4px;
+                    height: 40px;
+                    background: var(--gradient-primary);
                     border-radius: 2px;
                     z-index: 1001;
                     animation: slideIndicator 1s ease-out;
@@ -927,15 +516,13 @@ function initializeSmoothScroll() {
 
                 document.body.appendChild(indicator);
 
-                // Scroll suave con offset para móviles
-                const yOffset = DeviceDetector.isMobile() ? -60 : -80;
-                const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-                window.scrollTo({
-                    top: y,
-                    behavior: 'smooth'
+                // Scroll suave
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
 
+                // Remover indicador
                 setTimeout(() => {
                     if (indicator.parentNode) {
                         indicator.parentNode.removeChild(indicator);
@@ -945,7 +532,7 @@ function initializeSmoothScroll() {
         });
     });
 
-    // Estilos para el indicador
+    // Añadir estilos para el indicador
     if (!document.getElementById('indicator-styles')) {
         const style = document.createElement('style');
         style.id = 'indicator-styles';
@@ -968,13 +555,8 @@ function initializeSmoothScroll() {
     }
 }
 
-// Efecto parallax optimizado
+// Efecto parallax mejorado y optimizado
 function initializeParallax() {
-    // Deshabilitar parallax en móviles para mejor rendimiento
-    if (DeviceDetector.isMobile()) {
-        return;
-    }
-
     let ticking = false;
 
     const updateParallax = () => {
@@ -983,13 +565,14 @@ function initializeParallax() {
         const cards = document.querySelectorAll('.card');
 
         if (heroLogo) {
-            const speed = scrolled * 0.03; // Reducido para suavidad
-            const rotation = scrolled * 0.02;
+            const speed = scrolled * 0.05;
+            const rotation = scrolled * 0.05;
             heroLogo.style.transform = `translateY(${speed}px) rotate(${rotation}deg)`;
         }
 
+        // Parallax sutil para las tarjetas
         cards.forEach((card, index) => {
-            const speed = (scrolled * 0.01) * (index % 2 === 0 ? 1 : -1);
+            const speed = (scrolled * 0.02) * (index % 2 === 0 ? 1 : -1);
             card.style.transform = `translateY(${speed}px)`;
         });
 
@@ -1004,9 +587,7 @@ function initializeParallax() {
     };
 
     window.addEventListener('scroll', requestTick, { passive: true });
-}
-
-// Sistema de partículas optimizado para móviles
+} // Gestor de partículas flotantes mejorado
 class ParticleSystem {
     constructor() {
         this.particles = [];
@@ -1014,15 +595,9 @@ class ParticleSystem {
         this.ctx = null;
         this.isActive = false;
         this.mouseParticles = [];
-        this.animationId = null;
     }
 
     init() {
-        // Reducir partículas en móviles
-        if (DeviceDetector.isMobile() && window.innerWidth < 480) {
-            return; // Deshabilitar en móviles muy pequeños
-        }
-
         this.canvas = document.createElement('canvas');
         this.canvas.style.cssText = `
             position: fixed;
@@ -1032,7 +607,7 @@ class ParticleSystem {
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            opacity: ${DeviceDetector.isMobile() ? '0.3' : '0.6'};
+            opacity: 0.6;
         `;
 
         this.ctx = this.canvas.getContext('2d');
@@ -1044,15 +619,6 @@ class ParticleSystem {
         this.animate();
 
         window.addEventListener('resize', () => this.resize());
-
-        // Pausar animaciones cuando la página no está visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.pause();
-            } else {
-                this.resume();
-            }
-        });
     }
 
     resize() {
@@ -1061,15 +627,13 @@ class ParticleSystem {
     }
 
     createParticles() {
-        const particleCount = DeviceDetector.isMobile() ? 20 : 50;
-
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < 50; i++) {
             this.particles.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                size: Math.random() * (DeviceDetector.isMobile() ? 1.5 : 2) + 0.5,
-                speedX: (Math.random() - 0.5) * (DeviceDetector.isMobile() ? 0.3 : 0.5),
-                speedY: (Math.random() - 0.5) * (DeviceDetector.isMobile() ? 0.3 : 0.5),
+                size: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
                 opacity: Math.random() * 0.5 + 0.2,
                 color: `hsl(${180 + Math.random() * 60}, 70%, 60%)`
             });
@@ -1077,34 +641,22 @@ class ParticleSystem {
     }
 
     setupMouseTracking() {
-        const createMouseParticle = (x, y) => {
-            if (Math.random() < (DeviceDetector.isMobile() ? 0.05 : 0.1)) {
+        document.addEventListener('mousemove', (e) => {
+            // Crear partículas que siguen al mouse
+            if (Math.random() < 0.1) { // 10% de probabilidad
                 this.mouseParticles.push({
-                    x: x,
-                    y: y,
-                    size: Math.random() * (DeviceDetector.isMobile() ? 2 : 3) + 1,
+                    x: e.clientX,
+                    y: e.clientY,
+                    size: Math.random() * 3 + 1,
                     life: 1,
-                    decay: DeviceDetector.isMobile() ? 0.03 : 0.02,
+                    decay: 0.02,
                     color: `hsl(${200 + Math.random() * 40}, 80%, 70%)`
                 });
             }
-        };
-
-        if (DeviceDetector.isMobile()) {
-            document.addEventListener('touchmove', (e) => {
-                const touch = e.touches[0];
-                createMouseParticle(touch.clientX, touch.clientY);
-            }, { passive: true });
-        } else {
-            document.addEventListener('mousemove', (e) => {
-                createMouseParticle(e.clientX, e.clientY);
-            }, { passive: true });
-        }
+        });
     }
 
     animate() {
-        if (!this.isActive) return;
-
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Animar partículas de fondo
@@ -1126,11 +678,11 @@ class ParticleSystem {
             this.ctx.fill();
         });
 
-        // Animar partículas del mouse/touch
+        // Animar partículas del mouse
         this.mouseParticles = this.mouseParticles.filter(particle => {
             particle.life -= particle.decay;
-            particle.y -= 0.5;
-            particle.x += (Math.random() - 0.5) * 1;
+            particle.y -= 1;
+            particle.x += (Math.random() - 0.5) * 2;
 
             if (particle.life > 0) {
                 this.ctx.globalAlpha = particle.life;
@@ -1144,27 +696,11 @@ class ParticleSystem {
         });
 
         this.ctx.globalAlpha = 1;
-        this.animationId = requestAnimationFrame(() => this.animate());
-    }
-
-    pause() {
-        this.isActive = false;
-        if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
-        }
-    }
-
-    resume() {
-        if (!this.isActive) {
-            this.isActive = true;
-            this.animate();
-        }
+        requestAnimationFrame(() => this.animate());
     }
 }
 
-// Continuación del código desde NotificationSystem...
-
-// Sistema de notificaciones optimizado para móviles
+// Sistema de notificaciones visuales
 class NotificationSystem {
     static show(message, type = 'info', duration = 3000) {
         const notification = document.createElement('div');
@@ -1175,52 +711,33 @@ class NotificationSystem {
             info: '#00d4ff'
         };
 
-        const fontSize = DeviceDetector.isMobile() ? '14px' : '16px';
-        const padding = DeviceDetector.isMobile() ? '12px 16px' : '15px 20px';
-        const position = DeviceDetector.isMobile() ? 'top: 10px; left: 10px; right: 10px;' : 'top: 20px; right: 20px;';
-
         notification.style.cssText = `
             position: fixed;
-            ${position}
+            top: 20px;
+            right: 20px;
             background: linear-gradient(135deg, ${colors[type]}, ${colors[type]}dd);
             color: white;
-            padding: ${padding};
+            padding: 15px 20px;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             z-index: 10000;
-            font-size: ${fontSize};
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
             font-weight: 500;
-            transform: translateY(-100px);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
         `;
 
         notification.textContent = message;
         document.body.appendChild(notification);
 
-        // Animación de entrada
-        requestAnimationFrame(() => {
-            notification.style.transform = 'translateY(0)';
-            notification.style.opacity = '1';
-        });
-
-        // Vibración para móviles
-        if (type === 'success') {
-            HapticFeedback.success();
-        } else if (type === 'error') {
-            HapticFeedback.heavy();
-        } else {
-            HapticFeedback.light();
-        }
-
-        // Auto-remove
+        // Animar entrada
         setTimeout(() => {
-            notification.style.transform = 'translateY(-100px)';
-            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(0)';
+        }, 100);
 
+        // Animar salida
+        setTimeout(() => {
+            notification.style.transform = 'translateX(400px)';
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.parentNode.removeChild(notification);
@@ -1228,678 +745,809 @@ class NotificationSystem {
             }, 300);
         }, duration);
 
-        // Click para cerrar
-        notification.addEventListener('click', () => {
-            notification.style.transform = 'translateY(-100px)';
-            notification.style.opacity = '0';
-            HapticFeedback.light();
-
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 300);
-        });
+        // Haptic feedback
+        HapticFeedback.light();
     }
 }
 
-// Gestos táctiles avanzados
-class TouchGestureHandler {
+// Inicialización completa mejorada
+function initializeAll() {
+    // Inicializar sistemas principales
+    initializeEnhancedAnimations();
+    initializeFloatingMenu();
+    initializeProjectCards();
+    initializeContactForm();
+    initializeSmoothScroll();
+    initializeParallax();
+
+    // Inicializar sistema de partículas
+    const particleSystem = new ParticleSystem();
+    particleSystem.init();
+
+    // Mostrar notificación de bienvenida
+    setTimeout(() => {
+        NotificationSystem.show('portfolio by Sant', 'success');
+    }, 1000);
+
+    // Detectar características del dispositivo
+    if (HapticFeedback.isSupported()) {
+        console.log('🎮 Feedback háptico disponible');
+    }
+
+    console.log('✨ Sistema de animaciones mejoradas inicializado');
+}
+
+// Auto-inicialización cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAll);
+} else {
+    initializeAll();
+}
+
+// Sistema de gestos táctiles para dispositivos móviles
+class TouchGestureManager {
     constructor() {
-        this.startX = 0;
-        this.startY = 0;
-        this.startTime = 0;
-        this.isScrolling = false;
-        this.threshold = {
-            distance: 50,
-            time: 300,
-            velocity: 0.3
-        };
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchEndX = 0;
+        this.touchEndY = 0;
+        this.minSwipeDistance = 50;
+        this.init();
     }
 
     init() {
-        if (!DeviceDetector.isMobile()) return;
+        document.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.changedTouches[0].screenX;
+            this.touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
 
-        document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
-        document.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
-        document.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
-    }
+        document.addEventListener('touchend', (e) => {
+            this.touchEndX = e.changedTouches[0].screenX;
+            this.touchEndY = e.changedTouches[0].screenY;
+            this.handleSwipe();
+        }, { passive: true });
 
-    handleTouchStart(e) {
-        const touch = e.touches[0];
-        this.startX = touch.clientX;
-        this.startY = touch.clientY;
-        this.startTime = Date.now();
-        this.isScrolling = false;
-    }
+        // Double tap detection
+        let lastTap = 0;
+        document.addEventListener('touchend', (e) => {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
 
-    handleTouchMove(e) {
-        if (this.isScrolling) return;
-
-        const touch = e.touches[0];
-        const deltaX = Math.abs(touch.clientX - this.startX);
-        const deltaY = Math.abs(touch.clientY - this.startY);
-
-        // Determinar si es scroll vertical
-        if (deltaY > deltaX && deltaY > 10) {
-            this.isScrolling = true;
-            return;
-        }
-
-        // Prevenir scroll horizontal accidental
-        if (deltaX > 30 && deltaY < 30) {
-            e.preventDefault();
-        }
-    }
-
-    handleTouchEnd(e) {
-        if (this.isScrolling) return;
-
-        const touch = e.changedTouches[0];
-        const endX = touch.clientX;
-        const endY = touch.clientY;
-        const endTime = Date.now();
-
-        const deltaX = endX - this.startX;
-        const deltaY = endY - this.startY;
-        const deltaTime = endTime - this.startTime;
-        const velocity = Math.abs(deltaX) / deltaTime;
-
-        // Detectar swipe horizontal
-        if (Math.abs(deltaX) > this.threshold.distance &&
-            Math.abs(deltaY) < 100 &&
-            deltaTime < this.threshold.time * 2 &&
-            velocity > this.threshold.velocity) {
-
-            if (deltaX > 0) {
-                this.onSwipeRight();
-            } else {
-                this.onSwipeLeft();
+            if (tapLength < 500 && tapLength > 0) {
+                this.handleDoubleTap(e);
             }
-        }
+            lastTap = currentTime;
+        }, { passive: true });
+    }
 
-        // Detectar swipe vertical
-        if (Math.abs(deltaY) > this.threshold.distance &&
-            Math.abs(deltaX) < 100 &&
-            deltaTime < this.threshold.time * 2) {
+    handleSwipe() {
+        const deltaX = this.touchEndX - this.touchStartX;
+        const deltaY = this.touchEndY - this.touchStartY;
 
-            if (deltaY > 0) {
-                this.onSwipeDown();
+        if (Math.abs(deltaX) > this.minSwipeDistance || Math.abs(deltaY) > this.minSwipeDistance) {
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Swipe horizontal
+                if (deltaX > 0) {
+                    this.onSwipeRight();
+                } else {
+                    this.onSwipeLeft();
+                }
             } else {
-                this.onSwipeUp();
+                // Swipe vertical
+                if (deltaY > 0) {
+                    this.onSwipeDown();
+                } else {
+                    this.onSwipeUp();
+                }
             }
         }
     }
 
     onSwipeLeft() {
         // Navegar a la siguiente sección
-        this.navigateSection(1);
-        HapticFeedback.medium();
+        const sections = document.querySelectorAll('section[id]');
+        const currentSection = this.getCurrentSection();
+        const currentIndex = Array.from(sections).indexOf(currentSection);
+
+        if (currentIndex < sections.length - 1) {
+            sections[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+            HapticFeedback.medium();
+            NotificationSystem.show('Siguiente sección', 'info', 1500);
+        }
     }
 
     onSwipeRight() {
         // Navegar a la sección anterior
-        this.navigateSection(-1);
-        HapticFeedback.medium();
+        const sections = document.querySelectorAll('section[id]');
+        const currentSection = this.getCurrentSection();
+        const currentIndex = Array.from(sections).indexOf(currentSection);
+
+        if (currentIndex > 0) {
+            sections[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+            HapticFeedback.medium();
+            NotificationSystem.show('Sección anterior', 'info', 1500);
+        }
     }
 
     onSwipeUp() {
-        // Scroll suave hacia arriba
-        window.scrollBy({
-            top: -window.innerHeight * 0.5,
-            behavior: 'smooth'
-        });
+        // Scroll hacia arriba más rápido
+        window.scrollBy({ top: -window.innerHeight / 2, behavior: 'smooth' });
         HapticFeedback.light();
     }
 
     onSwipeDown() {
-        // Scroll suave hacia abajo
-        window.scrollBy({
-            top: window.innerHeight * 0.5,
-            behavior: 'smooth'
-        });
+        // Scroll hacia abajo más rápido
+        window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
         HapticFeedback.light();
     }
 
-    navigateSection(direction) {
+    handleDoubleTap(e) {
+        // Crear efecto visual en el punto del doble tap
+        const touch = e.changedTouches[0];
+        const x = touch.clientX;
+        const y = touch.clientY;
+
+        VisualEffects.createStarBurst(x, y);
+        HapticFeedback.heavy();
+
+        // Acción especial: mostrar/ocultar menú de navegación
+        this.toggleQuickNav();
+    }
+
+    getCurrentSection() {
         const sections = document.querySelectorAll('section[id]');
-        const currentScroll = window.pageYOffset;
-        let currentSection = 0;
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
 
-        // Encontrar sección actual
-        sections.forEach((section, index) => {
+        for (let section of sections) {
             const rect = section.getBoundingClientRect();
-            if (rect.top <= 100) {
-                currentSection = index;
-            }
-        });
+            const sectionTop = rect.top + window.scrollY;
+            const sectionBottom = sectionTop + rect.height;
 
-        const targetSection = currentSection + direction;
-        if (targetSection >= 0 && targetSection < sections.length) {
-            sections[targetSection].scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+                return section;
+            }
         }
-    }
-}
-
-// Sistema de carga diferida optimizado
-class LazyLoader {
-    constructor() {
-        this.imageObserver = null;
-        this.animationObserver = null;
+        return sections[0];
     }
 
-    init() {
-        this.setupImageLazyLoading();
-        this.setupAnimationLazyLoading();
-    }
+    toggleQuickNav() {
+        let quickNav = document.getElementById('quick-nav');
 
-    setupImageLazyLoading() {
-        const imageObserverOptions = {
-            root: null,
-            rootMargin: DeviceDetector.isMobile() ? '50px' : '100px',
-            threshold: 0.1
-        };
-
-        this.imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-
-                    if (img.dataset.src) {
-                        // Crear imagen placeholder mientras carga
-                        const placeholder = document.createElement('div');
-                        placeholder.style.cssText = `
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-                            background-size: 200% 100%;
-                            animation: loading 1.5s infinite;
-                        `;
-
-                        img.parentNode.style.position = 'relative';
-                        img.parentNode.appendChild(placeholder);
-
-                        // Cargar imagen real
-                        const realImg = new Image();
-                        realImg.onload = () => {
-                            img.src = img.dataset.src;
-                            img.style.opacity = '0';
-                            img.style.transition = 'opacity 0.3s ease';
-
-                            // Fade in
-                            setTimeout(() => {
-                                img.style.opacity = '1';
-                                if (placeholder.parentNode) {
-                                    placeholder.parentNode.removeChild(placeholder);
-                                }
-                            }, 50);
-                        };
-
-                        realImg.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                    }
-
-                    this.imageObserver.unobserve(img);
-                }
-            });
-        }, imageObserverOptions);
-
-        // Observar todas las imágenes con data-src
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            this.imageObserver.observe(img);
-        });
-    }
-
-    setupAnimationLazyLoading() {
-        const animationObserverOptions = {
-            root: null,
-            rootMargin: DeviceDetector.isMobile() ? '20px' : '50px',
-            threshold: DeviceDetector.isMobile() ? 0.1 : 0.3
-        };
-
-        this.animationObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-
-                    // Añadir clase de animación según el dispositivo
-                    if (DeviceDetector.isMobile()) {
-                        element.classList.add('animate-mobile');
-                    } else {
-                        element.classList.add('animate-desktop');
-                    }
-
-                    // Efectos especiales para elementos importantes
-                    if (element.classList.contains('project-card')) {
-                        setTimeout(() => {
-                            element.style.transform = 'translateY(0) scale(1)';
-                            element.style.opacity = '1';
-                        }, Math.random() * 200);
-                    }
-
-                    this.animationObserver.unobserve(element);
-                }
-            });
-        }, animationObserverOptions);
-
-        // Observar elementos animables
-        document.querySelectorAll('.card, .project-card, .skill-item, .fade-in').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.animationObserver.observe(element);
-        });
-    }
-}
-
-// Optimizador de rendimiento
-class PerformanceOptimizer {
-    constructor() {
-        this.rafId = null;
-        this.scrollCallbacks = [];
-        this.resizeCallbacks = [];
-        this.isScrolling = false;
-        this.isResizing = false;
-    }
-
-    init() {
-        this.setupScrollOptimization();
-        this.setupResizeOptimization();
-        this.setupImageOptimization();
-        this.setupMemoryOptimization();
-    }
-
-    setupScrollOptimization() {
-        let scrollTimeout;
-
-        const optimizedScrollHandler = () => {
-            if (!this.isScrolling) {
-                this.isScrolling = true;
-                document.body.classList.add('scrolling');
-            }
-
-            // Ejecutar callbacks de scroll
-            this.scrollCallbacks.forEach(callback => callback());
-
-            // Detectar fin de scroll
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                this.isScrolling = false;
-                document.body.classList.remove('scrolling');
-            }, 150);
-        };
-
-        // Throttled scroll usando requestAnimationFrame
-        window.addEventListener('scroll', () => {
-            if (!this.rafId) {
-                this.rafId = requestAnimationFrame(() => {
-                    optimizedScrollHandler();
-                    this.rafId = null;
-                });
-            }
-        }, { passive: true });
-    }
-
-    setupResizeOptimization() {
-        let resizeTimeout;
-
-        const optimizedResizeHandler = () => {
-            this.isResizing = true;
-            this.resizeCallbacks.forEach(callback => callback());
-
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                this.isResizing = false;
-            }, 250);
-        };
-
-        window.addEventListener('resize', optimizedResizeHandler, { passive: true });
-    }
-
-    setupImageOptimization() {
-        // Optimizar imágenes según el dispositivo
-        const images = document.querySelectorAll('img');
-
-        images.forEach(img => {
-            if (DeviceDetector.isMobile()) {
-                // Reducir calidad en móviles si es necesario
-                if (img.src && !img.src.includes('webp')) {
-                    img.loading = 'lazy';
-                }
-            }
-
-            // Añadir event listeners para optimización
-            img.addEventListener('load', () => {
-                img.style.opacity = '1';
-            });
-
-            img.addEventListener('error', () => {
-                img.style.display = 'none';
-            });
-        });
-    }
-
-    setupMemoryOptimization() {
-        // Limpiar elementos no visibles periódicamente
-        setInterval(() => {
-            this.cleanupInvisibleElements();
-        }, 30000); // Cada 30 segundos
-
-        // Detectar cuando la página se oculta para pausar animaciones
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.pauseAnimations();
-            } else {
-                this.resumeAnimations();
-            }
-        });
-    }
-
-    cleanupInvisibleElements() {
-        // Remover partículas y efectos que ya no son visibles
-        const particles = document.querySelectorAll('[style*="animation"]');
-        particles.forEach(particle => {
-            const rect = particle.getBoundingClientRect();
-            if (rect.bottom < 0 || rect.top > window.innerHeight) {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-            }
-        });
-    }
-
-    pauseAnimations() {
-        document.body.classList.add('animations-paused');
-    }
-
-    resumeAnimations() {
-        document.body.classList.remove('animations-paused');
-    }
-
-    addScrollCallback(callback) {
-        this.scrollCallbacks.push(callback);
-    }
-
-    addResizeCallback(callback) {
-        this.resizeCallbacks.push(callback);
-    }
-}
-
-// Inicialización completa del portfolio
-class PortfolioManager {
-    constructor() {
-        this.particleSystem = new ParticleSystem();
-        this.touchHandler = new TouchGestureHandler();
-        this.lazyLoader = new LazyLoader();
-        this.performanceOptimizer = new PerformanceOptimizer();
-        this.isInitialized = false;
-    }
-
-    async init() {
-        if (this.isInitialized) return;
-
-        try {
-            // Mostrar loader de carga
-            this.showLoader();
-
-            // Inicializar componentes básicos primero
-            await this.initializeCore();
-
-            // Inicializar componentes avanzados
-            await this.initializeAdvanced();
-
-            // Aplicar estilos CSS finales
-            this.injectFinalCSS();
-
-            // Ocultar loader
-            this.hideLoader();
-
-            this.isInitialized = true;
-            console.log('Portfolio initialized successfully');
-
-            // Mostrar notificación de bienvenida
-            setTimeout(() => {
-                NotificationSystem.show(
-                    DeviceDetector.isMobile() ?
-                    '¡Desliza para navegar! 👆' :
-                    '¡Portfolio cargado correctamente! 🚀',
-                    'success'
-                );
-            }, 1000);
-
-        } catch (error) {
-            console.error('Error initializing portfolio:', error);
-            NotificationSystem.show('Error al cargar el portfolio', 'error');
+        if (!quickNav) {
+            this.createQuickNav();
+        } else {
+            quickNav.style.display = quickNav.style.display === 'none' ? 'flex' : 'none';
         }
     }
 
-    showLoader() {
-        const loader = document.createElement('div');
-        loader.id = 'portfolio-loader';
-        loader.style.cssText = `
+    createQuickNav() {
+        const sections = document.querySelectorAll('section[id]');
+        const quickNav = document.createElement('div');
+        quickNav.id = 'quick-nav';
+        quickNav.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideInLeft 0.3s ease;
+        `;
+
+        sections.forEach((section, index) => {
+            const navDot = document.createElement('div');
+            navDot.style.cssText = `
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: rgba(0, 212, 255, 0.3);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: 2px solid rgba(0, 212, 255, 0.6);
+            `;
+
+            navDot.addEventListener('click', () => {
+                section.scrollIntoView({ behavior: 'smooth' });
+                HapticFeedback.medium();
+                quickNav.style.display = 'none';
+            });
+
+            quickNav.appendChild(navDot);
+        });
+
+        document.body.appendChild(quickNav);
+
+        // Auto-ocultar después de 3 segundos
+        setTimeout(() => {
+            if (quickNav && quickNav.parentNode) {
+                quickNav.style.display = 'none';
+            }
+        }, 3000);
+    }
+}
+
+// Sistema de efectos de clima (partículas ambientales)
+class WeatherEffects {
+    constructor() {
+        this.isActive = false;
+        this.effectType = 'none';
+        this.particles = [];
+        this.canvas = null;
+        this.ctx = null;
+    }
+
+    init() {
+        this.canvas = document.createElement('canvas');
+        this.canvas.style.cssText = `
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            color: white;
-            font-family: Arial, sans-serif;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.7;
         `;
 
-        loader.innerHTML = `
-            <div style="
-                width: ${DeviceDetector.isMobile() ? '50px' : '80px'};
-                height: ${DeviceDetector.isMobile() ? '50px' : '80px'};
-                border: 4px solid rgba(255,255,255,0.3);
-                border-top: 4px solid white;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-                margin-bottom: 20px;
-            "></div>
-            <p style="
-                font-size: ${DeviceDetector.isMobile() ? '16px' : '20px'};
-                margin: 0;
-                opacity: 0.9;
-            ">Cargando Portfolio...</p>
-        `;
+        this.ctx = this.canvas.getContext('2d');
+        document.body.appendChild(this.canvas);
 
-        document.body.appendChild(loader);
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
     }
 
-    hideLoader() {
-        const loader = document.getElementById('portfolio-loader');
-        if (loader) {
-            loader.style.opacity = '0';
-            loader.style.transition = 'opacity 0.5s ease';
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+
+    startEffect(type = 'snow') {
+        this.effectType = type;
+        this.isActive = true;
+        this.createParticles();
+        this.animate();
+    }
+
+    stopEffect() {
+        this.isActive = false;
+        this.particles = [];
+    }
+
+    createParticles() {
+        this.particles = [];
+        const particleCount = this.effectType === 'rain' ? 100 : 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            this.particles.push(this.createParticle());
+        }
+    }
+
+    createParticle() {
+        const particle = {
+            x: Math.random() * this.canvas.width,
+            y: -10,
+            size: Math.random() * 3 + 1,
+            speed: Math.random() * 3 + 1,
+            opacity: Math.random() * 0.8 + 0.2
+        };
+
+        if (this.effectType === 'rain') {
+            particle.speed = Math.random() * 5 + 3;
+            particle.size = Math.random() * 2 + 0.5;
+            particle.length = Math.random() * 10 + 5;
+        } else if (this.effectType === 'stars') {
+            particle.x = Math.random() * this.canvas.width;
+            particle.y = Math.random() * this.canvas.height;
+            particle.speed = 0;
+            particle.twinkle = Math.random() * 0.02 + 0.005;
+        }
+
+        return particle;
+    }
+
+    animate() {
+        if (!this.isActive) return;
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.particles.forEach((particle, index) => {
+            if (this.effectType === 'snow') {
+                particle.y += particle.speed;
+                particle.x += Math.sin(particle.y * 0.01) * 0.5;
+
+                this.ctx.globalAlpha = particle.opacity;
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.beginPath();
+                this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                this.ctx.fill();
+
+            } else if (this.effectType === 'rain') {
+                particle.y += particle.speed;
+
+                this.ctx.globalAlpha = particle.opacity;
+                this.ctx.strokeStyle = '#4ec8f0';
+                this.ctx.lineWidth = particle.size;
+                this.ctx.beginPath();
+                this.ctx.moveTo(particle.x, particle.y);
+                this.ctx.lineTo(particle.x, particle.y + particle.length);
+                this.ctx.stroke();
+
+            } else if (this.effectType === 'stars') {
+                particle.opacity += particle.twinkle;
+                if (particle.opacity > 1 || particle.opacity < 0.2) {
+                    particle.twinkle *= -1;
+                }
+
+                this.ctx.globalAlpha = particle.opacity;
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.beginPath();
+                this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                this.ctx.fill();
+            }
+
+            // Reciclar partículas que salen de pantalla
+            if (particle.y > this.canvas.height + 10) {
+                this.particles[index] = this.createParticle();
+            }
+        });
+
+        this.ctx.globalAlpha = 1;
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Sistema de temas dinámicos
+class ThemeManager {
+    constructor() {
+        this.themes = {
+            default: {
+                primary: '#00d4ff',
+                secondary: '#ff6b6b',
+                accent: '#4ecdc4',
+                background: '#0a0a0a'
+            },
+            sunset: {
+                primary: '#ff6b6b',
+                secondary: '#ffa726',
+                accent: '#ff7043',
+                background: '#1a0f0a'
+            },
+            ocean: {
+                primary: '#00bcd4',
+                secondary: '#0097a7',
+                accent: '#00acc1',
+                background: '#0a1a1a'
+            },
+            forest: {
+                primary: '#4caf50',
+                secondary: '#66bb6a',
+                accent: '#81c784',
+                background: '#0f1a0f'
+            }
+        };
+        this.currentTheme = 'default';
+    }
+
+    applyTheme(themeName) {
+        if (!this.themes[themeName]) return;
+
+        const theme = this.themes[themeName];
+        const root = document.documentElement;
+
+        // Aplicar colores CSS custom properties
+        root.style.setProperty('--primary-color', theme.primary);
+        root.style.setProperty('--secondary-color', theme.secondary);
+        root.style.setProperty('--accent-color', theme.accent);
+        root.style.setProperty('--background-color', theme.background);
+
+        this.currentTheme = themeName;
+
+        // Efecto visual de cambio
+        document.body.style.transition = 'all 0.5s ease';
+        NotificationSystem.show(`Tema ${themeName} aplicado`, 'success', 2000);
+        HapticFeedback.medium();
+    }
+}
+
+// Inicializar EmailJS con tu Public Key
+function initEmailJS() {
+    emailjs.init("1xIo82HGvVGU1cRST");
+}
+
+// Llamar la inicialización
+initEmailJS();
+
+// Formulario de contacto mejorado y funcional
+function initializeContactForm() {
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+        const inputs = contactForm.querySelectorAll('input, textarea');
+
+        // Agregar placeholders automáticamente
+        inputs.forEach(input => {
+            if (!input.placeholder) {
+                const type = input.type;
+                const name = input.name ? input.name.toLowerCase() : '';
+
+                if (type === 'email' || name.includes('email') || name.includes('correo')) {
+                    input.placeholder = 'example@gmail.com';
+                    input.style.setProperty('--placeholder-color', '#666');
+                } else if (input.tagName.toLowerCase() === 'textarea' || name.includes('message') || name.includes('mensaje')) {
+                    input.placeholder = 'Hi, here goes your message!';
+                    input.style.setProperty('--placeholder-color', '#666');
+                } else if (type === 'text' && (name.includes('name') || name.includes('nombre'))) {
+                    input.placeholder = 'Your name';
+                    input.style.setProperty('--placeholder-color', '#666');
+                } else if (type === 'text' && (name.includes('subject') || name.includes('asunto'))) {
+                    input.placeholder = 'Subject';
+                    input.style.setProperty('--placeholder-color', '#666');
+                }
+
+                // Aplicar estilos de placeholder
+                const style = document.createElement('style');
+                if (!document.getElementById('placeholder-styles')) {
+                    style.id = 'placeholder-styles';
+                    style.textContent = `
+                        input::placeholder, textarea::placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                        input::-moz-placeholder, textarea::-moz-placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                        input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+                            color: #666 !important;
+                            opacity: 0.7;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+        });
+
+        // Efectos de foco mejorados
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+                input.style.transform = 'translateZ(0)';
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.light();
+                }
+            });
+
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+
+            // Validación en tiempo real con efectos
+            input.addEventListener('input', () => {
+                if (input.value.length > 0) {
+                    input.style.borderColor = 'var(--accent-color)';
+                    if (input.value.length === 1) {
+                        if (typeof HapticFeedback !== 'undefined') {
+                            HapticFeedback.light();
+                        }
+                    }
+                } else {
+                    input.style.borderColor = 'var(--border-color)';
+                }
+            });
+        });
+
+        // Manejo de envío con funcionalidad real de email
+        contactForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+
+            console.log('Formulario enviado, texto original del botón:', originalText);
+
+            // Obtener datos del formulario
+            const formData = new FormData(contactForm);
+
+            // Detectar automáticamente los campos del formulario
+            const inputs = contactForm.querySelectorAll('input, textarea');
+            let nameField = '';
+            let emailField = '';
+            let messageField = '';
+            let subjectField = 'Nuevo mensaje desde el formulario';
+
+            // Identificar campos por tipo o name
+            inputs.forEach(input => {
+                const name = input.name.toLowerCase();
+                const type = input.type;
+                const placeholder = input.placeholder ? input.placeholder.toLowerCase() : '';
+
+                if (type === 'email' || name.includes('email') || name.includes('correo')) {
+                    emailField = input.value;
+                } else if (input.tagName.toLowerCase() === 'textarea' || name.includes('message') || name.includes('mensaje') || placeholder.includes('mensaje')) {
+                    messageField = input.value;
+                } else if (type === 'text' && (name.includes('name') || name.includes('nombre') || placeholder.includes('nombre'))) {
+                    nameField = input.value;
+                } else if (type === 'text' && (name.includes('subject') || name.includes('asunto') || placeholder.includes('asunto'))) {
+                    subjectField = input.value || 'Nuevo mensaje desde el formulario';
+                } else if (type === 'text' && !nameField) {
+                    // Si no hemos encontrado un campo de nombre, usar el primer campo de texto
+                    nameField = input.value;
+                }
+            });
+
+            const templateParams = {
+                name: nameField || 'Usuario Anónimo',
+                email: emailField,
+                title: subjectField,
+                message: messageField
+            };
+
+            // Validar campos requeridos
+            if (!emailField) {
+                showMessage('Por favor ingresa tu email', 'error');
+                return;
+            }
+
+            if (!messageField) {
+                showMessage('Por favor escribe un mensaje', 'error');
+                return;
+            }
+
+            // Validar email
+            if (!isValidEmail(emailField)) {
+                showMessage('Por favor ingresa un email válido', 'error');
+                return;
+            }
+
+            // Efectos visuales de inicio
+            const rect = submitBtn.getBoundingClientRect();
+            if (typeof VisualEffects !== 'undefined') {
+                VisualEffects.createShockwave(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2
+                );
+            }
+            if (typeof HapticFeedback !== 'undefined') {
+                HapticFeedback.medium();
+            }
+
+            // Animación de carga
+            submitBtn.innerHTML = `
+                <span style="display: inline-flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    Enviando...
+                </span>
+            `;
+            submitBtn.disabled = true;
+            submitBtn.style.transform = 'scale(0.98)';
+
+            // Añadir animación de spin si no existe
+            if (!document.getElementById('spin-animation')) {
+                const style = document.createElement('style');
+                style.id = 'spin-animation';
+                style.textContent = `
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            try {
+                console.log('Enviando email con datos:', templateParams);
+
+                // Enviar email usando EmailJS con tus datos configurados
+                const response = await emailjs.send(
+                    'service_orkf6p3', // Tu Service ID de Gmail
+                    'template_nv8fa3e', // Tu Template ID
+                    templateParams
+                );
+
+                console.log('Email enviado exitosamente:', response);
+
+                // Éxito con efectos
+                submitBtn.innerHTML = '✓ ¡Mensaje Enviado!';
+                submitBtn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
+                submitBtn.style.transform = 'scale(1.02)';
+
+                // Efectos de éxito
+                if (typeof VisualEffects !== 'undefined') {
+                    VisualEffects.createStarBurst(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2
+                    );
+                    VisualEffects.createFloatingText(
+                        '¡Éxito!',
+                        rect.left + rect.width / 2,
+                        rect.top - 20
+                    );
+                }
+                if (typeof HapticFeedback !== 'undefined') {
+                    HapticFeedback.success();
+                }
+
+                // Mostrar mensaje de éxito
+                showMessage('¡Mensaje enviado exitosamente! Te responderemos pronto.', 'success');
+
+                // Limpiar formulario con animación
+                inputs.forEach((input, index) => {
+                    setTimeout(() => {
+                        input.style.transform = 'translateX(-10px)';
+                        setTimeout(() => {
+                            input.value = '';
+                            input.style.transform = 'translateX(0)';
+                            input.style.borderColor = 'var(--border-color)';
+                        }, 100);
+                    }, index * 100);
+                });
+
+            } catch (error) {
+                console.error('Error al enviar email:', error);
+
+                // Error con efectos
+                submitBtn.innerHTML = '✗ Error al Enviar';
+                submitBtn.style.background = 'linear-gradient(135deg, #ff4444 0%, #cc0000 100%)';
+
+                // Mostrar mensaje de error
+                showMessage('Hubo un error al enviar el mensaje. Por favor intenta nuevamente.', 'error');
+            }
+
+            // Restaurar botón después de 3 segundos
             setTimeout(() => {
-                if (loader.parentNode) {
-                    loader.parentNode.removeChild(loader);
-                }
-            }, 500);
-        }
+                console.log('Restaurando botón al estado original:', originalText);
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                submitBtn.style.transform = 'scale(1)';
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    }
+}
+
+// Función para validar email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Función para mostrar mensajes
+function showMessage(text, type = 'info') {
+    // Remover mensaje anterior si existe
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
     }
 
-    async initializeCore() {
-        // Componentes básicos
-        initializeEnhancedAnimations();
-        initializeFloatingMenu();
-        initializeProjectCards();
-        initializeSmoothScroll();
+    const message = document.createElement('div');
+    message.className = 'form-message';
+    message.textContent = text;
 
-        // Optimizador de rendimiento
-        this.performanceOptimizer.init();
+    // Estilos según el tipo
+    const styles = {
+        success: 'background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: white;',
+        error: 'background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%); color: white;',
+        info: 'background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white;'
+    };
 
-        // Carga diferida
-        this.lazyLoader.init();
-    }
+    message.style.cssText = `
+        ${styles[type]}
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        text-align: center;
+        font-weight: 600;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    `;
 
-    async initializeAdvanced() {
-        // Componentes avanzados (solo si el dispositivo puede manejarlos)
-        if (!DeviceDetector.isMobile() || window.innerWidth > 480) {
-            this.particleSystem.isActive = true;
-            this.particleSystem.init();
-        }
-
-        // Parallax solo en desktop
-        if (DeviceDetector.isDesktop()) {
-            initializeParallax();
-        }
-
-        // Gestos táctiles en móviles
-        if (DeviceDetector.isMobile()) {
-            this.touchHandler.init();
-        }
-    }
-
-    injectFinalCSS() {
-        const finalStyles = document.createElement('style');
-        finalStyles.id = 'portfolio-final-styles';
-        finalStyles.textContent = `
-            /* Estilos de carga */
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-
-            @keyframes loading {
-                0% { background-position: -200% 0; }
-                100% { background-position: 200% 0; }
-            }
-
-            /* Animaciones optimizadas para móviles */
-            .animate-mobile {
-                animation: slideInMobile 0.4s ease-out forwards;
-            }
-
-            .animate-desktop {
-                animation: slideInDesktop 0.6s ease-out forwards;
-            }
-
-            @keyframes slideInMobile {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            @keyframes slideInDesktop {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px) scale(0.95);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-            }
-
-            /* Optimizaciones de scroll */
-            .scrolling * {
-                pointer-events: none;
-            }
-
-            .scrolling .project-card {
-                transition-duration: 0.1s !important;
-            }
-
-            /* Pausar animaciones cuando no es visible */
-            .animations-paused * {
-                animation-play-state: paused !important;
-            }
-
-            /* Mejoras para dispositivos táctiles */
-            @media (hover: none) {
-                .project-card:hover {
-                    transform: none !important;
-                }
-                
-                .project-card:active {
-                    transform: translateY(-5px) scale(1.01) !important;
-                    transition: transform 0.1s ease !important;
-                }
-            }
-
-            /* Optimizaciones para pantallas pequeñas */
-            @media (max-width: 480px) {
-                .floating-menu {
-                    bottom: 10px !important;
-                    right: 10px !important;
-                    width: 45px !important;
-                    height: 45px !important;
-                }
-                
-                .project-card {
-                    margin-bottom: 15px !important;
-                }
-                
-                .notification {
-                    font-size: 13px !important;
-                    padding: 10px 14px !important;
-                }
-            }
-
-            /* Mejoras de accesibilidad */
-            @media (prefers-reduced-motion: reduce) {
-                * {
-                    animation-duration: 0.01ms !important;
-                    animation-iteration-count: 1 !important;
-                    transition-duration: 0.01ms !important;
-                }
-            }
-
-            /* Mejoras de contraste para pantallas OLED */
-            @media (prefers-contrast: high) {
-                .project-card {
-                    border: 2px solid var(--primary-color, #00d4ff);
-                }
-                
-                .floating-menu {
-                    border: 2px solid white;
-                }
+    // Añadir animación si no existe
+    if (!document.getElementById('slideIn-animation')) {
+        const style = document.createElement('style');
+        style.id = 'slideIn-animation';
+        style.textContent = `
+            @keyframes slideIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
         `;
+        document.head.appendChild(style);
+    }
 
-        document.head.appendChild(finalStyles);
+    // Insertar mensaje después del formulario
+    const form = document.querySelector('.contact-form');
+    if (form && form.parentNode) {
+        form.parentNode.insertBefore(message, form.nextSibling);
+    }
+
+    // Remover mensaje después de 5 segundos
+    setTimeout(() => {
+        if (message && message.parentNode) {
+            message.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (message && message.parentNode) {
+                    message.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
+}
+
+// Función alternativa usando Formspree (más fácil de configurar)
+function initializeContactFormWithFormspree() {
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+        // Cambiar la acción del formulario para usar Formspree
+        // Regístrate en https://formspree.io/ y reemplaza 'TU_FORM_ID' con tu ID
+        contactForm.action = 'https://formspree.io/f/TU_FORM_ID';
+        contactForm.method = 'POST';
+
+        // Agregar campo oculto para redirigir el email
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = '_replyto';
+        hiddenInput.value = 'santibon12345@gmail.com';
+        contactForm.appendChild(hiddenInput);
+
+        // El resto del código de efectos visuales permanece igual
+        const inputs = contactForm.querySelectorAll('input, textarea');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+                input.style.transform = 'translateZ(0)';
+            });
+
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+
+            input.addEventListener('input', () => {
+                if (input.value.length > 0) {
+                    input.style.borderColor = 'var(--accent-color)';
+                } else {
+                    input.style.borderColor = 'var(--border-color)';
+                }
+            });
+        });
     }
 }
 
-// Auto-inicialización cuando el DOM esté listo
-const portfolioManager = new PortfolioManager();
-
-// Inicializar cuando todo esté listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => portfolioManager.init(), 100);
-    });
-} else {
-    setTimeout(() => portfolioManager.init(), 100);
-}
-
-// Manejo de errores globales
-window.addEventListener('error', (e) => {
-    console.error('Portfolio error:', e.error);
-    NotificationSystem.show('Se produjo un error inesperado', 'error');
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si EmailJS ya está cargado
+    if (typeof emailjs !== 'undefined') {
+        initEmailJS();
+        initializeContactForm();
+    } else {
+        // Cargar EmailJS si no está disponible
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js';
+        script.onload = function() {
+            initEmailJS();
+            initializeContactForm();
+        };
+        script.onerror = function() {
+            console.error('Error al cargar EmailJS');
+            showMessage('Error al cargar el servicio de email. Por favor recarga la página.', 'error');
+        };
+        document.head.appendChild(script);
+    }
 });
 
-// Exportar para uso externo si es necesario
-window.PortfolioManager = portfolioManager;
-window.DeviceDetector = DeviceDetector;
-window.VisualEffects = VisualEffects;
-window.HapticFeedback = HapticFeedback;
-window.NotificationSystem = NotificationSystem;
+// Exportar funciones para uso externo
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initializeContactForm,
+        initializeContactFormWithFormspree,
+        isValidEmail,
+        showMessage
+    };
+}
