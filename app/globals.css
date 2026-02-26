@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   CSS VARIABLES — DARK MODE (default)
+───────────────────────────────────────── */
+:root {
+    /* Accent: vibrant violet-blue */
+    --accent: 255 85 100;
+    /* hsl: tweaked to violet-blue-ish, override below */
+    --accent-foreground: 0 0 100;
+
+    /* Dark theme defaults */
+    --background: 220 20% 6%;
+    --foreground: 210 40% 98%;
+    --muted: 217 20% 14%;
+    --muted-foreground: 215 20% 65%;
+    --card: 220 20% 9%;
+    --card-foreground: 210 40% 98%;
+    --border: 217 20% 18%;
+
+    /* Custom accent — Electric Violet */
+    --accent-h: 258;
+    --accent-s: 90%;
+    --accent-l: 66%;
+    --accent-rgb: 130, 80, 255;
+    --accent-hex: #8250ff;
+    --accent-glow: rgba(130, 80, 255, 0.4);
+}
+
+/* Light mode overrides */
+.light {
+    --background: 210 40% 98%;
+    --foreground: 220 20% 8%;
+    --muted: 210 40% 94%;
+    --muted-foreground: 215 16% 47%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 8%;
+    --border: 214 32% 88%;
+    --accent-glow: rgba(130, 80, 255, 0.2);
+}
+
+/* ─────────────────────────────────────────
+   BASE RESET & BODY
+───────────────────────────────────────── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-inter), system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────
+   CUSTOM SCROLLBAR
+───────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-hex);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent-h), var(--accent-s), 55%);
+}
+
+/* ─────────────────────────────────────────
+   SELECTION
+───────────────────────────────────────── */
+::selection {
+    background-color: var(--accent-glow);
+    color: hsl(var(--foreground));
+}
+
+/* ─────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────── */
+@layer utilities {
+
+    /* Glassmorphism card */
+    .glass {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .light .glass {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    /* Glow text effect */
+    .text-glow {
+        text-shadow: 0 0 40px var(--accent-glow);
+    }
+
+    /* Accent glow border */
+    .glow-border {
+        box-shadow: 0 0 0 1px var(--accent-hex), 0 0 20px var(--accent-glow);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+        background: linear-gradient(135deg,
+                var(--accent-hex) 0%,
+                hsl(var(--accent-h), 80%, 80%) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Section gradient backgrounds */
+    .section-bg-alt {
+        background: linear-gradient(180deg,
+                hsl(var(--background)) 0%,
+                hsl(var(--muted)) 50%,
+                hsl(var(--background)) 100%);
+    }
+
+    /* Hide scrollbar but keep scrollability */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Font mono shorthand */
+    .font-code {
+        font-family: var(--font-jetbrains), monospace;
+    }
+}
+
+/* ─────────────────────────────────────────
+   FOCUS RING (Accessibility)
+───────────────────────────────────────── */
+:focus-visible {
+    outline: 2px solid var(--accent-hex);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────── */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.shimmer {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            var(--accent-glow) 50%,
+            transparent 100%);
+    background-size: 200% auto;
+    animation: shimmer 2s linear infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

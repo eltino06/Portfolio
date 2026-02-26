@@ -1,0 +1,389 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowDown, Github, Mail, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+import { personalInfo, stats } from '@/lib/data';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
+
+function useTypewriter(words: readonly string[], speed = 100, pause = 2000) {
+    const [displayed, setDisplayed] = useState('');
+    const [wordIndex, setWordIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        const currentWord = words[wordIndex % words.length];
+
+        const timeout = setTimeout(() => {
+            if (!isDeleting) {
+                const nextDisplayed = currentWord.slice(0, displayed.length + 1);
+                setDisplayed(nextDisplayed);
+                if (nextDisplayed.length === currentWord.length) {
+                    setTimeout(() => setIsDeleting(true), pause);
+                }
+            } else {
+                const nextDisplayed = currentWord.slice(0, displayed.length - 1);
+                setDisplayed(nextDisplayed);
+                if (nextDisplayed.length === 0) {
+                    setIsDeleting(false);
+                    setWordIndex((prev) => prev + 1);
+                }
+            }
+        }, isDeleting ? speed / 2 : speed);
+
+        return () => clearTimeout(timeout);
+    }, [displayed, isDeleting, wordIndex, words, speed, pause]);
+
+    return displayed;
+}
+
+
+// ─── Particle Canvas (lightweight, no Three.js needed) ───────
+const ParticleCanvas = () => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: -1000, y: -1000 });
+    const isInteracting = useRef(false);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let animId: number;
+        let time = 0;
+
+        const resize = () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        };
+        resize();
+        window.addEventListener('resize', resize);
+
+        const handleMouseMove = (e: MouseEvent) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseRef.current = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top,
+            };
+            isInteracting.current = true;
+        };
+        const handleMouseLeave = () => {
+            isInteracting.current = false;
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseleave', handleMouseLeave);
+
+        const PARTICLE_COUNT = 80;
+        const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            r: Math.random() * 2 + 0.5,
+            opacity: Math.random() * 0.5 + 0.2,
+        }));
+
+        const draw = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            time += 0.01;
+
+            // Virtual mouse position when not interacting (auto-movement)
+            let mx = mouseRef.current.x;
+            let my = mouseRef.current.y;
+
+            if (!isInteracting.current) {
+                // Smooth circular path in the middle
+                mx = canvas.width / 2 + Math.cos(time * 0.5) * (canvas.width * 0.15);
+                my = canvas.height / 2 + Math.sin(time * 0.8) * (canvas.height * 0.1);
+            }
+
+            // Update and draw particles
+            particles.forEach((p) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce or wrap
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                // Virtual/Real mouse interaction - slight attraction
+                const dxm = mx - p.x;
+                const dym = my - p.y;
+                const distM = Math.sqrt(dxm * dxm + dym * dym);
+                if (distM < 180) {
+                    p.x += dxm * 0.012;
+                    p.y += dym * 0.012;
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(130, 80, 255, ${p.opacity})`;
+                ctx.fill();
+            });
+
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                const dxm = mx - particles[i].x;
+                const dym = my - particles[i].y;
+                const distM = Math.sqrt(dxm * dxm + dym * dym);
+                if (distM < 180) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(130, 80, 255, ${0.25 * (1 - distM / 180)})`;
+                    ctx.lineWidth = 0.8;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(mx, my);
+                    ctx.stroke();
+                }
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(130, 80, 255, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            animId = requestAnimationFrame(draw);
+        };
+
+        draw();
+        return () => {
+            cancelAnimationFrame(animId);
+            window.removeEventListener('resize', resize);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, []);
+
+    return (
+        <canvas
+            ref={canvasRef}
+            className="absolute inset-0 w-full h-full opacity-60"
+            aria-hidden="true"
+        />
+    );
+};
+
+// ─── Hero Section ─────────────────────────────────────────────
+export function HeroSection() {
+    const typedText = useTypewriter(personalInfo.roles);
+    const techBadges = ['Java', 'Spring Boot', 'Next.js', 'PostgreSQL', 'Docker'];
+
+    const containerVariants = {
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.12 } },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+    };
+
+    return (
+        <section
+            id="hero"
+            className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8"
+        >
+            {/* Particle background */}
+            <ParticleCanvas />
+
+            {/* Gradient blobs */}
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.06] blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-purple-500 opacity-[0.06] blur-[100px] pointer-events-none" />
+
+            <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
+                {/* ─── Left: Text Content ─── */}
+                <motion.div
+                    className="flex flex-col gap-6 text-center lg:text-left"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {/* Greeting */}
+                    <motion.p
+                        variants={itemVariants}
+                        className="font-code text-[var(--accent-hex)] text-sm tracking-widest"
+                    >
+                        {'> hola, soy'}
+                    </motion.p>
+
+                    {/* Name */}
+                    <motion.h1
+                        variants={itemVariants}
+                        className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight"
+                    >
+                        {personalInfo.firstName}
+                        <span className="gradient-text"> Bondioni</span>
+                    </motion.h1>
+
+                    {/* Typewriter role */}
+                    <motion.div
+                        variants={itemVariants}
+                        className="text-xl sm:text-2xl font-semibold text-[hsl(var(--muted-foreground))] h-8"
+                    >
+                        <span className="text-[hsl(var(--foreground))]">{typedText}</span>
+                        <span className="ml-1 inline-block w-1 h-6 bg-[var(--accent-hex)] animate-pulse align-middle" />
+                    </motion.div>
+
+                    {/* Description */}
+                    <motion.p
+                        variants={itemVariants}
+                        className="text-[hsl(var(--muted-foreground))] max-w-md mx-auto lg:mx-0 leading-relaxed"
+                    >
+                        Transformando ideas en aplicaciones web impactantes con tecnologías modernas
+                        que cautivan, conectan y entregan resultados.
+                    </motion.p>
+
+                    {/* Tech badges */}
+                    <motion.div
+                        variants={itemVariants}
+                        className="flex flex-wrap gap-2 justify-center lg:justify-start"
+                    >
+                        {techBadges.map((tech, i) => (
+                            <motion.div
+                                key={tech}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.6 + i * 0.08 }}
+                            >
+                                <Badge variant="accent" className="font-code">
+                                    {tech}
+                                </Badge>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    {/* CTA Buttons */}
+                    <motion.div
+                        variants={itemVariants}
+                        className="flex flex-wrap gap-4 justify-center lg:justify-start"
+                    >
+                        <Link href="#projects">
+                            <Button variant="primary" size="lg" className="gap-2">
+                                Ver Proyectos
+                                <ArrowRight size={18} />
+                            </Button>
+                        </Link>
+                        <Link href="#contact">
+                            <Button variant="outline" size="lg" className="gap-2">
+                                <Mail size={18} />
+                                Contactar
+                            </Button>
+                        </Link>
+                    </motion.div>
+
+                    {/* Social links */}
+                    <motion.div
+                        variants={itemVariants}
+                        className="flex gap-4 justify-center lg:justify-start"
+                    >
+                        <a
+                            href={personalInfo.socials.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="GitHub"
+                            className="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200"
+                        >
+                            <Github size={18} />
+                            <span className="hidden sm:inline">GitHub</span>
+                        </a>
+                    </motion.div>
+                </motion.div>
+
+                {/* ─── Right: Avatar / Visual ─── */}
+                <motion.div
+                    className="flex flex-col items-center gap-6"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+                >
+                    {/* Avatar ring */}
+                    <div className="relative">
+                        {/* Spinning ring */}
+                        <motion.div
+                            className="absolute -inset-4 rounded-full border-2 border-dashed border-[var(--accent-hex)] opacity-40"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                        />
+                        <motion.div
+                            className="absolute -inset-8 rounded-full border border-[var(--accent-hex)] opacity-20"
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                        />
+
+                        {/* Avatar circle */}
+                        <motion.div
+                            className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full glass border-2 border-[var(--accent-hex)] flex items-center justify-center shadow-[0_0_60px_var(--accent-glow)] animate-float"
+                            whileHover={{ scale: 1.05 }}
+                        >
+                            {personalInfo.avatarUrl ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                    src={personalInfo.avatarUrl}
+                                    alt={personalInfo.name}
+                                    className="w-full h-full rounded-full object-cover"
+                                />
+                            ) : (
+                                <span className="font-bold text-6xl gradient-text font-code">
+                                    {personalInfo.initials}
+                                </span>
+                            )}
+                        </motion.div>
+                    </div>
+
+                    {/* Stats grid */}
+                    <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
+                        {stats.map((stat) => (
+                            <motion.div
+                                key={stat.label}
+                                className="glass rounded-xl p-4 text-center border border-[hsl(var(--border))]"
+                                whileHover={{ scale: 1.05, borderColor: 'var(--accent-hex)' }}
+                                transition={{ type: 'spring', stiffness: 300 }}
+                            >
+                                <div className="text-2xl font-bold gradient-text font-code">
+                                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                                </div>
+                                <div className="text-xs text-[hsl(var(--muted-foreground))] mt-1">
+                                    {stat.label}
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* Scroll indicator */}
+            <Link href="#about" scroll={true}>
+                <motion.div
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--muted-foreground))] cursor-pointer group"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5 }}
+                >
+                    <span className="text-xs tracking-widest font-code group-hover:text-[var(--accent-hex)] transition-colors">SCROLL</span>
+                    <motion.div
+                        animate={{ y: [0, 8, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                        className="group-hover:text-[var(--accent-hex)] transition-colors"
+                    >
+                        <ArrowDown size={16} />
+                    </motion.div>
+                </motion.div>
+            </Link>
+        </section>
+    );
+}
