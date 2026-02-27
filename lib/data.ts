@@ -16,15 +16,11 @@ export const personalInfo = {
     /** Solo primer nombre (usado en el saludo del hero) */
     firstName: 'Santino',
     /** Título profesional */
-    title: 'Desarrollador Java Jr | Full Stack',
-    /** Palabras que rotan en el efecto typewriter */
-    roles: ['Desarrollador Java Jr', 'Full Stack Developer', 'Backend Focus', 'Problem Solver'],
-    /** Bio corta mostrada en la sección About */
-    bio: [
-        'Desarrollador de software de 20 años con base Full Stack y enfoque creciente en desarrollo backend con Java y Spring Boot. Me oriento a la calidad del código, la documentación técnica y el trabajo colaborativo en equipos ágiles.',
-        'Soy disciplinado, aprendo rápido y me adapto con facilidad a nuevas tecnologías y metodologías. Busco una primera experiencia formal donde pueda aplicar mis conocimientos, aportar valor desde el primer día y seguir creciendo de forma continua.',
-        'Me enfoco en crear soluciones robustas, escalables y bien documentadas, manteniendo siempre un balance entre la estética del frontend y la eficiencia del backend.',
-    ],
+    title: 'Desarrollador FullStack Jr',
+    /** Palabras que rotan en el efecto typewriter (Keys) */
+    roles: ['hero.roles.java', 'hero.roles.fullstack', 'hero.roles.backend', 'hero.roles.solver'],
+    /** Bio corta (Keys) */
+    bio: ['about.bio.0', 'about.bio.1', 'about.bio.2'],
     /** Ubicación */
     location: 'Santa Fe, Argentina',
     /** Email de contacto */
@@ -49,10 +45,10 @@ export const personalInfo = {
 // 📊 ESTADÍSTICAS (Hero + About)
 // ─────────────────────────────────────────
 export const stats = [
-    { value: 1, suffix: '+', label: 'Año de Experiencia' },
-    { value: 5, suffix: '+', label: 'Proyectos Realizados' },
-    { value: 20, suffix: '', label: 'y/O' },
-    { value: 70, suffix: '%', label: 'Progreso de Carrera' },
+    { value: 1, suffix: '+', label: 'stats.exp' },
+    { value: 5, suffix: '+', label: 'stats.projects' },
+    { value: 20, suffix: '', label: 'stats.age' },
+    { value: 70, suffix: '%', label: 'stats.career' },
 ] as const;
 
 // ─────────────────────────────────────────
@@ -65,13 +61,15 @@ export interface Skill {
 }
 
 export interface SkillCategory {
-    category: string;
+    id: string; // Used for translation keys (skills.categories.[id])
+    category: string; // Fallback
     color: string;
     skills: Skill[];
 }
 
 export const skillCategories: SkillCategory[] = [
     {
+        id: 'backend',
         category: 'Backend',
         color: 'purple',
         skills: [
@@ -83,6 +81,7 @@ export const skillCategories: SkillCategory[] = [
         ],
     },
     {
+        id: 'frontend',
         category: 'Frontend',
         color: 'accent',
         skills: [
@@ -95,7 +94,8 @@ export const skillCategories: SkillCategory[] = [
         ],
     },
     {
-        category: 'Bases de Datos',
+        id: 'database',
+        category: 'Bases de Datos', // Fallback
         color: 'orange',
         skills: [
             { name: 'PostgreSQL', icon: 'SiPostgresql', level: 80 },
@@ -104,7 +104,8 @@ export const skillCategories: SkillCategory[] = [
         ],
     },
     {
-        category: 'Herramientas & DevOps',
+        id: 'tools',
+        category: 'Herramientas & DevOps', // Fallback
         color: 'green',
         skills: [
             { name: 'Docker', icon: 'SiDocker', level: 65 },
@@ -123,6 +124,7 @@ export type ProjectCategory = 'Todas' | 'Frontend' | 'Backend' | 'FullStack';
 
 export interface Project {
     id: string;
+    translationKey: string; // Key in translations.ts (projects.items.[key])
     title: string;
     description: string;
     longDescription: string;
@@ -136,12 +138,11 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        id: 'gestion-administrativa',
+        id: 'admin',
+        translationKey: 'admin',
         title: 'Plataforma de Gestión Administrativa',
-        description:
-            'Sistema integral para administración con backend en Spring Boot y frontend en React.',
-        longDescription:
-            'Arquitectura backend con Spring Boot implementando una API REST completa, sistema de roles (RBAC), autenticación JWT y auditoría de acciones. Frontend desarrollado en React con control de accesos dinámico y dashboards administrativos. Desplegado bajo contenedores Docker.',
+        description: 'Sistema integral para administración con backend en Spring Boot y frontend en React.',
+        longDescription: 'Arquitectura backend con Spring Boot implementando una API REST completa, sistema de roles (RBAC), autenticación JWT y auditoría de acciones. Frontend desarrollado en React con control de accesos dinámico y dashboards administrativos. Desplegado bajo contenedores Docker.',
         stack: ['Spring Boot', 'React', 'PostgreSQL', 'Docker', 'Node.js'],
         category: 'FullStack',
         image: '',
@@ -150,12 +151,11 @@ export const projects: Project[] = [
         featured: true,
     },
     {
-        id: 'registro-digital',
+        id: 'reg',
+        translationKey: 'reg',
         title: 'Sistema de Registro Digital y Auditoría',
-        description:
-            'Aplicación enfocada en trazabilidad y seguridad de datos operacionales.',
-        longDescription:
-            'Diseño de arquitectura orientada a trazabilidad extrema: cada operación es registrada, versionada y auditable. Modelo de base de datos relacional avanzado diseñado para integridad referencial total y flujos de seguridad estrictos.',
+        description: 'Aplicación enfocada en trazabilidad y seguridad de datos operacionales.',
+        longDescription: 'Diseño de arquitectura orientada a trazabilidad extrema: cada operación es registrada, versionada y auditable. Modelo de base de datos relacional avanzado diseñado para integridad referencial total and flujos de seguridad estrictos.',
         stack: ['Java', 'PostgreSQL', 'Prisma', 'TypeScript', 'Node.js'],
         category: 'Backend',
         image: '',
@@ -164,12 +164,11 @@ export const projects: Project[] = [
         featured: true,
     },
     {
-        id: 'dev-portfolio',
+        id: 'port',
+        translationKey: 'port',
         title: 'Portfolio 2025',
-        description:
-            'Mi carta de presentación digital construida con tecnologías de última generación.',
-        longDescription:
-            'Portfolio profesional de alto impacto visual y técnico. Utiliza Next.js 14 para optimización extrema, Framer Motion para animaciones fluidas y Three.js para micro-interacciones 3D en el Hero.',
+        description: 'Mi carta de presentación digital construida con tecnologías de última generación.',
+        longDescription: 'Portfolio profesional de alto impacto visual y técnico. Utiliza Next.js 14 para optimización extrema, Framer Motion para animaciones fluidas y micro-interacciones visuales.',
         stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
         category: 'Frontend',
         image: '',
@@ -184,6 +183,7 @@ export const projects: Project[] = [
 // ─────────────────────────────────────────
 export interface Experience {
     id: string;
+    translationKey: string; // Key in translations.ts (experience.items.[key])
     company: string;
     role: string;
     startDate: string;
@@ -198,13 +198,13 @@ export interface Experience {
 export const experiences: Experience[] = [
     {
         id: 'freelance-fullstack',
+        translationKey: 'freelance',
         company: 'Proyectos Independientes',
         role: 'Desarrollador Full Stack',
         startDate: '2024',
         endDate: 'Actualidad',
         location: 'Remoto (Argentina)',
-        description:
-            'Desarrollo end-to-end de aplicaciones web: diseño de arquitectura, implementación backend, modelado de bases de datos e integración con frontend.',
+        description: 'Desarrollo end-to-end de aplicaciones web: diseño de arquitectura, implementación backend, modelado de bases de datos e integración con frontend.',
         achievements: [
             'Desarrollo de APIs REST con Spring Boot y Node.js (autenticación y roles)',
             'Modelado y optimización de bases de datos relacionales con PostgreSQL',
@@ -221,6 +221,7 @@ export const experiences: Experience[] = [
 // ─────────────────────────────────────────
 export interface Education {
     id: string;
+    translationKey: string; // Key in translations.ts (education.items.[key])
     institution: string;
     degree: string;
     field: string;
@@ -234,25 +235,26 @@ export interface Education {
 export const education: Education[] = [
     {
         id: 'ies',
+        translationKey: 'ies',
         institution: 'IES (Instituto de Estudios Superiores)',
         degree: 'Tecnicatura',
         field: 'Desarrollo de Software',
         startDate: '2024',
         endDate: '2026',
         status: 'En curso',
-        description:
-            'Formación técnica superior enfocada en algoritmos, POO, bases de datos y arquitectura. Nivel de inglés técnico B2 integrado.',
+        description: 'Formación técnica superior enfocada en algoritmos, POO, bases de datos y arquitectura. Nivel de inglés técnico B2 integrado.',
         progress: 70,
     },
     {
         id: 'secundario',
+        translationKey: 'secundario',
         institution: 'Educacion',
         degree: 'Nivel Primario y Secundario',
         field: 'Finalizado',
         startDate: '2012',
         endDate: '2023',
         status: 'Finalizado',
-        description: 'Educación primaria y secundaria en Urdinarrain, Entre Ríos.',
+        description: 'Educación primaria y secundaria con base sólida en ciencias y tecnología.',
         progress: 100,
     },
 ];
@@ -261,10 +263,10 @@ export const education: Education[] = [
 // 🏠 LINKS DE NAVEGACIÓN
 // ─────────────────────────────────────────
 export const navLinks = [
-    { href: '#hero', label: 'Inicio' },
-    { href: '#about', label: 'Sobre mí' },
-    { href: '#skills', label: 'Habilidades' },
-    { href: '#projects', label: 'Proyectos' },
-    { href: '#experience', label: 'Experiencia' },
-    { href: '#contact', label: 'Contacto' },
+    { href: '#hero', label: 'nav.home' },
+    { href: '#about', label: 'nav.about' },
+    { href: '#skills', label: 'nav.skills' },
+    { href: '#projects', label: 'nav.projects' },
+    { href: '#experience', label: 'nav.experience' },
+    { href: '#contact', label: 'nav.contact' },
 ] as const;

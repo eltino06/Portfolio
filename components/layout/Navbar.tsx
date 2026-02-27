@@ -3,14 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
-import { Download, Menu, X } from 'lucide-react';
+import { Download, Menu, X, Terminal } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
 import { Button } from '@/components/ui/Button';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { navLinks, personalInfo } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function Navbar() {
+    const { t } = useLanguage();
     const [isVisible, setIsVisible] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -25,18 +28,45 @@ export function Navbar() {
     const sectionIds = navLinks.map((l) => l.href);
     const activeSection = useScrollSpy(sectionIds, 120);
 
+    const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
     useMotionValueEvent(scrollY, 'change', (current) => {
-        const diff = current - lastScrollY.current;
-        // Hide on scroll down, show on scroll up
+        const previous = scrollY.getPrevious() || 0;
+        const diff = current - previous;
+
         if (current > 80) {
-            setIsVisible(diff < 0);
             setIsScrolled(true);
+            if (diff < -2) {
+                // Scrolling up: show instantly
+                setIsVisible(true);
+                if (hideTimeoutRef.current) {
+                    clearTimeout(hideTimeoutRef.current);
+                    hideTimeoutRef.current = null;
+                }
+            } else if (diff > 2 && isVisible) {
+                // Scrolling down: wait a few seconds before hiding so user has time
+                if (!hideTimeoutRef.current) {
+                    hideTimeoutRef.current = setTimeout(() => {
+                        setIsVisible(false);
+                        hideTimeoutRef.current = null;
+                    }, 2500); // 2.5 seconds grace period
+                }
+            }
         } else {
             setIsVisible(true);
             setIsScrolled(false);
+            if (hideTimeoutRef.current) {
+                clearTimeout(hideTimeoutRef.current);
+                hideTimeoutRef.current = null;
+            }
         }
-        lastScrollY.current = current;
     });
+
+    useEffect(() => {
+        return () => {
+            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+        };
+    }, []);
 
     // Close mobile menu on resize
     useEffect(() => {
@@ -53,12 +83,19 @@ export function Navbar() {
                 className={cn(
                     'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
                     isScrolled
-                        ? 'glass border-b border-[hsl(var(--border))] shadow-lg'
+                        ? 'glass border-b border-[hsl(var(--border))] shadow-sm'
                         : 'bg-transparent'
                 )}
-                initial={{ y: 0 }}
-                animate={{ y: isVisible ? 0 : -100 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: isVisible ? 0 : -100, opacity: isVisible ? 1 : 0 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                onMouseEnter={() => {
+                    if (hideTimeoutRef.current) {
+                        clearTimeout(hideTimeoutRef.current);
+                        hideTimeoutRef.current = null;
+                    }
+                    setIsVisible(true);
+                }}
             >
                 <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     {/* Logo */}
@@ -68,13 +105,11 @@ export function Navbar() {
                         aria-label="Home"
                         onClick={() => setIsMobileOpen(false)}
                     >
-                        <motion.div
-                            className="w-9 h-9 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center font-bold text-white text-sm font-code shadow-[0_0_20px_var(--accent-glow)] group-hover:shadow-[0_0_32px_var(--accent-glow)] transition-shadow duration-300"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            whileTap={{ scale: 0.95 }}
+                        <div
+                            className="relative w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center text-white shadow-none group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-shadow duration-300 flex-shrink-0"
                         >
-                            {personalInfo.initials}
-                        </motion.div>
+                            <Terminal size={22} className="transition-transform duration-300 group-hover:scale-110" />
+                        </div>
                         <span className="hidden sm:block text-sm font-semibold group-hover:text-[var(--accent-hex)] transition-colors duration-200">
                             {personalInfo.firstName}
                             <span className="text-[var(--accent-hex)]">.</span>
@@ -85,18 +120,26 @@ export function Navbar() {
                     <ul className="hidden md:flex items-center gap-1" role="navigation">
                         {navLinks.map((link) => {
                             const isActive = activeSection === link.href;
+                            let label: any = link.label;
+                            if (link.href === '#hero') label = t('nav.home');
+                            else if (link.href === '#about') label = t('nav.about');
+                            else if (link.href === '#skills') label = t('nav.skills');
+                            else if (link.href === '#projects') label = t('nav.projects');
+                            else if (link.href === '#experience') label = t('nav.experience');
+                            else if (link.href === '#contact') label = t('nav.contact');
+
                             return (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
                                         className={cn(
-                                            'relative px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200',
+                                            'relative px-4 py-2 text-[0.925rem] font-medium rounded-lg transition-all duration-200',
                                             isActive
                                                 ? 'text-[var(--accent-hex)]'
                                                 : 'text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]'
                                         )}
                                     >
-                                        {link.label}
+                                        {label}
                                         {isActive && (
                                             <motion.span
                                                 className="absolute bottom-0 left-2 right-2 h-0.5 bg-[var(--accent-hex)] rounded-full"
@@ -112,19 +155,23 @@ export function Navbar() {
 
                     {/* Right actions */}
                     <div className="flex items-center gap-2">
+                        <LanguageToggle />
                         <ThemeToggle />
 
                         <a
                             href={personalInfo.resumeUrl}
-                            download
-                            className="hidden sm:flex"
+                            download="Santino_Bondioni_CV.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                                'hidden sm:flex items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.97] h-11 px-6 text-sm gap-2',
+                                'bg-transparent border border-[var(--accent-hex)] text-[var(--accent-hex)] hover:bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] hover:shadow-[0_0_20px_var(--accent-glow)]'
+                            )}
                             aria-label="Download CV"
                         >
-                            <Button variant="outline" size="sm" className="gap-1.5">
-                                <Download size={14} />
-                                <span className="hidden lg:inline">Download CV</span>
-                                <span className="lg:hidden">CV</span>
-                            </Button>
+                            <Download size={16} />
+                            <span className="hidden lg:inline">Download CV</span>
+                            <span className="lg:hidden">CV</span>
                         </a>
 
                         {/* Mobile hamburger */}
@@ -163,34 +210,51 @@ export function Navbar() {
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                         >
-                            {navLinks.map((link, i) => (
-                                <motion.div
-                                    key={link.href}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                >
-                                    <Link
-                                        href={link.href}
-                                        className={cn(
-                                            'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                                            activeSection === link.href
-                                                ? 'bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.15)] text-[var(--accent-hex)]'
-                                                : 'text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]'
-                                        )}
-                                        onClick={() => setIsMobileOpen(false)}
+                            {navLinks.map((link, i) => {
+                                let label: any = link.label;
+                                if (link.href === '#hero') label = t('nav.home');
+                                else if (link.href === '#about') label = t('nav.about');
+                                else if (link.href === '#skills') label = t('nav.skills');
+                                else if (link.href === '#projects') label = t('nav.projects');
+                                else if (link.href === '#experience') label = t('nav.experience');
+                                else if (link.href === '#contact') label = t('nav.contact');
+
+                                return (
+                                    <motion.div
+                                        key={link.href}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.05 }}
                                     >
-                                        {link.label}
-                                    </Link>
-                                </motion.div>
-                            ))}
+                                        <Link
+                                            href={link.href}
+                                            className={cn(
+                                                'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
+                                                activeSection === link.href
+                                                    ? 'bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.15)] text-[var(--accent-hex)]'
+                                                    : 'text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]'
+                                            )}
+                                            onClick={() => setIsMobileOpen(false)}
+                                        >
+                                            {label}
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
 
                             <div className="mt-4 pt-4 border-t border-[hsl(var(--border))]">
-                                <a href={personalInfo.resumeUrl} download>
-                                    <Button variant="primary" size="md" className="w-full gap-2">
-                                        <Download size={16} />
-                                        Download CV
-                                    </Button>
+                                <a
+                                    href={personalInfo.resumeUrl}
+                                    download="Santino_Bondioni_CV.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={cn(
+                                        'flex w-full items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.97] h-11 px-6 text-sm gap-2',
+                                        'bg-[var(--accent-hex)] text-white hover:shadow-[0_0_30px_var(--accent-glow)]'
+                                    )}
+                                >
+                                    <Download size={16} />
+                                    Download CV
                                 </a>
                             </div>
                         </motion.aside>

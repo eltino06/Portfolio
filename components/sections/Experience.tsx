@@ -6,13 +6,17 @@ import { Section, SectionHeading } from '@/components/ui/Section';
 import { Badge } from '@/components/ui/Badge';
 import { experiences } from '@/lib/data';
 
+import { useLanguage } from '@/context/LanguageContext';
+
 export function ExperienceSection() {
+    const { t } = useLanguage();
+
     return (
         <Section id="experience">
             <SectionHeading
-                label="Experiencia"
-                title="Historial Laboral"
-                subtitle="Mi trayectoria profesional y el impacto que he tenido en el camino."
+                label={t('experience.title')}
+                title={t('experience.subtitle')}
+                subtitle={t('experience.description')}
             />
 
             <div className="relative max-w-3xl mx-auto">
@@ -41,33 +45,39 @@ export function ExperienceSection() {
                             {/* Header */}
                             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                                 <div>
-                                    <h3 className="text-lg font-bold">{exp.role}</h3>
-                                    <p className="text-[var(--accent-hex)] font-semibold text-sm">{exp.company}</p>
+                                    <h3 className="text-lg font-bold">
+                                        {t(`experience.items.${exp.translationKey}.role`)}
+                                    </h3>
+                                    <p className="text-[var(--accent-hex)] font-semibold text-sm">
+                                        {t(`experience.items.${exp.translationKey}.company`)}
+                                    </p>
                                 </div>
 
                                 <div className="flex flex-col gap-1.5 text-xs text-[hsl(var(--muted-foreground))] shrink-0">
                                     <span className="flex items-center gap-1.5">
                                         <Calendar size={12} />
-                                        {exp.startDate} — {exp.endDate}
+                                        {exp.startDate} — {exp.endDate === 'Actualidad' ? t('experience.present') : exp.endDate}
                                     </span>
                                     <span className="flex items-center gap-1.5">
                                         <MapPin size={12} />
-                                        {exp.location}
+                                        {t(`experience.items.${exp.translationKey}.location`)}
                                     </span>
                                     {exp.endDate === 'Actualidad' && (
-                                        <Badge variant="accent" className="w-fit text-xs">Actual</Badge>
+                                        <Badge variant="accent" className="w-fit text-xs">
+                                            {t('experience.present')}
+                                        </Badge>
                                     )}
                                 </div>
                             </div>
 
                             {/* Description */}
                             <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed mb-4">
-                                {exp.description}
+                                {t(`experience.items.${exp.translationKey}.desc`)}
                             </p>
 
                             {/* Achievements */}
                             <ul className="space-y-2 mb-4">
-                                {exp.achievements.map((achievement, j) => (
+                                {(t(`experience.items.${exp.translationKey}.highlights`, { returnObjects: true }) as unknown as string[]).map((achievement, j) => (
                                     <motion.li
                                         key={j}
                                         className="flex items-start gap-2.5 text-sm"

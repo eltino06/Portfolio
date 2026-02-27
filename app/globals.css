@@ -53,6 +53,8 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
+    font-size: 19px;
+    /* Scales the entire UI to match the user's larger visual reference */
 }
 
 body {
@@ -185,7 +187,15 @@ body {
     background-size: 200% auto;
     animation: shimmer 2s linear infinite;
 }
+
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }

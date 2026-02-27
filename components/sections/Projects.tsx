@@ -19,6 +19,7 @@ const gradients = [
 ];
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+    const { t } = useLanguage();
     return (
         <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -59,12 +60,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                 {/* Content */}
                 <div className="p-6 space-y-4">
                     <div className="flex items-start justify-between gap-3">
-                        <h3 className="text-xl font-bold">{project.title}</h3>
-                        <Badge variant="accent">{project.category}</Badge>
+                        <h3 className="text-xl font-bold">{t(`projects.items.${project.translationKey}.title`)}</h3>
+                        <Badge variant="accent">{t(`projects.${project.category.toLowerCase()}`)}</Badge>
                     </div>
 
                     <p className="text-[hsl(var(--muted-foreground))] leading-relaxed">
-                        {project.longDescription}
+                        {t(`projects.items.${project.translationKey}.long`)}
                     </p>
 
                     <div className="flex flex-wrap gap-2">
@@ -80,7 +81,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                             <a href={project.github} target="_blank" rel="noopener noreferrer">
                                 <Button variant="secondary" size="sm" className="gap-2">
                                     <Github size={15} />
-                                    GitHub
+                                    {t('projects.viewGithub')}
                                 </Button>
                             </a>
                         )}
@@ -88,7 +89,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                             <a href={project.live} target="_blank" rel="noopener noreferrer">
                                 <Button variant="primary" size="sm" className="gap-2">
                                     <ExternalLink size={15} />
-                                    Demo en Vivo
+                                    {t('projects.viewLive')}
                                 </Button>
                             </a>
                         )}
@@ -108,6 +109,7 @@ function ProjectCard({
     index: number;
     onClick: () => void;
 }) {
+    const { t } = useLanguage();
     const gradient = gradients[index % gradients.length];
 
     return (
@@ -130,13 +132,13 @@ function ProjectCard({
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                     <div className="glass px-4 py-2 rounded-xl text-white text-sm font-medium border border-white/20">
-                        Ver Detalles
+                        {t('projects.details')}
                     </div>
                 </div>
 
                 {project.featured && (
                     <div className="absolute top-3 left-3">
-                        <Badge variant="accent" className="text-xs">⭐ Destacado</Badge>
+                        <Badge variant="accent" className="text-xs">⭐ {t('projects.featured')}</Badge>
                     </div>
                 )}
             </div>
@@ -145,13 +147,13 @@ function ProjectCard({
             <div className="p-5 space-y-3">
                 <div className="flex items-start justify-between gap-2">
                     <h3 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors duration-200">
-                        {project.title}
+                        {t(`projects.items.${project.translationKey}.title`)}
                     </h3>
-                    <Badge variant="muted" className="shrink-0 text-xs">{project.category}</Badge>
+                    <Badge variant="muted" className="shrink-0 text-xs">{t(`projects.${project.category.toLowerCase()}`)}</Badge>
                 </div>
 
                 <p className="text-xs text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
-                    {project.description}
+                    {t(`projects.items.${project.translationKey}.desc`)}
                 </p>
 
                 {/* Stack badges */}
@@ -177,7 +179,7 @@ function ProjectCard({
                             aria-label={`GitHub de ${project.title}`}
                         >
                             <Github size={13} />
-                            Código
+                            {t('projects.viewGithub')}
                         </a>
                     )}
                     {project.live && (
@@ -186,10 +188,10 @@ function ProjectCard({
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200"
-                            aria-label={`Demo en vivo de ${project.title}`}
+                            aria-label={`Demo en vivo de ${t(`projects.items.${project.translationKey}.title`)}`}
                         >
                             <ExternalLink size={13} />
-                            En Vivo
+                            {t('projects.viewLive')}
                         </a>
                     )}
                 </div>
@@ -200,37 +202,47 @@ function ProjectCard({
 
 const CATEGORIES: ProjectCategory[] = ['Todas', 'Frontend', 'Backend', 'FullStack'];
 
+import { useLanguage } from '@/context/LanguageContext';
+
 export function ProjectsSection() {
+    const { t } = useLanguage();
     const [activeFilter, setActiveFilter] = useState<ProjectCategory>('Todas');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
     const filtered =
         activeFilter === 'Todas' ? projects : projects.filter((p) => p.category === activeFilter);
 
+    const translatedCategories = [
+        { id: 'Todas', label: t('projects.all') },
+        { id: 'Frontend', label: t('projects.frontend') },
+        { id: 'Backend', label: t('projects.backend') },
+        { id: 'FullStack', label: t('projects.fullstack') },
+    ];
+
     return (
         <Section id="projects" alternate>
             <SectionHeading
-                label="Proyectos"
-                title="Cosas que he Construido"
-                subtitle="Una selección de proyectos que muestran mis habilidades en todo el stack."
+                label={t('projects.title')}
+                title={t('projects.subtitle')}
+                subtitle={t('projects.description')}
             />
 
             {/* Filter buttons */}
             <div className="flex flex-wrap justify-center gap-2 mb-10">
-                {CATEGORIES.map((cat) => (
+                {translatedCategories.map((cat) => (
                     <button
-                        key={cat}
-                        onClick={() => setActiveFilter(cat)}
+                        key={cat.id}
+                        onClick={() => setActiveFilter(cat.id as ProjectCategory)}
                         className={cn(
                             'px-5 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
-                            activeFilter === cat
+                            activeFilter === cat.id
                                 ? 'bg-[var(--accent-hex)] text-white border-transparent shadow-[0_0_20px_var(--accent-glow)]'
                                 : 'glass border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:border-[var(--accent-hex)] hover:text-[hsl(var(--foreground))]'
                         )}
                     >
-                        {cat}
+                        {cat.label}
                         <span className="ml-1.5 text-xs opacity-60">
-                            ({cat === 'Todas' ? projects.length : projects.filter((p) => p.category === cat).length})
+                            ({cat.id === 'Todas' ? projects.length : projects.filter((p) => p.category === cat.id).length})
                         </span>
                     </button>
                 ))}

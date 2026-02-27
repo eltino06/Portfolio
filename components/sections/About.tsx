@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { MapPin, GraduationCap, Dumbbell, Target, Sparkles } from 'lucide-react';
 import { Section, SectionHeading } from '@/components/ui/Section';
+import { useLanguage } from '@/context/LanguageContext';
 import { personalInfo, education } from '@/lib/data';
 
 const highlights = [
@@ -29,12 +30,37 @@ const highlights = [
 ];
 
 export function AboutSection() {
+    const { t } = useLanguage();
+
+    const highlights = [
+        {
+            icon: MapPin,
+            label: t('about.highlights.location'),
+            value: t('about.highlights.locValue'),
+        },
+        {
+            icon: GraduationCap,
+            label: t('about.highlights.education'),
+            value: t('about.highlights.eduValue'),
+        },
+        {
+            icon: Target,
+            label: t('about.highlights.availability'),
+            value: t('about.highlights.availValue'),
+        },
+        {
+            icon: Dumbbell,
+            label: t('about.highlights.languages'),
+            value: t('about.highlights.langValue'),
+        },
+    ];
+
     return (
         <Section id="about" alternate>
             <SectionHeading
-                label="Sobre Mí"
-                title="Quién soy"
-                subtitle="Un desarrollador apasionado por el código limpio y el crecimiento constante."
+                label={t('about.title')}
+                title={t('about.subtitle')}
+                subtitle={t('about.description')}
             />
 
             <div className="max-w-5xl mx-auto space-y-12">
@@ -49,7 +75,8 @@ export function AboutSection() {
                         transition={{ duration: 0.5 }}
                     >
                         <div className="space-y-4">
-                            {personalInfo.bio.map((paragraph, i) => (
+                            {/* Use a type cast to handle the return object correctly */}
+                            {(t('about.bio', { returnObjects: true }) as unknown as string[]).map((paragraph, i) => (
                                 <p
                                     key={i}
                                     className="text-[hsl(var(--muted-foreground))] leading-relaxed text-sm sm:text-base"
@@ -101,7 +128,7 @@ export function AboutSection() {
                             <Sparkles size={16} className="text-[var(--accent-hex)]" />
                         </div>
                         <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[hsl(var(--foreground))]">
-                            Formación Académica
+                            {t('education.subtitle')}
                         </h3>
                     </div>
 
@@ -119,9 +146,11 @@ export function AboutSection() {
                             >
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
-                                        <h4 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors">{edu.institution}</h4>
+                                        <h4 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors">
+                                            {t(`education.items.${edu.translationKey}.institution`)}
+                                        </h4>
                                         <p className="text-xs text-[var(--accent-hex)] font-semibold mt-1 uppercase tracking-wide">
-                                            {edu.degree}
+                                            {t(`education.items.${edu.translationKey}.degree`)} — {t(`education.items.${edu.translationKey}.field`)}
                                         </p>
                                     </div>
                                     <span className="text-[10px] font-code px-2 py-1 rounded-md bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))]">
@@ -129,12 +158,12 @@ export function AboutSection() {
                                     </span>
                                 </div>
                                 <p className="text-xs text-[hsl(var(--muted-foreground))] leading-relaxed mb-6">
-                                    {edu.description}
+                                    {t(`education.items.${edu.translationKey}.desc`)}
                                 </p>
 
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider">
-                                        <span className="opacity-50 text-[hsl(var(--foreground))]">Progreso</span>
+                                        <span className="opacity-50 text-[hsl(var(--foreground))]">{t('education.progress')}</span>
                                         <span className="text-[var(--accent-hex)]">{edu.progress}%</span>
                                     </div>
                                     <div className="h-1.5 bg-[hsl(var(--muted))] rounded-full overflow-hidden">

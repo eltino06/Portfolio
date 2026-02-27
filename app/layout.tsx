@@ -5,8 +5,9 @@ import { Toaster } from 'sonner';
 import './globals.css';
 import { personalInfo } from '@/lib/data';
 import { GhostCursor } from '@/components/ui/GhostCursor';
+import { Navbar } from '@/components/layout/Navbar';
+import { LanguageProvider } from '@/context/LanguageContext';
 
-// ─── Google Fonts (zero layout shift) ───────────────────────
 const inter = Inter({
     subsets: ['latin'],
     variable: '--font-inter',
@@ -19,7 +20,6 @@ const jetbrainsMono = JetBrains_Mono({
     display: 'swap',
 });
 
-// ─── SEO Metadata ────────────────────────────────────────────
 export const metadata: Metadata = {
     title: {
         default: `${personalInfo.name} — ${personalInfo.title}`,
@@ -64,7 +64,6 @@ export const metadata: Metadata = {
     },
 };
 
-// ─── Root Layout ──────────────────────────────────────────────
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -72,31 +71,30 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es" suppressHydrationWarning>
-            <body
-                className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
-            >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem={false}
-                    storageKey="portfolio-theme"
-                >
-                    <GhostCursor />
-                    {children}
-
-                    {/* Global toast notifications */}
-                    <Toaster
-                        position="bottom-right"
-                        richColors
-                        toastOptions={{
-                            style: {
-                                background: 'hsl(220 20% 9%)',
-                                border: '1px solid rgba(255,255,255,0.08)',
-                                color: 'hsl(210 40% 98%)',
-                            },
-                        }}
-                    />
-                </ThemeProvider>
+            <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[hsl(var(--background))] text-[hsl(var(--foreground))] selection:bg-[var(--accent-hex)] selection:text-white`}>
+                <LanguageProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="dark"
+                        enableSystem={false}
+                        storageKey="portfolio-theme"
+                    >
+                        <GhostCursor />
+                        <Navbar />
+                        {children}
+                        <Toaster
+                            position="bottom-right"
+                            richColors
+                            toastOptions={{
+                                style: {
+                                    background: 'hsl(220 20% 9%)',
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    color: 'hsl(210 40% 98%)',
+                                },
+                            }}
+                        />
+                    </ThemeProvider>
+                </LanguageProvider>
             </body>
         </html>
     );

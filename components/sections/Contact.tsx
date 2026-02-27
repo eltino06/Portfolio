@@ -69,8 +69,32 @@ function FormField({
 const inputCls =
     'w-full px-4 py-3 rounded-xl glass border border-[hsl(var(--border))] text-sm placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus:border-[var(--accent-hex)] focus:shadow-[0_0_0_3px_var(--accent-glow)] transition-all duration-200 bg-transparent';
 
+import { useLanguage } from '@/context/LanguageContext';
+
 export function ContactSection() {
+    const { t } = useLanguage();
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const contactItems = [
+        {
+            icon: Mail,
+            label: 'Email',
+            value: personalInfo.email,
+            href: `mailto:${personalInfo.email}`,
+        },
+        {
+            icon: Phone,
+            label: t('contact.email'), // Reuse email or add phone to translations
+            value: personalInfo.phone,
+            href: `tel:${personalInfo.phone}`,
+        },
+        {
+            icon: MapPin,
+            label: 'Location',
+            value: personalInfo.location,
+            href: null,
+        },
+    ];
 
     const {
         register,
@@ -89,7 +113,7 @@ export function ContactSection() {
             });
 
             if (res.ok) {
-                toast.success('¡Mensaje enviado! Me pondré en contacto pronto. 🚀');
+                toast.success(t('language') === 'es' ? '¡Mensaje enviado! Me pondré en contacto pronto. 🚀' : 'Message sent! I will get in touch soon. 🚀');
                 reset();
             } else {
                 const body = await res.json().catch(() => ({}));
@@ -105,9 +129,9 @@ export function ContactSection() {
     return (
         <Section id="contact" alternate>
             <SectionHeading
-                label="Contacto"
-                title="Trabajemos Juntos"
-                subtitle="Siempre estoy interesado en nuevas oportunidades y proyectos emocionantes."
+                label={t('contact.title')}
+                title={t('contact.subtitle')}
+                subtitle={t('contact.description')}
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 max-w-5xl mx-auto">
@@ -120,7 +144,7 @@ export function ContactSection() {
                     transition={{ duration: 0.6 }}
                 >
                     <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed">
-                        Tanto si tienes un proyecto en mente, una pregunta o simplemente quieres saludar, mi bandeja de entrada está siempre abierta. Construyamos algo grandioso juntos.
+                        {t('contact.details')}
                     </p>
 
                     {/* Contact items */}
@@ -169,7 +193,7 @@ export function ContactSection() {
                     >
                         {/* Name + Email row */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            <FormField label="Tu Nombre" error={errors.name?.message}>
+                            <FormField label={t('contact.name')} error={errors.name?.message}>
                                 <input
                                     {...register('name')}
                                     type="text"
@@ -179,7 +203,7 @@ export function ContactSection() {
                                 />
                             </FormField>
 
-                            <FormField label="Correo Electrónico" error={errors.email?.message}>
+                            <FormField label={t('contact.email')} error={errors.email?.message}>
                                 <input
                                     {...register('email')}
                                     type="email"
@@ -191,21 +215,21 @@ export function ContactSection() {
                         </div>
 
                         {/* Subject */}
-                        <FormField label="Asunto" error={errors.subject?.message}>
+                        <FormField label={t('contact.subject')} error={errors.subject?.message}>
                             <input
                                 {...register('subject')}
                                 type="text"
-                                placeholder="¿De qué se trata esto?"
+                                placeholder="..."
                                 className={cn(inputCls, errors.subject && 'border-red-400/50')}
                             />
                         </FormField>
 
                         {/* Message */}
-                        <FormField label="Mensaje" error={errors.message?.message}>
+                        <FormField label={t('contact.message')} error={errors.message?.message}>
                             <textarea
                                 {...register('message')}
                                 rows={5}
-                                placeholder="Hola, me gustaría trabajar contigo en..."
+                                placeholder="..."
                                 className={cn(inputCls, 'resize-none', errors.message && 'border-red-400/50')}
                             />
                         </FormField>
@@ -218,7 +242,7 @@ export function ContactSection() {
                             className="w-full gap-2"
                         >
                             <Send size={17} />
-                            Enviar Mensaje
+                            {isSubmitting ? t('contact.sending') : t('contact.send')}
                         </Button>
                     </form>
                 </motion.div>
