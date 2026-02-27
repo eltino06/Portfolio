@@ -96,7 +96,7 @@ function SkillStack({ category }: { category: SkillCategory }) {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div className="flex flex-col gap-6 w-full">
+        <div className="hidden sm:flex flex-col gap-6 w-full">
             {/* Category header */}
             <div className="flex items-center gap-3">
                 <span
@@ -110,9 +110,8 @@ function SkillStack({ category }: { category: SkillCategory }) {
                 <div className="flex-1 h-px bg-gradient-to-r from-[hsl(var(--border))] to-transparent" />
             </div>
 
-            {/* Desktop Stack (Hidden on mobile) */}
             <div
-                className="hidden sm:block relative h-32 w-full cursor-pointer"
+                className="relative h-32 w-full cursor-pointer"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
@@ -125,30 +124,6 @@ function SkillStack({ category }: { category: SkillCategory }) {
                         total={category.skills.length}
                     />
                 ))}
-            </div>
-
-            {/* Mobile Scroll (Hidden on desktop) */}
-            <div className="flex sm:hidden overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x no-scrollbar">
-                {category.skills.map((skill) => {
-                    const IconComponent = iconMap[skill.icon];
-                    return (
-                        <div
-                            key={skill.name}
-                            className="w-24 h-24 shrink-0 rounded-2xl glass border border-[hsl(var(--border))] flex flex-col items-center justify-center p-2 shadow-sm snap-center"
-                        >
-                            <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center mb-1.5">
-                                {IconComponent ? (
-                                    <IconComponent size={24} className="text-[hsl(var(--foreground))]" />
-                                ) : (
-                                    <span className="text-xl">💻</span>
-                                )}
-                            </div>
-                            <span className="font-bold text-[9px] text-center uppercase tracking-tight line-clamp-1 text-[hsl(var(--muted-foreground))]">
-                                {skill.name}
-                            </span>
-                        </div>
-                    );
-                })}
             </div>
         </div>
     );
@@ -165,9 +140,46 @@ export function SkillsSection() {
                 subtitle={t('skills.subtitle')} // Using subtitle key from translations
             />
 
-            <div className="flex flex-col gap-y-24 mt-12">
+            {/* Desktop Stack Layout */}
+            <div className="hidden sm:flex flex-col gap-y-24 mt-12">
                 {skillCategories.map((category) => (
                     <SkillStack key={category.id} category={category} />
+                ))}
+            </div>
+
+            {/* Mobile 4-Column Vertical Layout */}
+            <div className="grid grid-cols-4 gap-2 sm:hidden mt-8 w-full items-start">
+                {skillCategories.map(category => (
+                    <div key={category.id} className="flex flex-col gap-3">
+                        <div className="text-center mb-1">
+                            <span className={cn(
+                                'text-[8px] font-bold uppercase tracking-widest text-center w-full break-words',
+                                categoryColors[category.color]?.split(' ')[0]
+                            )}>
+                                {t(`skills.categories.${category.id}`)}
+                            </span>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            {category.skills.map(skill => {
+                                const IconComponent = iconMap[skill.icon];
+                                return (
+                                    <div key={skill.name} className="flex flex-col items-center justify-center p-2 rounded-xl glass border border-[hsl(var(--border))] w-full aspect-square">
+                                        <div className="w-6 h-6 rounded-[8px] bg-[hsl(var(--muted))] flex items-center justify-center mb-1.5">
+                                            {IconComponent ? (
+                                                <IconComponent size={14} className="text-[hsl(var(--foreground))]" />
+                                            ) : (
+                                                <span className="text-[10px]">💻</span>
+                                            )}
+                                        </div>
+                                        <span className="font-bold text-[7px] text-center uppercase tracking-tight line-clamp-1 text-[hsl(var(--muted-foreground))] w-full px-0.5">
+                                            {skill.name}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
                 ))}
             </div>
         </Section>
