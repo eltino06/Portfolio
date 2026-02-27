@@ -28,7 +28,108 @@ const categoryColors: Record<string, string> = {
     green: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
 };
 
+function SkillVerticalCard({
+    skill,
+    index,
+    isHovered,
+    total
+}: {
+    skill: { name: string; icon: string; level: number };
+    index: number;
+    isHovered: boolean;
+    total: number;
+}) {
+    const IconComponent = iconMap[skill.icon];
 
+    // Vertical fan-out: first card (index 0) stays at y: 0
+    const yOffset = isHovered ? index * 105 : index * 8;
+
+    // Subtler interaction effects
+    const scale = isHovered && index === 0 ? 1.05 : 1;
+
+    return (
+        <motion.div
+            className={cn(
+                "absolute top-0 left-1/2 -translate-x-1/2 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl glass border flex flex-col items-center justify-center p-2 shadow-xl pointer-events-none",
+                isHovered ? "border-[var(--accent-hex)] shadow-[0_10px_30px_-10px_var(--accent-glow)] bg-[hsl(var(--background))]" : "border-[hsl(var(--border))]"
+            )}
+            animate={{
+                y: yOffset,
+                zIndex: (total - index) * 10,
+                scale: scale,
+            }}
+            transition={{
+                type: 'spring',
+                stiffness: 260,
+                damping: 20
+            }}
+        >
+            <div className={cn(
+                "w-12 h-12 rounded-xl flex items-center justify-center mb-1.5 transition-colors duration-300",
+                isHovered ? "bg-[var(--accent-hex)]/10" : "bg-[hsl(var(--muted))]"
+            )}>
+                {IconComponent ? (
+                    <IconComponent size={24} className={cn(
+                        "transition-colors duration-300",
+                        isHovered ? "text-[var(--accent-hex)]" : "text-[hsl(var(--foreground))]"
+                    )} />
+                ) : (
+                    <span className="text-xl">💻</span>
+                )}
+            </div>
+
+            <span className={cn(
+                "font-bold text-[10px] lg:text-xs text-center uppercase tracking-tight line-clamp-1 transition-colors duration-300",
+                isHovered ? "text-[hsl(var(--foreground))]" : "text-[hsl(var(--muted-foreground))]"
+            )}>
+                {skill.name}
+            </span>
+        </motion.div>
+    );
+}
+
+function SkillVerticalStack({ category }: { category: SkillCategory }) {
+    const { t } = useLanguage();
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Dynamic height based on number of skills to push content down when hovered
+    const expandedHeight = (category.skills.length - 1) * 105 + 130; // 105px offset + card height
+    const collapsedHeight = (category.skills.length - 1) * 8 + 130;
+
+    return (
+        <div className="flex flex-col items-center gap-6 w-full">
+            {/* Category header */}
+            <div className="flex flex-col items-center gap-2">
+                <span
+                    className={cn(
+                        'px-4 py-1.5 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-[0.2em] border whitespace-nowrap',
+                        categoryColors[category.color] ?? categoryColors['accent']
+                    )}
+                >
+                    {t(`skills.categories.${category.id}`)}
+                </span>
+            </div>
+
+            <motion.div
+                className="relative w-full cursor-pointer flex justify-center"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                animate={{ height: isHovered ? expandedHeight : collapsedHeight }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            >
+                {category.skills.map((skill, i) => (
+                    <SkillVerticalCard
+                        key={skill.name}
+                        skill={skill}
+                        index={i}
+                        isHovered={isHovered}
+                        total={category.skills.length}
+                    />
+                ))}
+            </motion.div>
+        </div>
+    );
+}
 
 export function SkillsSection() {
     const { t } = useLanguage();
@@ -41,46 +142,10 @@ export function SkillsSection() {
                 subtitle={t('skills.subtitle')} // Using subtitle key from translations
             />
 
-            {/* Desktop 4-Column Vertical Layout */}
-            <div className="hidden sm:grid sm:grid-cols-4 gap-8 mt-12 w-full items-start">
-                {skillCategories.map(category => (
-                    <div key={category.id} className="flex flex-col gap-6">
-                        {/* Category Header */}
-                        <div className="flex items-center gap-3">
-                            <span className={cn(
-                                'px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] border whitespace-nowrap',
-                                categoryColors[category.color] ?? categoryColors['accent']
-                            )}>
-                                {t(`skills.categories.${category.id}`)}
-                            </span>
-                            <div className="flex-1 h-px bg-gradient-to-r from-[hsl(var(--border))] to-transparent" />
-                        </div>
-
-                        {/* Skills Grid */}
-                        <div className="grid grid-cols-2 gap-4">
-                            {category.skills.map(skill => {
-                                const IconComponent = iconMap[skill.icon];
-                                return (
-                                    <motion.div
-                                        key={skill.name}
-                                        className="flex flex-col items-center justify-center p-3 rounded-2xl glass border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:shadow-[0_4px_20px_-10px_var(--accent-glow)] transition-all duration-300 w-full aspect-square group"
-                                        whileHover={{ y: -5 }}
-                                    >
-                                        <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center mb-2 group-hover:bg-[var(--accent-hex)]/10 transition-colors duration-300">
-                                            {IconComponent ? (
-                                                <IconComponent size={20} className="text-[hsl(var(--foreground))] group-hover:text-[var(--accent-hex)] transition-colors duration-300" />
-                                            ) : (
-                                                <span className="text-xl">💻</span>
-                                            )}
-                                        </div>
-                                        <span className="font-bold text-[9px] text-center uppercase tracking-tight line-clamp-1 text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--foreground))] transition-colors duration-300 w-full px-1">
-                                            {skill.name}
-                                        </span>
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
-                    </div>
+            {/* Desktop 4-Column Vertical Stack Layout */}
+            <div className="hidden sm:grid sm:grid-cols-4 gap-4 lg:gap-8 mt-16 w-full items-start">
+                {skillCategories.map((category) => (
+                    <SkillVerticalStack key={category.id} category={category} />
                 ))}
             </div>
 
