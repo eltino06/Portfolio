@@ -320,7 +320,7 @@ export function HeroSection() {
                         {stats.map((stat, i) => (
                             <motion.div
                                 key={stat.label}
-                                className="glass group rounded-xl p-4 flex flex-col items-center justify-center text-center border border-white/10 hover:border-[var(--accent-hex)]/40 transition-all duration-500 shadow-xl h-[110px]"
+                                className="glass group rounded-xl p-4 flex flex-col items-center justify-center text-center border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 shadow-xl h-[110px] relative overflow-hidden active:scale-95"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 + i * 0.1 }}

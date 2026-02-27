@@ -51,7 +51,7 @@ function SkillCard({
     return (
         <motion.div
             className={cn(
-                "absolute top-0 left-0 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl glass border flex flex-col items-center justify-center p-2 shadow-xl pointer-events-none",
+                "absolute top-0 left-0 w-28 h-28 rounded-2xl glass border flex flex-col items-center justify-center p-2 shadow-xl pointer-events-none",
                 isHovered ? "border-[var(--accent-hex)] shadow-[0_10px_30px_-10px_var(--accent-glow)]" : "border-[hsl(var(--border))]"
             )}
             animate={{
@@ -68,7 +68,7 @@ function SkillCard({
             }}
         >
             <div className={cn(
-                "w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-1.5 transition-colors duration-300",
+                "w-12 h-12 rounded-xl flex items-center justify-center mb-1.5 transition-colors duration-300",
                 isHovered ? "bg-[var(--accent-hex)]/10" : "bg-[hsl(var(--muted))]"
             )}>
                 {IconComponent ? (
@@ -82,7 +82,7 @@ function SkillCard({
             </div>
 
             <span className={cn(
-                "font-bold text-[9px] sm:text-[10px] text-center uppercase tracking-tight line-clamp-1 transition-colors duration-300",
+                "font-bold text-[10px] text-center uppercase tracking-tight line-clamp-1 transition-colors duration-300",
                 isHovered ? "text-[hsl(var(--foreground))]" : "text-[hsl(var(--muted-foreground))]"
             )}>
                 {skill.name}
@@ -110,9 +110,9 @@ function SkillStack({ category }: { category: SkillCategory }) {
                 <div className="flex-1 h-px bg-gradient-to-r from-[hsl(var(--border))] to-transparent" />
             </div>
 
-            {/* Stack container - Large hit area for easy hover */}
+            {/* Desktop Stack (Hidden on mobile) */}
             <div
-                className="relative h-28 sm:h-32 w-full cursor-pointer"
+                className="hidden sm:block relative h-32 w-full cursor-pointer"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
@@ -125,6 +125,30 @@ function SkillStack({ category }: { category: SkillCategory }) {
                         total={category.skills.length}
                     />
                 ))}
+            </div>
+
+            {/* Mobile Scroll (Hidden on desktop) */}
+            <div className="flex sm:hidden overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x no-scrollbar">
+                {category.skills.map((skill) => {
+                    const IconComponent = iconMap[skill.icon];
+                    return (
+                        <div
+                            key={skill.name}
+                            className="w-24 h-24 shrink-0 rounded-2xl glass border border-[hsl(var(--border))] flex flex-col items-center justify-center p-2 shadow-sm snap-center"
+                        >
+                            <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center mb-1.5">
+                                {IconComponent ? (
+                                    <IconComponent size={24} className="text-[hsl(var(--foreground))]" />
+                                ) : (
+                                    <span className="text-xl">💻</span>
+                                )}
+                            </div>
+                            <span className="font-bold text-[9px] text-center uppercase tracking-tight line-clamp-1 text-[hsl(var(--muted-foreground))]">
+                                {skill.name}
+                            </span>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
