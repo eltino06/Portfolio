@@ -41,22 +41,19 @@ function SkillVerticalCard({
 }) {
     const IconComponent = iconMap[skill.icon];
 
-    // Vertical fan-out: first card (index 0) stays at y: 0
-    const yOffset = isHovered ? index * 105 : index * 8;
-
-    // Subtler interaction effects
-    const scale = isHovered && index === 0 ? 1.05 : 1;
+    // Vertical fan-out: Increased from 105 -> 125 so they overlap less
+    const yOffset = isHovered ? index * 125 : index * 8;
 
     return (
         <motion.div
             className={cn(
-                "absolute top-0 left-1/2 -translate-x-1/2 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl glass border flex flex-col items-center justify-center p-2 shadow-xl pointer-events-none",
+                "absolute top-0 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl glass border flex flex-col items-center justify-center p-2 shadow-xl pointer-events-none",
                 isHovered ? "border-[var(--accent-hex)] shadow-[0_10px_30px_-10px_var(--accent-glow)] bg-[hsl(var(--background))]" : "border-[hsl(var(--border))]"
             )}
             animate={{
                 y: yOffset,
                 zIndex: (total - index) * 10,
-                scale: scale,
+                scale: isHovered && index === 0 ? 1.05 : 1,
             }}
             transition={{
                 type: 'spring',
@@ -92,8 +89,8 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
     const { t } = useLanguage();
     const [isHovered, setIsHovered] = useState(false);
 
-    // Dynamic height based on number of skills to push content down when hovered
-    const expandedHeight = (category.skills.length - 1) * 105 + 130; // 105px offset + card height
+    // Adjusted dynamic heights to match new 125px offset
+    const expandedHeight = (category.skills.length - 1) * 125 + 130;
     const collapsedHeight = (category.skills.length - 1) * 8 + 130;
 
     return (
@@ -111,7 +108,7 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
             </div>
 
             <motion.div
-                className="relative w-full cursor-pointer flex justify-center"
+                className="relative w-[110px] sm:w-[130px] lg:w-32 cursor-pointer mx-auto"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 animate={{ height: isHovered ? expandedHeight : collapsedHeight }}
