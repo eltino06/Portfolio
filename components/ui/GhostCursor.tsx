@@ -1,68 +1,35 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const NAVIGATION_POINTS = [
-    { x: '20%', y: '30%', label: 'Hero Section', delay: 2000 },
-    { x: '80%', y: '20%', label: 'Tech Badges', delay: 3000 },
-    { x: '50%', y: '90%', label: 'Scroll Down', delay: 4000 },
-    { x: '30%', y: '150%', label: 'Sobre Mí', delay: 6000 },
-    { x: '70%', y: '160%', label: 'Dato Rápido', delay: 8000 },
-    { x: '50%', y: '300%', label: 'Skills Grid', delay: 10000 },
-];
-
 export function GhostCursor() {
+    const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
     const [isVisible, setIsVisible] = useState(false);
-    const [position, setPosition] = useState({ x: '50%', y: '50%' });
-    const lastUserActivity = useRef(Date.now());
-    const isActive = useRef(true);
 
     useEffect(() => {
-        const handleInteraction = () => {
-            lastUserActivity.current = Date.now();
-            setIsVisible(false); // Hide ghost when real human is active
+        let timeoutId: NodeJS.Timeout;
+
+        const updateMousePosition = (e: MouseEvent) => {
+            setIsVisible(true);
+            setMousePosition({ x: e.clientX, y: e.clientY });
+
+            // Hide the cursor if the user stops moving for 2 seconds
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => setIsVisible(false), 2000);
         };
 
-        window.addEventListener('mousemove', handleInteraction);
-        window.addEventListener('mousedown', handleInteraction);
-        window.addEventListener('scroll', handleInteraction);
-        window.addEventListener('keydown', handleInteraction);
+        const handleMouseLeave = () => setIsVisible(false);
 
-        const checkInactivity = setInterval(() => {
-            const now = Date.now();
-            // Show ghost after 4 seconds of inactivity
-            if (now - lastUserActivity.current > 4000) {
-                setIsVisible(true);
-            }
-        }, 1000);
+        window.addEventListener('mousemove', updateMousePosition);
+        window.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
-            window.removeEventListener('mousemove', handleInteraction);
-            window.removeEventListener('mousedown', handleInteraction);
-            window.removeEventListener('scroll', handleInteraction);
-            window.removeEventListener('keydown', handleInteraction);
-            clearInterval(checkInactivity);
+            window.removeEventListener('mousemove', updateMousePosition);
+            window.removeEventListener('mouseleave', handleMouseLeave);
+            clearTimeout(timeoutId);
         };
     }, []);
-
-    useEffect(() => {
-        if (!isVisible) return;
-
-        let currentIndex = 0;
-        const moveSequence = () => {
-            if (!isVisible) return;
-
-            const point = NAVIGATION_POINTS[currentIndex];
-            setPosition({ x: point.x, y: point.y });
-
-            currentIndex = (currentIndex + 1) % NAVIGATION_POINTS.length;
-            setTimeout(moveSequence, 3000);
-        };
-
-        const timeout = setTimeout(moveSequence, 500);
-        return () => clearTimeout(timeout);
-    }, [isVisible]);
 
     return (
         <AnimatePresence>
@@ -73,27 +40,27 @@ export function GhostCursor() {
                     animate={{
                         opacity: 1,
                         scale: 1,
-                        left: position.x,
-                        top: position.y
+                        x: mousePosition.x - 10, // Center coordinate (20px width / 2)
+                        y: mousePosition.y - 10,
                     }}
                     exit={{ opacity: 0, scale: 0 }}
                     transition={{
-                        left: { type: 'spring', damping: 30, stiffness: 50 },
-                        top: { type: 'spring', damping: 30, stiffness: 50 },
-                        opacity: { duration: 0.5 },
-                        scale: { duration: 0.3 }
+                        x: { type: 'spring', damping: 30, mass: 0.5, stiffness: 400 },
+                        y: { type: 'spring', damping: 30, mass: 0.5, stiffness: 400 },
+                        opacity: { duration: 0.2 },
+                        scale: { duration: 0.2 }
                     }}
                 >
                     {/* The Cursor Circle */}
                     <div className="relative">
                         <div className="w-5 h-5 rounded-full bg-[var(--accent-hex)] opacity-50 blur-[2px]" />
-                        <div className="absolute inset-0 w-5 h-5 rounded-full border border-white opacity-80" />
+                        <div className="absolute inset-0 w-5 h-5 rounded-full border border-[var(--accent-hex)] opacity-80" />
 
                         {/* Pulse effect */}
                         <motion.div
                             className="absolute inset-0 rounded-full bg-[var(--accent-hex)] opacity-30"
-                            animate={{ scale: [1, 2], opacity: [0.3, 0] }}
-                            transition={{ duration: 1, repeat: Infinity }}
+                            animate={{ scale: [1, 1.5], opacity: [0.3, 0] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
                         />
 
                         {/* Leading Dot */}

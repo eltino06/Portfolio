@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import './globals.css';
 import { personalInfo } from '@/lib/data';
 import { Navbar } from '@/components/layout/Navbar';
+import { GhostCursor } from '@/components/ui/GhostCursor';
 import { LanguageProvider } from '@/context/LanguageContext';
 
 const inter = Inter({
@@ -78,6 +79,7 @@ export default function RootLayout({
                         enableSystem={false}
                         storageKey="portfolio-theme"
                     >
+                        <GhostCursor />
                         <Navbar />
                         {children}
                         <Toaster
