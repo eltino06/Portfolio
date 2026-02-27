@@ -131,7 +131,7 @@ export const translations = {
         },
         contact: {
             title: 'Contacto',
-            subtitle: '¿Hablamos?',
+            subtitle: 'Trabajemos juntos',
             description: 'Siempre estoy interesado en nuevas oportunidades y proyectos emocionantes.',
             details: 'Tanto si tienes un proyecto en mente, una pregunta o simplemente quieres saludar, mi bandeja de entrada está siempre abierta. Construyamos algo grandioso juntos.',
             name: 'Nombre',
@@ -280,7 +280,7 @@ export const translations = {
         },
         contact: {
             title: 'Contact',
-            subtitle: "Let's Talk",
+            subtitle: "Let's Work Together",
             description: "I'm always interested in new opportunities and exciting projects.",
             details: "Whether you have a project in mind, a question, or just want to say hi, my inbox is always open. Let's build something great together.",
             name: 'Name',
