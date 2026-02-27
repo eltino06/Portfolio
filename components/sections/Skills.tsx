@@ -28,6 +28,8 @@ const categoryColors: Record<string, string> = {
     green: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
 };
 
+import { ChevronDown } from 'lucide-react';
+
 // Find the maximum number of skills across all categories to calculate a uniform stack depth
 const maxSkillsCount = Math.max(...skillCategories.map(c => c.skills.length));
 const maxCollapsedOffset = (maxSkillsCount - 1) * 8; // 40px total depth for the biggest stack
@@ -103,7 +105,7 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
     const collapsedHeight = globalCollapsedHeight;
 
     return (
-        <div className="flex flex-col items-center gap-6 w-full">
+        <div className="flex flex-col items-center gap-6 w-full relative">
             {/* Category header */}
             <div className="flex flex-col items-center gap-2">
                 <span
@@ -116,23 +118,44 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
                 </span>
             </div>
 
-            <motion.div
-                className="relative w-[110px] sm:w-[130px] lg:w-32 cursor-pointer mx-auto"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                animate={{ height: isHovered ? expandedHeight : collapsedHeight }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-            >
-                {category.skills.map((skill, i) => (
-                    <SkillVerticalCard
-                        key={skill.name}
-                        skill={skill}
-                        index={i}
-                        isHovered={isHovered}
-                        total={category.skills.length}
-                    />
-                ))}
-            </motion.div>
+            <div className="relative w-full flex flex-col items-center">
+                <motion.div
+                    className="relative w-[110px] sm:w-[130px] lg:w-32 cursor-pointer mx-auto z-10"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    animate={{ height: isHovered ? expandedHeight : collapsedHeight }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                >
+                    {category.skills.map((skill, i) => (
+                        <SkillVerticalCard
+                            key={skill.name}
+                            skill={skill}
+                            index={i}
+                            isHovered={isHovered}
+                            total={category.skills.length}
+                        />
+                    ))}
+                </motion.div>
+
+                {/* Animated Hover Hint */}
+                <AnimatePresence>
+                    {!isHovered && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute -bottom-8 flex flex-col items-center justify-center text-[hsl(var(--muted-foreground))] pointer-events-none"
+                        >
+                            <motion.div
+                                animate={{ y: [0, 5, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <ChevronDown size={16} className="opacity-50" />
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     );
 }
