@@ -4,7 +4,6 @@ import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'sonner';
 import './globals.css';
 import { personalInfo } from '@/lib/data';
-import { GhostCursor } from '@/components/ui/GhostCursor';
 import { Navbar } from '@/components/layout/Navbar';
 import { LanguageProvider } from '@/context/LanguageContext';
 
@@ -79,7 +78,6 @@ export default function RootLayout({
                         enableSystem={false}
                         storageKey="portfolio-theme"
                     >
-                        <GhostCursor />
                         <Navbar />
                         {children}
                         <Toaster
