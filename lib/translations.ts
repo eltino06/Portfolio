@@ -7,6 +7,10 @@ export const translations = {
             projects: 'Proyectos',
             experience: 'Experiencia',
             contact: 'Contacto',
+            downloadCV: 'Descargar CV',
+            downloadConfirm: '¿Estás seguro que deseas descargar mi CV?',
+            downloadCancel: 'Cancelar',
+            downloadAccept: 'Sí, descargar',
         },
         hero: {
             greeting: '> hola, soy',
@@ -156,6 +160,10 @@ export const translations = {
             projects: 'Projects',
             experience: 'Experience',
             contact: 'Contact',
+            downloadCV: 'Download CV',
+            downloadConfirm: 'Are you sure you want to download my CV?',
+            downloadCancel: 'Cancel',
+            downloadAccept: 'Yes, download',
         },
         hero: {
             greeting: "> hi, I'm",

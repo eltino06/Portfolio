@@ -17,6 +17,7 @@ export function Navbar() {
     const [isVisible, setIsVisible] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const lastScrollY = useRef(0);
 
@@ -158,21 +159,18 @@ export function Navbar() {
                         <LanguageToggle />
                         <ThemeToggle />
 
-                        <a
-                            href={personalInfo.resumeUrl}
-                            download="Santino_Bondioni_CV.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <button
+                            onClick={() => setIsDownloadModalOpen(true)}
                             className={cn(
                                 'hidden sm:flex items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.97] h-11 px-6 text-sm gap-2',
                                 'bg-transparent border border-[var(--accent-hex)] text-[var(--accent-hex)] hover:bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] hover:shadow-[0_0_20px_var(--accent-glow)]'
                             )}
-                            aria-label="Download CV"
+                            aria-label={t('nav.downloadCV')}
                         >
                             <Download size={16} />
-                            <span className="hidden lg:inline">Download CV</span>
+                            <span className="hidden lg:inline">{t('nav.downloadCV')}</span>
                             <span className="lg:hidden">CV</span>
-                        </a>
+                        </button>
 
                         {/* Mobile hamburger */}
                         <button
@@ -243,21 +241,76 @@ export function Navbar() {
                             })}
 
                             <div className="mt-4 pt-4 border-t border-[hsl(var(--border))]">
-                                <a
-                                    href={personalInfo.resumeUrl}
-                                    download="Santino_Bondioni_CV.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <button
+                                    onClick={() => {
+                                        setIsMobileOpen(false);
+                                        setIsDownloadModalOpen(true);
+                                    }}
                                     className={cn(
                                         'flex w-full items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.97] h-11 px-6 text-sm gap-2',
                                         'bg-[var(--accent-hex)] text-white hover:shadow-[0_0_30px_var(--accent-glow)]'
                                     )}
                                 >
                                     <Download size={16} />
-                                    Download CV
-                                </a>
+                                    {t('nav.downloadCV')}
+                                </button>
                             </div>
                         </motion.aside>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Download Confirmation Modal */}
+            <AnimatePresence>
+                {isDownloadModalOpen && (
+                    <motion.div
+                        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsDownloadModalOpen(false)}
+                    >
+                        <motion.div
+                            className="w-full max-w-sm p-6 glass border border-[hsl(var(--border))] rounded-2xl flex flex-col gap-6"
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-xl font-bold">{t('nav.downloadCV')}</h3>
+                                <button
+                                    onClick={() => setIsDownloadModalOpen(false)}
+                                    className="p-1 rounded-lg hover:bg-[hsl(var(--muted))] transition-colors"
+                                    aria-label="Close modal"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <p className="text-[hsl(var(--muted-foreground))] text-sm">
+                                {t('nav.downloadConfirm')}
+                            </p>
+
+                            <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
+                                <button
+                                    onClick={() => setIsDownloadModalOpen(false)}
+                                    className="px-4 py-2.5 rounded-xl text-sm font-medium border border-[hsl(var(--border))] hover:bg-[hsl(var(--muted))] transition-colors sm:w-1/2"
+                                >
+                                    {t('nav.downloadCancel')}
+                                </button>
+                                <a
+                                    href={personalInfo.resumeUrl}
+                                    download="Santino_Bondioni_CV.pdf"
+                                    onClick={() => setIsDownloadModalOpen(false)}
+                                    className="px-4 py-2.5 rounded-xl text-sm font-medium bg-[var(--accent-hex)] text-white hover:shadow-[0_0_20px_var(--accent-glow)] transition-all flex items-center justify-center gap-2 sm:w-1/2"
+                                >
+                                    <Download size={16} />
+                                    {t('nav.downloadAccept')}
+                                </a>
+                            </div>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
