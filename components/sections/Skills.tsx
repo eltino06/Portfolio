@@ -47,7 +47,7 @@ function SkillVerticalCard({
     return (
         <motion.div
             className={cn(
-                "absolute top-0 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl glass border flex flex-col items-center justify-center p-2 shadow-xl pointer-events-none",
+                "absolute top-0 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl bg-[hsl(var(--card))] border flex flex-col items-center justify-center p-2 shadow-md pointer-events-none",
                 isHovered ? "border-[var(--accent-hex)] shadow-[0_10px_30px_-10px_var(--accent-glow)] bg-[hsl(var(--background))]" : "border-[hsl(var(--border))]"
             )}
             animate={{
@@ -170,7 +170,7 @@ export function SkillsSection() {
                                 return (
                                     <div
                                         key={skill.name}
-                                        className="w-24 h-24 shrink-0 rounded-2xl glass border border-[hsl(var(--border))] flex flex-col items-center justify-center p-2 shadow-sm snap-center"
+                                        className="w-24 h-24 shrink-0 rounded-2xl bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex flex-col items-center justify-center p-2 shadow-sm snap-center"
                                     >
                                         <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center mb-1.5">
                                             {IconComponent ? (
