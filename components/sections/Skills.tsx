@@ -28,6 +28,11 @@ const categoryColors: Record<string, string> = {
     green: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
 };
 
+// Find the maximum number of skills across all categories to calculate a uniform stack depth
+const maxSkillsCount = Math.max(...skillCategories.map(c => c.skills.length));
+const maxCollapsedOffset = (maxSkillsCount - 1) * 8; // 40px total depth for the biggest stack
+const globalCollapsedHeight = maxCollapsedOffset + 130; // 130px is base card height roughly
+
 function SkillVerticalCard({
     skill,
     index,
@@ -41,13 +46,17 @@ function SkillVerticalCard({
 }) {
     const IconComponent = iconMap[skill.icon];
 
+    // Collapsed offset: calculated so every stack reaches exactly maxCollapsedOffset (40px) at the bottom
+    const collapsedStep = total > 1 ? maxCollapsedOffset / (total - 1) : 0;
+    const collapsedOffset = index * collapsedStep;
+
     // Vertical fan-out: Increased from 105 -> 125 so they overlap less
-    const yOffset = isHovered ? index * 125 : index * 8;
+    const yOffset = isHovered ? index * 125 : collapsedOffset;
 
     return (
         <motion.div
             className={cn(
-                "absolute top-0 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl bg-[hsl(var(--card))] border flex flex-col items-center justify-center p-2 shadow-md pointer-events-none",
+                "absolute top-0 left-0 right-0 mx-auto w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl bg-[hsl(var(--card))] border flex flex-col items-center justify-center p-2 shadow-md pointer-events-none",
                 isHovered ? "border-[var(--accent-hex)] shadow-[0_10px_30px_-10px_var(--accent-glow)] bg-[hsl(var(--background))]" : "border-[hsl(var(--border))]"
             )}
             animate={{
@@ -89,9 +98,9 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
     const { t } = useLanguage();
     const [isHovered, setIsHovered] = useState(false);
 
-    // Adjusted dynamic heights to match new 125px offset
+    // Dynamic expanded height, but global collapsed height for perfect grid symmetry
     const expandedHeight = (category.skills.length - 1) * 125 + 130;
-    const collapsedHeight = (category.skills.length - 1) * 8 + 130;
+    const collapsedHeight = globalCollapsedHeight;
 
     return (
         <div className="flex flex-col items-center gap-6 w-full">
