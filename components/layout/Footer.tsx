@@ -46,25 +46,27 @@ export function Footer() {
                     </div>
 
                     {/* Nav Links */}
-                    <div className="md:col-span-5">
-                        <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-5 opacity-70">
-                            {t('footer.navigation')}
-                        </h3>
-                        <nav aria-label="Footer navigation">
-                            <ul className="grid grid-cols-2 gap-y-3 gap-x-6">
-                                {translatedNavLinks.map((link) => (
-                                    <li key={link.href}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200 flex items-center gap-2 group"
-                                        >
-                                            <span className="w-1 h-1 rounded-full bg-[var(--accent-hex)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
+                    <div className="md:col-span-5 md:flex md:justify-center">
+                        <div>
+                            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-5 opacity-70">
+                                {t('footer.navigation')}
+                            </h3>
+                            <nav aria-label="Footer navigation">
+                                <ul className="grid grid-cols-2 gap-y-3 gap-x-8 sm:gap-x-16">
+                                    {translatedNavLinks.map((link) => (
+                                        <li key={link.href}>
+                                            <Link
+                                                href={link.href}
+                                                className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200 flex items-center gap-2 group"
+                                            >
+                                                <span className="w-1 h-1 rounded-full bg-[var(--accent-hex)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                {link.label}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
 
                     {/* Socials */}
