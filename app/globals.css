@@ -53,8 +53,8 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
-    font-size: 18px;
-    /* Scales the entire UI to match the user's larger visual reference */
+    font-size: 17px;
+    /* Scales the entire UI to match the user's larger visual reference (10% smaller) */
 }
 
 body {

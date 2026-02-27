@@ -45,10 +45,9 @@ export function Footer() {
                         </p>
                     </div>
 
-                    {/* Nav Links */}
-                    <div className="md:col-span-5 md:flex md:justify-center">
-                        <div>
-                            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-5 opacity-70">
+                    <div className="md:col-span-5 flex flex-col items-center">
+                        <div className="w-fit">
+                            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-5 opacity-70 text-center sm:text-left">
                                 {t('footer.navigation')}
                             </h3>
                             <nav aria-label="Footer navigation">
