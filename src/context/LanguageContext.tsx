@@ -32,6 +32,7 @@ export function LanguageProvider({
         }
         return false;
     });
+    const wasAlreadyTransitioning = React.useRef(isTransitioning);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -66,6 +67,7 @@ export function LanguageProvider({
 
     const toggleLanguage = () => {
         globalTransitionEndTime = Date.now() + 3000;
+        wasAlreadyTransitioning.current = false; // We initiated it manually, so it must fade in from 0
         setIsTransitioning(true);
 
         setTimeout(() => {
@@ -123,7 +125,7 @@ export function LanguageProvider({
                 {isTransitioning && (
                     <motion.div
                         className="fixed inset-0 z-[9999] bg-white dark:bg-[#050507] flex items-center justify-center pointer-events-none"
-                        initial={{ opacity: 0 }}
+                        initial={{ opacity: wasAlreadyTransitioning.current ? 1 : 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4, ease: 'easeInOut' }}
