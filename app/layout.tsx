@@ -19,14 +19,16 @@ const jetbrainsMono = JetBrains_Mono({
     display: 'swap',
 });
 
+const basePath = process.env.GITHUB_ACTIONS ? '/Portfolio' : '';
+
 export const metadata: Metadata = {
     title: {
         default: `${personalInfo.name} — ${personalInfo.title}`,
         template: `%s | ${personalInfo.name}`,
     },
     icons: {
-        icon: '/icon-brand.png',
-        apple: '/icon-brand.png',
+        icon: `${basePath}/icon-brand.png`,
+        apple: `${basePath}/icon-brand.png`,
     },
     description: `${personalInfo.name} es un ${personalInfo.title} ubicado en ${personalInfo.location}. Especializado en aplicaciones web modernas con Java, Spring Boot, React y Next.js.`,
     keywords: [
