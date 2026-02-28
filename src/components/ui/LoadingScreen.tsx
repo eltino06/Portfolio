@@ -119,13 +119,10 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-            if (onLoadingComplete) {
-                setTimeout(onLoadingComplete, 200);
-            }
-        }, 4500); // Reduced from 7500
+        }, 4000);
 
         return () => clearTimeout(timer);
-    }, [onLoadingComplete]);
+    }, []);
 
     return (
         <AnimatePresence>
@@ -137,6 +134,11 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                         scale: 1.05,
                         filter: 'blur(20px)',
                         transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] }
+                    }}
+                    onAnimationComplete={() => {
+                        if (!isVisible && onLoadingComplete) {
+                            onLoadingComplete();
+                        }
                     }}
                 >
                     <ParticleCanvas />

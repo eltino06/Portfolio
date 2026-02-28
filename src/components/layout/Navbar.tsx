@@ -50,9 +50,9 @@ export function Navbar({ dict, lang }: NavbarProps) {
 
         if (latest < 50) {
             setIsVisible(true);
-        } else if (diff > 5) { // Increased sensitivity
+        } else if (diff > 10) { // Even less sensitive to hide
             setIsVisible(false);
-        } else if (diff < -5) { // Increased sensitivity
+        } else if (diff < -2) { // Extremely sensitive to show
             setIsVisible(true);
         }
 
