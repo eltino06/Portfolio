@@ -1,4 +1,5 @@
 'use client';
+// Final UI synchronization push
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
