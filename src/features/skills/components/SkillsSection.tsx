@@ -54,7 +54,7 @@ export function SkillsSection({ dict }: SkillsSectionProps) {
 
                             {/* Animated Underline */}
                             <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[hsl(var(--border))] overflow-hidden">
-                                <div className="absolute inset-0 bg-[hsl(var(--foreground))] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
+                                <div className="absolute inset-0 bg-[hsl(var(--foreground))] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-in-out" />
                             </div>
                         </div>
 
