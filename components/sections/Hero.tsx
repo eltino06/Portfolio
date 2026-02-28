@@ -275,17 +275,17 @@ export function HeroSection() {
                     {/* CTA Buttons */}
                     <motion.div
                         variants={itemVariants}
-                        className="flex flex-wrap gap-4 justify-center lg:justify-start"
+                        className="flex flex-wrap gap-4 mt-2 justify-center lg:justify-start"
                     >
                         <Link href="#projects">
-                            <Button size="lg" className="gap-2">
+                            <Button size="lg" className="gap-3 h-14 px-8 sm:px-10 text-base sm:text-lg">
                                 {t('hero.viewProjects')}
-                                <ArrowRight size={18} />
+                                <ArrowRight size={20} />
                             </Button>
                         </Link>
                         <Link href="#contact">
-                            <Button variant="outline" size="lg" className="gap-2">
-                                <Mail size={18} />
+                            <Button variant="outline" size="lg" className="gap-3 h-14 px-8 sm:px-10 text-base sm:text-lg">
+                                <Mail size={20} />
                                 {t('hero.contact')}
                             </Button>
                         </Link>
