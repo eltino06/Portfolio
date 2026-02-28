@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: { params: { lang: string } })
             template: `%s | ${personalInfo.name}`,
         },
         icons: {
-            icon: `${basePath}/icon-brand.png`,
-            apple: `${basePath}/icon-brand.png`,
+            icon: `${basePath}/favicon.svg`,
+            apple: `${basePath}/favicon.svg`,
         },
         description: dict.hero.subtitle,
         keywords: [
