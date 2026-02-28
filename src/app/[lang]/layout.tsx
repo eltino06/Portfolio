@@ -106,7 +106,7 @@ export default async function RootLayout({
                         enableSystem={false}
                         storageKey="portfolio-theme"
                     >
-                        <ClientLayout>
+                        <ClientLayout lang={lang}>
                             <Navbar dict={dict} lang={lang} />
                             {children}
                             <Footer dict={dict} lang={lang} />
