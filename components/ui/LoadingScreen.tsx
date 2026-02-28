@@ -149,7 +149,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                     >
                         <div className="flex flex-col items-center gap-3">
                             <h2
-                                className="text-3xl sm:text-5xl lg:text-[4.75rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
+                                className="text-[2rem] sm:text-[3.15rem] lg:text-[5rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
                                         ? 'linear-gradient(90deg, #666666 0%, #666666 40%, #ffffff 50%, #666666 60%, #666666 100%)'
@@ -171,7 +171,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             <div className="h-8 flex items-center justify-center">
                                 <p className="text-[10px] sm:text-xs lg:text-sm font-code text-[#737373] tracking-[0.5em] font-medium uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <span className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+                                    <span className="text-white font-bold">
                                         {displayedSub.slice(11)}
                                     </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
