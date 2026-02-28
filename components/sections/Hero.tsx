@@ -204,8 +204,7 @@ export function HeroSection() {
             id="hero"
             className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8"
         >
-            {/* Particle background */}
-            <ParticleCanvas />
+            {/* Particle background removed for a cleaner, brutalist look */}
 
             {/* Gradient blobs (Reduced for brutalist look) */}
             <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] blur-[100px] pointer-events-none" />
