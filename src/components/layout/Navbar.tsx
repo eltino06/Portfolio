@@ -222,6 +222,8 @@ export function Navbar({ dict, lang }: NavbarProps) {
             <DownloadModal
                 isOpen={isDownloadModalOpen}
                 onClose={() => setIsDownloadModalOpen(false)}
+                dict={dict.nav}
+                resumeUrl={personalInfo.resumeUrl}
             />
         </>
     );

@@ -20,7 +20,6 @@ interface HeroContentProps {
 }
 
 export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroContentProps) {
-    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const typedText = useTypewriter(personalInfo.roles.map((roleKey: string) => {
         // Simple mock of t() logic for the typewriter if needed, 
         // but it's better if page.tsx passes resolved strings if possible.
@@ -152,10 +151,6 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                 </motion.div>
             </a>
 
-            <DownloadModal
-                isOpen={isDownloadModalOpen}
-                onClose={() => setIsDownloadModalOpen(false)}
-            />
         </>
     );
 }
