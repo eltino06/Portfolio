@@ -35,14 +35,18 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     const dict = await getDictionary(lang);
 
     return {
-        metadataBase: new URL('https://santinobondioni.vercel.app'),
+        metadataBase: new URL('https://portfoliobysantino.vercel.app'),
         title: {
             default: `${personalInfo.name} — ${personalInfo.title}`,
             template: `%s | ${personalInfo.name}`,
         },
         icons: {
-            icon: `${basePath}/favicon.svg`,
-            apple: `${basePath}/favicon.svg`,
+            icon: [
+                { url: `${basePath}/favicon.svg`, type: 'image/svg+xml' },
+            ],
+            apple: [
+                { url: `${basePath}/favicon.svg`, type: 'image/svg+xml' },
+            ],
         },
         description: dict.hero.subtitle,
         keywords: [
