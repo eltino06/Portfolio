@@ -16,9 +16,10 @@ interface HeroContentProps {
     personalInfo: any;
     stats: any;
     dict: any;
+    statsDict: any;
 }
 
-export function HeroContent({ personalInfo, stats, dict }: HeroContentProps) {
+export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroContentProps) {
     const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const typedText = useTypewriter(personalInfo.roles.map((roleKey: string) => {
         // Simple mock of t() logic for the typewriter if needed, 
@@ -118,7 +119,7 @@ export function HeroContent({ personalInfo, stats, dict }: HeroContentProps) {
                                         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                                     </div>
                                     <div className="text-[10px] text-[hsl(var(--muted-foreground))] tracking-wider uppercase px-2 w-full leading-tight">
-                                        {dict.stats?.[stat.label.split('.')[1]] || stat.label}
+                                        {statsDict?.[stat.label.split('.')[1]] || stat.label}
                                     </div>
                                 </div>
                             </motion.div>

@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     const dict = await getDictionary(lang);
 
     return {
+        metadataBase: new URL('https://santinobondioni.vercel.app'),
         title: {
             default: `${personalInfo.name} — ${personalInfo.title}`,
             template: `%s | ${personalInfo.name}`,

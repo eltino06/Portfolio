@@ -14,7 +14,7 @@ export default async function Home({ params }: { params: { lang: string } }) {
 
     return (
         <main className="flex flex-col w-full overflow-x-hidden">
-            <HeroSection dict={dict.hero} />
+            <HeroSection dict={dict.hero} statsDict={dict.stats} />
             <AboutSection dict={dict.about} />
 
             <Suspense fallback={<div className="h-96" />}>

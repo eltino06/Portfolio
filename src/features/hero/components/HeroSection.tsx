@@ -3,9 +3,10 @@ import { HeroContent } from './HeroContent';
 
 interface HeroSectionProps {
     dict: any;
+    statsDict: any;
 }
 
-export function HeroSection({ dict }: HeroSectionProps) {
+export function HeroSection({ dict, statsDict }: HeroSectionProps) {
     return (
         <section
             id="hero"
@@ -15,6 +16,7 @@ export function HeroSection({ dict }: HeroSectionProps) {
                 personalInfo={personalInfo}
                 stats={stats}
                 dict={dict}
+                statsDict={statsDict}
             />
         </section >
     );
