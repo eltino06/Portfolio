@@ -93,20 +93,47 @@ body {
     width: 100%;
 }
 
-/* Allow selection and text cursor in form fields */
-input,
-textarea,
-[contenteditable="true"] {
+/* Allow selection and text cursor in informational content */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+li,
+blockquote {
     cursor: text;
     user-select: text;
 }
 
-/* Ensure links and buttons keep their pointers */
+/* Re-disable selection for UI components (cards, buttons, nav) */
+header,
+nav,
+button,
+a,
+.glass,
+[role="button"],
+.select-none {
+    user-select: none;
+}
+
+/* Specific cursor overrides for interactive elements */
 a,
 button,
-label[for],
-select {
-    cursor: pointer;
+[role="button"],
+select,
+summary {
+    cursor: pointer !important;
+}
+
+/* Ensure inputs and textareas always have the text cursor */
+input,
+textarea,
+[contenteditable="true"] {
+    cursor: text !important;
+    user-select: text !important;
 }
 
 /* ─────────────────────────────────────────
