@@ -85,6 +85,24 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+    cursor: default;
+    user-select: none;
+}
+
+/* Allow selection and text cursor in form fields */
+input,
+textarea,
+[contenteditable="true"] {
+    cursor: text;
+    user-select: text;
+}
+
+/* Ensure links and buttons keep their pointers */
+a,
+button,
+label[for],
+select {
+    cursor: pointer;
 }
 
 /* ─────────────────────────────────────────
