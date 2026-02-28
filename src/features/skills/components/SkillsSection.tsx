@@ -66,16 +66,24 @@ export function SkillsSection({ dict }: SkillsSectionProps) {
                                     return (
                                         <div
                                             key={skill.name}
-                                            className="flex items-center gap-2.5 p-2 rounded-lg hover:bg-[hsl(var(--accent-opacity))] transition-colors"
+                                            className="relative flex items-center gap-2.5 p-2 rounded-lg hover:bg-[hsl(var(--accent-opacity))] transition-all duration-300 group/skill overflow-hidden"
                                         >
-                                            <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                                            {/* Shine/Reflection Effect */}
+                                            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                                                <div className="absolute inset-0 opacity-0 group-hover/skill:opacity-100 bg-gradient-to-r from-transparent via-[hsl(var(--foreground)/0.05)] to-transparent -translate-x-full group-hover/skill:animate-[shimmerLoop_2s_infinite] transition-opacity duration-500" />
+                                            </div>
+
+                                            <div className="relative z-10 w-6 h-6 flex items-center justify-center shrink-0">
                                                 {IconComponent ? (
-                                                    <IconComponent size={16} className="text-[hsl(var(--muted-foreground))] group-hover:text-[var(--accent-hex)] transition-colors" />
+                                                    <IconComponent
+                                                        size={16}
+                                                        className="text-[hsl(var(--muted-foreground))] group-hover:text-[var(--accent-hex)] group-hover/skill:text-[hsl(var(--foreground))] group-hover/skill:scale-110 transition-all duration-300"
+                                                    />
                                                 ) : (
                                                     <span className="text-[10px]">💻</span>
                                                 )}
                                             </div>
-                                            <span className="text-xs font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] transition-colors truncate">
+                                            <span className="relative z-10 text-xs font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] group-hover/skill:translate-x-0.5 transition-all duration-300 truncate">
                                                 {skill.name}
                                             </span>
                                         </div>
