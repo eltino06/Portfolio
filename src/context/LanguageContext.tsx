@@ -124,12 +124,12 @@ export function LanguageProvider({
                 window.scrollTo(0, savedScroll);
             }, 10);
 
-            // Wait 2500ms for translations to load safely, then fade out and destroy
+            // Wait 3500ms for translations to load safely, then fade out and destroy
             setTimeout(() => {
                 clearInterval(lockInterval);
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.remove(), 400); // 0.4s to fade out before destroying DOM
-            }, 2500);
+            }, 3500);
 
         }, 450); // Wait 450ms for the 0.4s fade-in to COMPLETE entirely before triggering Next.js swap
     };
