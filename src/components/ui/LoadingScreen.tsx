@@ -120,7 +120,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 4000);
+        }, 5500);
 
         return () => clearTimeout(timer);
     }, []);
@@ -158,7 +158,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                         ? 'linear-gradient(90deg, #666666 0%, #666666 40%, #ffffff 50%, #666666 60%, #666666 100%)'
                                         : 'linear-gradient(90deg, #666666, #666666)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
-                                    animation: showShimmer ? 'shimmer 2.1s linear infinite' : 'none'
+                                    animation: showShimmer ? 'shimmer 3.5s linear infinite' : 'none'
                                 }}
                             >
                                 {displayedMain}

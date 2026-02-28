@@ -9,19 +9,20 @@ interface ClientLayoutProps {
     lang: string;
 }
 
+let isInitialLoad = typeof window !== 'undefined';
+
 export function ClientLayout({ children, lang }: ClientLayoutProps) {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(isInitialLoad);
 
     useEffect(() => {
-        const hasLoaded = sessionStorage.getItem('has-loaded');
-        if (hasLoaded) {
+        if (!isInitialLoad) {
             setIsLoading(false);
         }
-    }, []);
+    }, [lang]);
 
     const handleLoadingComplete = () => {
         setIsLoading(false);
-        sessionStorage.setItem('has-loaded', 'true');
+        isInitialLoad = false;
     };
 
     return (
