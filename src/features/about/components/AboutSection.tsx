@@ -101,7 +101,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                                 delay={index * 0.1 + 0.5}
                                 className="glass rounded-2xl p-6 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 relative overflow-hidden group"
                             >
-                                <div className="flex justify-between items-start mb-4">
+                                <div className="flex justify-between items-start mb-4 gap-4">
                                     <div>
                                         <h4 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors">
                                             {dict.items[edu.translationKey].institution}
@@ -110,7 +110,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                                             {dict.items[edu.translationKey].degree} — {dict.items[edu.translationKey].field}
                                         </p>
                                     </div>
-                                    <span className="text-[10px] font-code px-2 py-1 rounded-md bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))]">
+                                    <span className="text-[10px] whitespace-nowrap shrink-0 font-code px-2 py-1 rounded-md bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))]">
                                         {edu.startDate} — {edu.endDate}
                                     </span>
                                 </div>
