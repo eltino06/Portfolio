@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Github, Twitter, Instagram, Linkedin, ArrowUp } from 'lucide-react';
 import { personalInfo, navLinks } from '@/lib/data';
 import { useLanguage } from '@/context/LanguageContext';
+import { smoothScrollTo } from '@/lib/utils';
 
 const socialIcons = {
     github: Github,
@@ -107,14 +108,18 @@ export function Footer() {
                     </div>
 
                     {/* Back to top */}
-                    <Link
+                    <a
                         href="#hero"
-                        className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:text-[var(--accent-hex)] transition-all duration-300"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            smoothScrollTo('hero', 1400); // Slightly slower for a nice long scroll back up
+                        }}
+                        className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:text-[var(--accent-hex)] transition-all duration-300 cursor-pointer"
                         aria-label="Back to top"
                     >
                         <span className="text-[10px] font-semibold uppercase tracking-wider">{t('footer.backToTop')}</span>
                         <ArrowUp size={12} className="group-hover:-translate-y-1 transition-transform" />
-                    </Link>
+                    </a>
                 </div>
             </div>
         </footer>

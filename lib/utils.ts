@@ -28,3 +28,44 @@ export function clamp(value: number, min: number, max: number): number {
 export function range(n: number): number[] {
     return Array.from({ length: n }, (_, i) => i);
 }
+
+/**
+ * Custom smooth scroll with relaxing cubic easing
+ */
+export function smoothScrollTo(targetId: string, duration: number = 1200): void {
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) return;
+
+    const startPosition = window.scrollY;
+    // Calculate target position, accounting for globals.css scroll-padding-top (80px) check
+    const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = targetPosition - 80;
+
+    const distance = offsetPosition - startPosition;
+    let startTime: number | null = null;
+
+    // easeInOutCubic curve for a very fluid, relaxed motion
+    const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
+        t /= d / 2;
+        if (t < 1) return (c / 2) * t * t * t + b;
+        t -= 2;
+        return (c / 2) * (t * t * t + 2) + b;
+    };
+
+    const animation = (currentTime: number) => {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+
+        const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        } else {
+            // Snap to exact position at the very end to avoid sub-pixel precision issues
+            window.scrollTo(0, offsetPosition);
+        }
+    };
+
+    requestAnimationFrame(animation);
+}

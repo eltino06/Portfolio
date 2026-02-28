@@ -11,6 +11,7 @@ import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { useLanguage } from '@/context/LanguageContext';
 import { DownloadModal } from '@/components/ui/DownloadModal';
 import { Download } from 'lucide-react';
+import { smoothScrollTo } from '@/lib/utils';
 
 function useTypewriter(words: readonly string[], speed = 100, pause = 2000) {
     const [displayed, setDisplayed] = useState('');
@@ -350,7 +351,13 @@ export function HeroSection() {
             </div>
 
             {/* Scroll indicator */}
-            <Link href="#about" scroll={true}>
+            <a
+                href="#about"
+                onClick={(e) => {
+                    e.preventDefault();
+                    smoothScrollTo('about', 1200);
+                }}
+            >
                 <motion.div
                     className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--muted-foreground))] cursor-pointer group"
                     initial={{ opacity: 0 }}
@@ -366,7 +373,7 @@ export function HeroSection() {
                         <ArrowDown size={16} />
                     </motion.div>
                 </motion.div>
-            </Link>
+            </a>
 
             <DownloadModal
                 isOpen={isDownloadModalOpen}
