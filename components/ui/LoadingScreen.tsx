@@ -152,8 +152,8 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                 className="text-3xl sm:text-5xl lg:text-[4.75rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
-                                        ? 'linear-gradient(90deg, #525252 0%, #525252 40%, #ffffff 50%, #525252 60%, #525252 100%)'
-                                        : 'linear-gradient(90deg, #525252, #525252)',
+                                        ? 'linear-gradient(90deg, #666666 0%, #666666 40%, #ffffff 50%, #666666 60%, #666666 100%)'
+                                        : 'linear-gradient(90deg, #666666, #666666)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
                                     animation: showShimmer ? 'shimmer 2s linear infinite' : 'none'
                                 }}
@@ -163,7 +163,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                     <motion.span
                                         animate={{ opacity: [1, 0] }}
                                         transition={{ repeat: Infinity, duration: 0.8 }}
-                                        className="inline-block w-[4px] h-[30px] sm:h-[50px] lg:h-[72px] bg-[var(--accent-hex)] ml-2 align-middle shadow-[0_0_15px_var(--accent-hex)]"
+                                        className="inline-block w-[4px] h-[26px] sm:h-[42px] lg:h-[64px] bg-[var(--accent-hex)] ml-2 align-middle shadow-[0_0_15px_var(--accent-hex)]"
                                     />
                                 )}
                             </h2>
@@ -171,16 +171,8 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             <div className="h-8 flex items-center justify-center">
                                 <p className="text-[10px] sm:text-xs lg:text-sm font-code text-[#737373] tracking-[0.5em] font-medium uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <span className="text-white relative">
+                                    <span className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
                                         {displayedSub.slice(11)}
-                                        {displayedSub.length >= subText.length && (
-                                            <motion.span
-                                                initial={{ scaleX: 0 }}
-                                                animate={{ scaleX: 1 }}
-                                                transition={{ delay: 0.5, duration: 1 }}
-                                                className="absolute -bottom-1 left-0 w-full h-px bg-white/40 origin-left"
-                                            />
-                                        )}
                                     </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
                                         <motion.span
