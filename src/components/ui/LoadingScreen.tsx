@@ -106,12 +106,12 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     const mainText = "LOADING PORTFOLIO";
     const subText = "created by Santino";
 
-    const displayedMain = useSlowerTypewriter(mainText, 130, 500);
-    const displayedSub = useSlowerTypewriter(subText, 110, 2300);
+    const displayedMain = useSlowerTypewriter(mainText, 80, 400);
+    const displayedSub = useSlowerTypewriter(subText, 70, 1800);
 
     useEffect(() => {
         if (displayedMain === mainText) {
-            const delayTimer = setTimeout(() => setShowShimmer(true), 1000);
+            const delayTimer = setTimeout(() => setShowShimmer(true), 500);
             return () => clearTimeout(delayTimer);
         }
     }, [displayedMain, mainText]);
@@ -122,7 +122,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
             if (onLoadingComplete) {
                 setTimeout(onLoadingComplete, 200);
             }
-        }, 7500);
+        }, 4500); // Reduced from 7500
 
         return () => clearTimeout(timer);
     }, [onLoadingComplete]);

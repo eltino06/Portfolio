@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 
@@ -10,12 +10,14 @@ interface ClientLayoutProps {
 }
 
 export function ClientLayout({ children, lang }: ClientLayoutProps) {
-    const [isLoading, setIsLoading] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return !sessionStorage.getItem('has-loaded');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const hasLoaded = sessionStorage.getItem('has-loaded');
+        if (hasLoaded) {
+            setIsLoading(false);
         }
-        return true;
-    });
+    }, []);
 
     const handleLoadingComplete = () => {
         setIsLoading(false);

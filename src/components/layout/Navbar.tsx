@@ -35,6 +35,11 @@ export function Navbar({ dict, lang }: NavbarProps) {
     const activeSection = useScrollSpy(sectionIds, 120);
 
     useMotionValueEvent(scrollY, 'change', (latest) => {
+        if (isMobileOpen) {
+            setIsVisible(true);
+            return;
+        }
+
         const diff = latest - lastScrollY.current;
 
         if (latest > 20) {
@@ -45,14 +50,25 @@ export function Navbar({ dict, lang }: NavbarProps) {
 
         if (latest < 50) {
             setIsVisible(true);
-        } else if (diff > 2) {
+        } else if (diff > 5) { // Increased sensitivity
             setIsVisible(false);
-        } else if (diff < -2) {
+        } else if (diff < -5) { // Increased sensitivity
             setIsVisible(true);
         }
 
         lastScrollY.current = latest;
     });
+
+    useEffect(() => {
+        if (isMobileOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isMobileOpen]);
 
     useEffect(() => {
         const onResize = () => {
