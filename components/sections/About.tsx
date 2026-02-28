@@ -103,7 +103,7 @@ export function AboutSection() {
                                 transition={{ delay: index * 0.1 }}
                             >
                                 <div className="w-10 h-10 rounded-xl bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] flex items-center justify-center shrink-0 group-hover:bg-[var(--accent-hex)] transition-colors">
-                                    <item.icon size={18} className="text-[var(--accent-hex)] group-hover:text-white transition-colors" />
+                                    <item.icon size={18} className="text-[var(--accent-hex)] group-hover:text-[var(--accent-fg)] transition-colors" />
                                 </div>
                                 <div>
                                     <p className="text-[10px] text-[hsl(var(--muted-foreground))] uppercase tracking-widest font-bold opacity-70">

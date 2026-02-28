@@ -36,7 +36,7 @@ export function Footer() {
                     {/* Brand */}
                     <div className="md:col-span-4 space-y-3">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-[var(--accent-hex)] flex items-center justify-center font-bold text-black text-xs font-code shadow-[0_4px_12px_var(--accent-glow)]">
+                            <div className="w-8 h-8 rounded-lg bg-[var(--accent-hex)] flex items-center justify-center font-bold text-[var(--accent-fg)] text-xs font-code shadow-[0_4px_12px_var(--accent-glow)]">
                                 {personalInfo.initials}
                             </div>
                             <span className="text-base font-bold tracking-tight">{personalInfo.name}</span>

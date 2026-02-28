@@ -87,7 +87,7 @@ export function Navbar() {
                         onClick={() => setIsMobileOpen(false)}
                     >
                         <div
-                            className="relative w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center text-black font-bold shadow-none group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-shadow duration-300 flex-shrink-0"
+                            className="relative w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center text-[var(--accent-fg)] font-bold shadow-none group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-shadow duration-300 flex-shrink-0"
                         >
                             <Terminal size={22} className="transition-transform duration-300 group-hover:scale-110" />
                         </div>
@@ -208,8 +208,8 @@ export function Navbar() {
                                             href={link.href}
                                             className={cn(
                                                 'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                                                activeSection === link.href
-                                                    ? 'bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.15)] text-[var(--accent-hex)]'
+                                                activeSection === link.href.substring(1)
+                                                    ? 'bg-[var(--accent-hex)] text-[var(--accent-fg)] font-bold hover:shadow-[0_0_30px_var(--accent-glow)]'
                                                     : 'text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]'
                                             )}
                                             onClick={() => setIsMobileOpen(false)}
@@ -227,8 +227,7 @@ export function Navbar() {
                                         setIsDownloadModalOpen(true);
                                     }}
                                     className={cn(
-                                        'flex w-full items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.97] h-11 px-6 text-sm gap-2',
-                                        'bg-[var(--accent-hex)] text-white hover:shadow-[0_0_30px_var(--accent-glow)]'
+                                        'bg-[var(--accent-hex)] text-[var(--accent-fg)] hover:shadow-[0_0_30px_var(--accent-glow)]'
                                     )}
                                 >
                                     <Download size={16} />

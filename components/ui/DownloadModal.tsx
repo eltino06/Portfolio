@@ -57,7 +57,7 @@ export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
                                 href={personalInfo.resumeUrl}
                                 download="Santino_Bondioni_CV.pdf"
                                 onClick={onClose}
-                                className="px-4 py-2.5 rounded-xl text-sm font-bold bg-[var(--accent-hex)] text-black hover:shadow-[0_0_20px_var(--accent-glow)] transition-all flex items-center justify-center gap-2 sm:w-1/2"
+                                className="px-4 py-2.5 rounded-xl text-sm font-bold bg-[var(--accent-hex)] text-[var(--accent-fg)] hover:shadow-[0_0_20px_var(--accent-glow)] transition-all flex items-center justify-center gap-2 sm:w-1/2"
                             >
                                 <Download size={16} />
                                 {t('nav.downloadAccept')}

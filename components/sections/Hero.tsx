@@ -128,7 +128,8 @@ const ParticleCanvas = () => {
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`; // White, lower opacity
+                ctx.globalAlpha = p.opacity * 1.5; // Increased noticeable intensity
+                ctx.fillStyle = `hsl(var(--foreground))`; // Dynamically white in dark mode, dark gray in light mode
                 ctx.fill();
             });
 
@@ -137,9 +138,10 @@ const ParticleCanvas = () => {
                 const dxm = mx - particles[i].x;
                 const dym = my - particles[i].y;
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
-                if (distM < 200) { // Increased mouse connection distance
+                if (distM < 200) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distM / 200)})`; // White, faint
+                    ctx.globalAlpha = 0.2 * (1 - distM / 200); // Notable intensity
+                    ctx.strokeStyle = `hsl(var(--foreground))`;
                     ctx.lineWidth = 0.8;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mx, my);
@@ -150,9 +152,10 @@ const ParticleCanvas = () => {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) { // Increased inter-particle connection distance
+                    if (dist < 120) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - dist / 120)})`; // White, faint
+                        ctx.globalAlpha = 0.15 * (1 - dist / 120); // Notable intensity
+                        ctx.strokeStyle = `hsl(var(--foreground))`;
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -176,7 +179,7 @@ const ParticleCanvas = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="absolute inset-0 w-full h-full opacity-30 pointer-events-none"
+            className="absolute inset-0 w-full h-full opacity-60 pointer-events-none"
             aria-hidden="true"
         />
     );
@@ -207,9 +210,9 @@ export function HeroSection() {
             {/* Particle background */}
             <ParticleCanvas />
 
-            {/* Gradient blobs (Reduced for brutalist look) */}
-            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] blur-[100px] pointer-events-none" />
+            {/* Gradient blobs (Very low intensity) */}
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.008] blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.008] blur-[120px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
                 {/* ─── Left: Text Content ─── */}

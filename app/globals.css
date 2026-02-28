@@ -26,6 +26,7 @@
     --accent-s: 0%;
     --accent-l: 100%;
     --accent-hex: #ffffff;
+    --accent-fg: #000000;
     --accent-glow: rgba(255, 255, 255, 0.05);
     /* Minimal glow if any */
 }
@@ -45,7 +46,12 @@
     --card-foreground: 0 0% 6%;
     --border: 0 0% 90%;
     /* #E5E5E5 */
-    --accent-glow: rgba(0, 0, 0, 0.03);
+    --accent-h: 0;
+    --accent-s: 0%;
+    --accent-l: 0%;
+    --accent-hex: #000000;
+    --accent-fg: #ffffff;
+    --accent-glow: rgba(0, 0, 0, 0.05);
 }
 
 /* ─────────────────────────────────────────

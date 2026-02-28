@@ -291,7 +291,7 @@ export function ProjectsSection() {
                             className={cn(
                                 'px-5 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
                                 activeFilter === cat.id
-                                    ? 'bg-[var(--accent-hex)] text-black font-bold border-transparent shadow-[0_0_20px_var(--accent-glow)]'
+                                    ? 'bg-[var(--accent-hex)] text-[var(--accent-fg)] font-bold border-transparent shadow-[0_0_20px_var(--accent-glow)]'
                                     : 'bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:border-[hsl(var(--border))]'
                             )}
                         >
