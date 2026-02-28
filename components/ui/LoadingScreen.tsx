@@ -63,7 +63,7 @@ const ParticleCanvas = () => {
                 if (p.y > canvas.height) p.y = 0;
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(130, 80, 255, ${p.opacity})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`;
                 ctx.fill();
             });
 
@@ -74,7 +74,7 @@ const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 140) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(130, 80, 255, ${0.08 * (1 - dist / 140)})`;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - dist / 140)})`;
                         ctx.lineWidth = 0.4;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -149,10 +149,10 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                     >
                         <div className="flex flex-col items-center gap-3">
                             <h2
-                                className="text-4xl sm:text-6xl lg:text-[6.75rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000"
+                                className="text-4xl sm:text-6xl lg:text-[6.75rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
-                                        ? 'linear-gradient(90deg, #ffffff 0%, #ffffff 45%, #a78bfa 50%, #ffffff 55%, #ffffff 100%)'
+                                        ? 'linear-gradient(90deg, #ffffff 0%, #ffffff 45%, #737373 50%, #ffffff 55%, #ffffff 100%)'
                                         : 'linear-gradient(90deg, #ffffff, #ffffff)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
                                     animation: showShimmer ? 'shimmer 5s linear infinite' : 'none'
