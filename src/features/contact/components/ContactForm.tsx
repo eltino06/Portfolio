@@ -1,0 +1,137 @@
+'use client';
+
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
+import { Send } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/Button';
+import { contactSchema, type ContactFormData } from '@/lib/validations';
+import { cn } from '@/lib/utils';
+import { sendEmail } from '../actions';
+
+const inputCls =
+    'w-full px-4 py-3 rounded-xl glass border border-[hsl(var(--border))] text-sm placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus:border-[var(--accent-hex)] focus:shadow-[0_0_0_3px_var(--accent-glow)] transition-all duration-200 bg-transparent';
+
+interface ContactFormProps {
+    dict: any;
+}
+
+function FormField({
+    label,
+    error,
+    children,
+}: {
+    label: string;
+    error?: string;
+    children: React.ReactNode;
+}) {
+    return (
+        <div className="space-y-1.5">
+            <label className="text-sm font-medium text-[hsl(var(--foreground))]">{label}</label>
+            {children}
+            {error && (
+                <motion.p
+                    className="text-xs text-red-400"
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
+                    {error}
+                </motion.p>
+            )}
+        </div>
+    );
+}
+
+export function ContactForm({ dict }: ContactFormProps) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<ContactFormData>({
+        resolver: zodResolver(contactSchema),
+        mode: 'onTouched'
+    });
+
+    const onSubmit = async (data: ContactFormData) => {
+        setIsSubmitting(true);
+        try {
+            const result = await sendEmail(data);
+
+            if (result.success) {
+                toast.success(dict.success || 'Message sent! 🚀');
+                reset();
+            } else if (result.error) {
+                toast.error(result.error);
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            toast.error(dict.error || 'Algo salió mal. Por favor, intenta de nuevo.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    return (
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="glass rounded-2xl border border-[hsl(var(--border))] p-6 space-y-5"
+            noValidate
+        >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <FormField label={dict.name} error={errors.name?.message}>
+                    <input
+                        {...register('name')}
+                        type="text"
+                        placeholder="Santino"
+                        className={cn(inputCls, errors.name && 'border-red-400/50')}
+                        autoComplete="name"
+                    />
+                </FormField>
+
+                <FormField label={dict.email} error={errors.email?.message}>
+                    <input
+                        {...register('email')}
+                        type="email"
+                        placeholder="tucorreo@ejemplo.com"
+                        className={cn(inputCls, errors.email && 'border-red-400/50')}
+                        autoComplete="email"
+                    />
+                </FormField>
+            </div>
+
+            <FormField label={dict.subject} error={errors.subject?.message}>
+                <input
+                    {...register('subject')}
+                    type="text"
+                    placeholder="..."
+                    className={cn(inputCls, errors.subject && 'border-red-400/50')}
+                />
+            </FormField>
+
+            <FormField label={dict.message} error={errors.message?.message}>
+                <textarea
+                    {...register('message')}
+                    rows={5}
+                    placeholder="..."
+                    className={cn(inputCls, 'resize-none', errors.message && 'border-red-400/50')}
+                />
+            </FormField>
+
+            <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                isLoading={isSubmitting}
+                className="w-full gap-3 h-14 text-base font-bold shadow-lg"
+            >
+                <Send size={20} />
+                {isSubmitting ? dict.sending : dict.send}
+            </Button>
+        </form>
+    );
+}
