@@ -78,19 +78,19 @@ export function ContactSection() {
     const contactItems = [
         {
             icon: Mail,
-            label: 'Email',
+            label: t('contact.infoEmail'),
             value: personalInfo.email,
             href: `mailto:${personalInfo.email}`,
         },
         {
             icon: Phone,
-            label: t('contact.email'), // Reuse email or add phone to translations
+            label: t('contact.infoPhone'),
             value: personalInfo.phone,
             href: `tel:${personalInfo.phone}`,
         },
         {
             icon: MapPin,
-            label: 'Location',
+            label: t('contact.infoLocation'),
             value: personalInfo.location,
             href: null,
         },
