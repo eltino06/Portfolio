@@ -12,6 +12,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { DownloadModal } from '@/components/ui/DownloadModal';
 import { Download } from 'lucide-react';
 import { smoothScrollTo } from '@/lib/utils';
+import { useTheme } from '@/hooks/useTheme';
 
 function useTypewriter(words: readonly string[], speed = 100, pause = 2000) {
     const [displayed, setDisplayed] = useState('');
@@ -47,6 +48,7 @@ function useTypewriter(words: readonly string[], speed = 100, pause = 2000) {
 
 // ─── Particle Canvas (lightweight, no Three.js needed) ───────
 const ParticleCanvas = () => {
+    const { isDark } = useTheme();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: -1000, y: -1000 });
     const isInteracting = useRef(false);
@@ -100,6 +102,8 @@ const ParticleCanvas = () => {
             let mx = mouseRef.current.x;
             let my = mouseRef.current.y;
 
+            const particleRGB = isDark ? '255, 255, 255' : '0, 0, 0';
+
             if (!isInteracting.current) {
                 // Smooth circular path in the middle
                 mx = canvas.width / 2 + Math.cos(time * 0.5) * (canvas.width * 0.12);
@@ -128,8 +132,7 @@ const ParticleCanvas = () => {
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.globalAlpha = p.opacity * 1.5; // Increased noticeable intensity
-                ctx.fillStyle = `hsl(var(--foreground))`; // Dynamically white in dark mode, dark gray in light mode
+                ctx.fillStyle = `rgba(${particleRGB}, ${p.opacity * 2})`; // Increased noticeable intensity
                 ctx.fill();
             });
 
@@ -140,8 +143,7 @@ const ParticleCanvas = () => {
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
                 if (distM < 200) {
                     ctx.beginPath();
-                    ctx.globalAlpha = 0.2 * (1 - distM / 200); // Notable intensity
-                    ctx.strokeStyle = `hsl(var(--foreground))`;
+                    ctx.strokeStyle = `rgba(${particleRGB}, ${0.25 * (1 - distM / 200)})`; // Notable intensity
                     ctx.lineWidth = 0.8;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mx, my);
@@ -154,8 +156,7 @@ const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 120) {
                         ctx.beginPath();
-                        ctx.globalAlpha = 0.15 * (1 - dist / 120); // Notable intensity
-                        ctx.strokeStyle = `hsl(var(--foreground))`;
+                        ctx.strokeStyle = `rgba(${particleRGB}, ${0.2 * (1 - dist / 120)})`; // Notable intensity
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -174,7 +175,7 @@ const ParticleCanvas = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, []);
+    }, [isDark]);
 
     return (
         <canvas
@@ -210,9 +211,9 @@ export function HeroSection() {
             {/* Particle background */}
             <ParticleCanvas />
 
-            {/* Gradient blobs (Very low intensity) */}
-            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.008] blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.008] blur-[120px] pointer-events-none" />
+            {/* Gradient blobs (Increased intensity so they are visible in both modes) */}
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-5 dark:opacity-[0.03] blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-5 dark:opacity-[0.03] blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
                 {/* ─── Left: Text Content ─── */}

@@ -183,10 +183,10 @@ function ProjectCard({
 
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                    <div className="relative glass px-4 py-2 rounded-xl text-white text-sm font-medium border border-white/20 overflow-hidden group/btn">
+                    <div className="relative bg-white px-4 py-2 rounded-xl text-black text-sm font-bold border border-white/20 overflow-hidden group/btn">
                         {t('projects.details')}
                         {/* Interactive subtle reflection - constant loop */}
-                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-black/10 to-transparent pointer-events-none" />
                     </div>
                 </div>
 

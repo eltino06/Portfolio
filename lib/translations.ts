@@ -54,7 +54,7 @@ export const translations = {
         },
         skills: {
             title: 'Arsenal Técnico',
-            subtitle: 'Skill Matrix',
+            subtitle: 'Skills',
             categories: {
                 backend: 'Core Backend & API',
                 frontend: 'Client & UI Architecture',
