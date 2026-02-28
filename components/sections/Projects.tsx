@@ -9,14 +9,8 @@ import { Button } from '@/components/ui/Button';
 import { projects, type Project, type ProjectCategory } from '@/lib/data';
 import { cn } from '@/lib/utils';
 
-// Project gradient placeholders by index
-const gradients = [
-    'from-violet-600 to-indigo-600',
-    'from-cyan-500 to-blue-600',
-    'from-pink-500 to-rose-600',
-    'from-amber-500 to-orange-600',
-    'from-emerald-500 to-teal-600',
-];
+// Project soft cream background (balanced for legibility)
+const cardBg = 'bg-[#FFF9E6]/45 backdrop-blur-sm';
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
     const { t } = useLanguage();
@@ -42,8 +36,8 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
                 {/* Image header */}
-                <div className={cn('h-48 bg-gradient-to-br flex items-center justify-center', gradients[0])}>
-                    <span className="text-white text-5xl font-bold opacity-20">
+                <div className={cn('h-48 flex items-center justify-center', cardBg)}>
+                    <span className="text-[var(--accent-hex)] text-5xl font-bold opacity-60">
                         {project.title.charAt(0)}
                     </span>
                 </div>
@@ -110,7 +104,6 @@ function ProjectCard({
     onClick: () => void;
 }) {
     const { t } = useLanguage();
-    const gradient = gradients[index % gradients.length];
 
     return (
         <motion.article
@@ -121,18 +114,20 @@ function ProjectCard({
             transition={{ delay: index * 0.08, duration: 0.5 }}
             onClick={onClick}
         >
-            {/* Image / gradient header */}
-            <div className={cn('relative h-44 bg-gradient-to-br overflow-hidden', gradient)}>
+            {/* Image / header */}
+            <div className={cn('relative h-44 overflow-hidden', cardBg)}>
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white text-6xl font-bold opacity-20 group-hover:opacity-30 transition-opacity duration-300">
+                    <span className="text-[var(--accent-hex)] text-6xl font-bold opacity-60 group-hover:opacity-80 transition-opacity duration-300">
                         {project.title.charAt(0)}
                     </span>
                 </div>
 
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                    <div className="glass px-4 py-2 rounded-xl text-white text-sm font-medium border border-white/20">
+                    <div className="relative glass px-4 py-2 rounded-xl text-white text-sm font-medium border border-white/20 overflow-hidden group/btn">
                         {t('projects.details')}
+                        {/* Interactive subtle reflection - constant loop */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
                     </div>
                 </div>
 

@@ -30,28 +30,28 @@ export function Footer() {
 
     return (
         <footer className="relative border-t border-[hsl(var(--border))] bg-[hsl(var(--background))]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-4 items-start">
                     {/* Brand */}
-                    <div className="md:col-span-4 space-y-4">
+                    <div className="md:col-span-4 space-y-3">
                         <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center font-bold text-white text-sm font-code shadow-[0_4px_12px_var(--accent-glow)]">
+                            <div className="w-8 h-8 rounded-lg bg-[var(--accent-hex)] flex items-center justify-center font-bold text-white text-xs font-code shadow-[0_4px_12px_var(--accent-glow)]">
                                 {personalInfo.initials}
                             </div>
-                            <span className="text-lg font-bold tracking-tight">{personalInfo.name}</span>
+                            <span className="text-base font-bold tracking-tight">{personalInfo.name}</span>
                         </div>
-                        <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">
+                        <p className="text-xs text-[hsl(var(--muted-foreground))] leading-relaxed opacity-80">
                             {personalInfo.title}
                         </p>
                     </div>
 
                     <div className="md:col-span-5 flex flex-col items-center">
                         <div className="w-fit">
-                            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-5 opacity-70 text-center">
+                            <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-2 opacity-60 text-center">
                                 {t('footer.navigation')}
                             </h3>
                             <nav aria-label="Footer navigation">
-                                <ul className="grid grid-cols-2 gap-y-3 gap-x-8 sm:gap-x-16">
+                                <ul className="grid grid-cols-2 gap-y-2 gap-x-8 sm:gap-x-12">
                                     {translatedNavLinks.map((link) => (
                                         <li key={link.href}>
                                             <Link
@@ -70,7 +70,7 @@ export function Footer() {
 
                     {/* Socials */}
                     <div className="md:col-span-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-5 opacity-70">
+                        <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-2 opacity-60">
                             {t('footer.connect')}
                         </h3>
                         <div className="flex flex-wrap gap-2.5">
@@ -86,9 +86,9 @@ export function Footer() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             aria-label={name}
-                                            className="w-11 h-11 flex items-center justify-center rounded-xl bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] hover:border-[var(--accent-hex)] hover:bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.05)] hover:shadow-[0_0_15px_var(--accent-glow)] transition-all duration-300 group"
+                                            className="w-9 h-9 flex items-center justify-center rounded-lg bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] hover:border-[var(--accent-hex)] hover:bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.05)] hover:shadow-[0_0_15px_var(--accent-glow)] transition-all duration-300 group"
                                         >
-                                            <Icon size={20} className="group-hover:scale-110 transition-transform" />
+                                            <Icon size={18} className="group-hover:scale-110 transition-transform" />
                                         </a>
                                     );
                                 })}
@@ -97,10 +97,10 @@ export function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="mt-12 pt-8 border-t border-[hsl(var(--border))] flex flex-col sm:flex-row items-center justify-between gap-6 text-[13px] text-[hsl(var(--muted-foreground))]">
-                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+                <div className="mt-6 pt-4 border-t border-[hsl(var(--border))] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[hsl(var(--muted-foreground))]">
+                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-5">
                         <p>© {year} {personalInfo.name}.</p>
-                        <p className="font-code hidden sm:block opacity-50">
+                        <p className="font-code hidden sm:block opacity-40">
                             {t('footer.madeWith')} <span className="text-[var(--accent-hex)]">Next.js</span> &{' '}
                             <span className="text-[var(--accent-hex)]">Framer Motion</span>
                         </p>
@@ -109,11 +109,11 @@ export function Footer() {
                     {/* Back to top */}
                     <Link
                         href="#hero"
-                        className="group flex items-center gap-2 px-4 py-2 rounded-full bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:text-[var(--accent-hex)] transition-all duration-300"
+                        className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:text-[var(--accent-hex)] transition-all duration-300"
                         aria-label="Back to top"
                     >
-                        <span className="text-xs font-semibold uppercase tracking-wider">{t('footer.backToTop')}</span>
-                        <ArrowUp size={14} className="group-hover:-translate-y-1 transition-transform" />
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t('footer.backToTop')}</span>
+                        <ArrowUp size={12} className="group-hover:-translate-y-1 transition-transform" />
                     </Link>
                 </div>
             </div>

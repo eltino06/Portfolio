@@ -21,19 +21,19 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
     SiTailwindcss, SiPostgresql, SiPrisma, SiGithub, SiLinux
 };
 
-const categoryColors: Record<string, string> = {
-    accent: 'text-[var(--accent-hex)] bg-[hsl(258,90%,66%,0.1)] border-[hsl(258,90%,66%,0.3)]',
-    purple: 'text-purple-400 bg-purple-500/10 border-purple-500/30',
-    orange: 'text-orange-400 bg-orange-500/10 border-orange-500/30',
-    green: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
+// Removed categoryColors
+
+import { ChevronDown, Server, MonitorSmartphone, Database, Wrench } from 'lucide-react';
+
+const categoryIcons: Record<string, React.ReactNode> = {
+    backend: <Server size={11} className="opacity-80" />,
+    frontend: <MonitorSmartphone size={11} className="opacity-80" />,
+    database: <Database size={11} className="opacity-80" />,
+    tools: <Wrench size={11} className="opacity-80" />,
 };
-
-import { ChevronDown } from 'lucide-react';
-
-// Find the maximum number of skills across all categories to calculate a uniform stack depth
 const maxSkillsCount = Math.max(...skillCategories.map(c => c.skills.length));
-const maxCollapsedOffset = (maxSkillsCount - 1) * 8; // 40px total depth for the biggest stack
-const globalCollapsedHeight = maxCollapsedOffset + 130; // 130px is base card height roughly
+const maxCollapsedOffset = (maxSkillsCount - 1) * 5;
+const globalCollapsedHeight = maxCollapsedOffset + 90;
 
 function SkillVerticalCard({
     skill,
@@ -48,17 +48,17 @@ function SkillVerticalCard({
 }) {
     const IconComponent = iconMap[skill.icon];
 
-    // Collapsed offset: calculated so every stack reaches exactly maxCollapsedOffset (40px) at the bottom
+    // Collapsed offset
     const collapsedStep = total > 1 ? maxCollapsedOffset / (total - 1) : 0;
     const collapsedOffset = index * collapsedStep;
 
-    // Vertical fan-out: Increased from 105 -> 125 so they overlap less
-    const yOffset = isHovered ? index * 125 : collapsedOffset;
+    // Vertical fan-out: Reduced to 90 to match original slight overlap with smaller cards
+    const yOffset = isHovered ? index * 90 : collapsedOffset;
 
     return (
         <motion.div
             className={cn(
-                "absolute top-0 left-0 right-0 mx-auto w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-32 lg:h-32 rounded-2xl bg-[hsl(var(--card))] border flex flex-col items-center justify-center p-2 shadow-md pointer-events-none",
+                "absolute top-0 left-0 right-0 mx-auto w-[78px] h-[78px] sm:w-[90px] sm:h-[90px] lg:w-[90px] lg:h-[90px] rounded-2xl bg-[hsl(var(--card))] border flex flex-col items-center justify-center p-2 shadow-md pointer-events-none",
                 isHovered ? "border-[var(--accent-hex)] shadow-[0_10px_30px_-10px_var(--accent-glow)] bg-[hsl(var(--background))]" : "border-[hsl(var(--border))]"
             )}
             animate={{
@@ -73,11 +73,11 @@ function SkillVerticalCard({
             }}
         >
             <div className={cn(
-                "w-12 h-12 rounded-xl flex items-center justify-center mb-1.5 transition-colors duration-300",
+                "w-9 h-9 rounded-xl flex items-center justify-center mb-1 transition-colors duration-300",
                 isHovered ? "bg-[var(--accent-hex)]/10" : "bg-[hsl(var(--muted))]"
             )}>
                 {IconComponent ? (
-                    <IconComponent size={24} className={cn(
+                    <IconComponent size={18} className={cn(
                         "transition-colors duration-300",
                         isHovered ? "text-[var(--accent-hex)]" : "text-[hsl(var(--foreground))]"
                     )} />
@@ -87,7 +87,7 @@ function SkillVerticalCard({
             </div>
 
             <span className={cn(
-                "font-bold text-[10px] lg:text-xs text-center uppercase tracking-tight line-clamp-1 transition-colors duration-300",
+                "font-bold text-[8px] lg:text-[9px] text-center uppercase tracking-tight line-clamp-1 transition-colors duration-300",
                 isHovered ? "text-[hsl(var(--foreground))]" : "text-[hsl(var(--muted-foreground))]"
             )}>
                 {skill.name}
@@ -100,8 +100,8 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
     const { t } = useLanguage();
     const [isHovered, setIsHovered] = useState(false);
 
-    // Dynamic expanded height, but global collapsed height for perfect grid symmetry
-    const expandedHeight = (category.skills.length - 1) * 125 + 130;
+    // Dynamic expanded height
+    const expandedHeight = (category.skills.length - 1) * 90 + 90;
     const collapsedHeight = globalCollapsedHeight;
 
     return (
@@ -110,17 +110,20 @@ function SkillVerticalStack({ category }: { category: SkillCategory }) {
             <div className="flex flex-col items-center gap-2">
                 <span
                     className={cn(
-                        'px-4 py-1.5 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-[0.2em] border whitespace-nowrap',
-                        categoryColors[category.color] ?? categoryColors['accent']
+                        'flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] border whitespace-nowrap transition-all duration-300',
+                        'text-white border-transparent animate-moving-gradient',
+                        'bg-gradient-to-r from-[var(--accent-hex)] via-purple-500 to-[var(--accent-hex)]',
+                        isHovered && 'shadow-[0_0_20px_var(--accent-glow)] scale-105'
                     )}
                 >
+                    {categoryIcons[category.id]}
                     {t(`skills.categories.${category.id}`)}
                 </span>
             </div>
 
             <div className="relative w-full flex flex-col items-center">
                 <motion.div
-                    className="relative w-[110px] sm:w-[130px] lg:w-32 cursor-pointer mx-auto z-10"
+                    className="relative w-[78px] sm:w-[90px] lg:w-[90px] cursor-pointer mx-auto z-10"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     animate={{ height: isHovered ? expandedHeight : collapsedHeight }}
@@ -164,7 +167,7 @@ export function SkillsSection() {
     const { t } = useLanguage();
 
     return (
-        <Section id="skills">
+        <Section id="skills" className="pb-12 lg:pb-16">
             <SectionHeading
                 label={t('skills.title')}
                 title={t('skills.subtitle')}
@@ -186,10 +189,11 @@ export function SkillsSection() {
                         <div className="flex items-center gap-3">
                             <span
                                 className={cn(
-                                    'px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] border whitespace-nowrap',
-                                    categoryColors[category.color] ?? categoryColors['accent']
+                                    'flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] border whitespace-nowrap',
+                                    'text-white border-transparent animate-moving-gradient bg-gradient-to-r from-[var(--accent-hex)] via-purple-500 to-[var(--accent-hex)]'
                                 )}
                             >
+                                {categoryIcons[category.id]}
                                 {t(`skills.categories.${category.id}`)}
                             </span>
                             <div className="flex-1 h-px bg-gradient-to-r from-[hsl(var(--border))] to-transparent" />
@@ -202,16 +206,16 @@ export function SkillsSection() {
                                 return (
                                     <div
                                         key={skill.name}
-                                        className="w-24 h-24 shrink-0 rounded-2xl bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex flex-col items-center justify-center p-2 shadow-sm snap-center"
+                                        className="w-20 h-20 shrink-0 rounded-2xl bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex flex-col items-center justify-center p-2 shadow-sm snap-center"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center mb-1.5">
+                                        <div className="w-9 h-9 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center mb-1.5">
                                             {IconComponent ? (
-                                                <IconComponent size={24} className="text-[hsl(var(--foreground))]" />
+                                                <IconComponent size={20} className="text-[hsl(var(--foreground))]" />
                                             ) : (
                                                 <span className="text-xl">💻</span>
                                             )}
                                         </div>
-                                        <span className="font-bold text-[9px] text-center uppercase tracking-tight line-clamp-1 text-[hsl(var(--muted-foreground))]">
+                                        <span className="font-bold text-[8px] text-center uppercase tracking-tight line-clamp-1 text-[hsl(var(--muted-foreground))]">
                                             {skill.name}
                                         </span>
                                     </div>

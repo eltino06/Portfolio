@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle, Briefcase } from 'lucide-react';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { Badge } from '@/components/ui/Badge';
 import { experiences } from '@/lib/data';
@@ -20,22 +20,21 @@ export function ExperienceSection() {
             />
 
             <div className="relative max-w-3xl mx-auto">
-                {/* Vertical line */}
-                <div className="absolute left-4 lg:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--accent-hex)] via-[hsl(var(--border))] to-transparent" />
+                {/* Vertical line with flow effect */}
+                <div className="absolute left-4 lg:left-8 top-0 bottom-0 w-0.5 bg-[hsl(var(--border))/0.3] overflow-hidden">
+                    <div className="absolute inset-0 animate-flow-vertical" />
+                </div>
 
                 {experiences.map((exp, index) => (
                     <motion.div
                         key={exp.id}
-                        className="relative pl-12 lg:pl-20 pb-12 last:pb-0"
+                        className="relative pl-8 lg:pl-16 pb-12 last:pb-0"
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: index * 0.1, ease: 'easeOut' }}
                     >
-                        {/* Timeline dot */}
-                        <div className="absolute left-1.5 lg:left-5.5 top-6 w-5 h-5 rounded-full bg-[var(--accent-hex)] shadow-[0_0_16px_var(--accent-glow)] flex items-center justify-center">
-                            <div className="w-2 h-2 rounded-full bg-white" />
-                        </div>
+                        {/* Dot removed as requested */}
 
                         {/* Card */}
                         <motion.div

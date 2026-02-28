@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations, TranslationKey } from '@/lib/translations';
 
-type Language = 'es' | 'en';
+type Language = 'es' | 'en' | 'pt' | 'it';
 
 interface LanguageContextType {
     language: Language;
@@ -13,18 +13,22 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const LANGUAGE_CYCLE: Language[] = ['es', 'en', 'pt', 'it'];
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const [language, setLanguage] = useState<Language>('es');
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem('language') as Language;
-        if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        if (savedLanguage && LANGUAGE_CYCLE.includes(savedLanguage)) {
             setLanguage(savedLanguage);
         }
     }, []);
 
     const toggleLanguage = () => {
-        const newLanguage = language === 'es' ? 'en' : 'es';
+        const currentIndex = LANGUAGE_CYCLE.indexOf(language);
+        const nextIndex = (currentIndex + 1) % LANGUAGE_CYCLE.length;
+        const newLanguage = LANGUAGE_CYCLE[nextIndex];
         setLanguage(newLanguage);
         localStorage.setItem('language', newLanguage);
     };

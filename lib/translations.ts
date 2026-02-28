@@ -305,6 +305,312 @@ export const translations = {
             backToTop: 'Back to top',
         },
     },
+    pt: {
+        nav: {
+            home: 'Início',
+            about: 'Sobre mim',
+            skills: 'Habilidades',
+            projects: 'Projetos',
+            experience: 'Experiência',
+            contact: 'Contato',
+            downloadCV: 'Baixar CV',
+            downloadConfirm: 'Tem certeza que deseja baixar meu CV?',
+            downloadCancel: 'Cancelar',
+            downloadAccept: 'Sim, baixar',
+        },
+        hero: {
+            greeting: '> olá, sou',
+            subtitle: 'Transformando ideias em aplicações web impactantes com tecnologias modernas que cativam, conectam e entregam resultados.',
+            viewProjects: 'Ver Projetos',
+            contact: 'Contatar',
+            scroll: 'SCROLL',
+            roles: {
+                java: 'Desenvolvedor Java Jr',
+                fullstack: 'Desenvolvedor Full Stack',
+                backend: 'Foco em Backend',
+                solver: 'Solucionador de Problemas',
+            }
+        },
+        stats: {
+            exp: 'Ano de Experiência',
+            projects: 'Projetos Realizados',
+            age: 'Anos de Idade',
+            career: 'Progreso de Carreira',
+        },
+        about: {
+            title: 'Sobre mim',
+            subtitle: 'Minha História',
+            description: 'Um desenvolvedor apaixonado por código limpo e crescimento constante.',
+            highlights: {
+                location: 'Localização',
+                education: 'Educação',
+                availability: 'Disponibilidade',
+                languages: 'Idiomas',
+                locValue: 'Santa Fe, Argentina',
+                eduValue: 'IES — Tecnólogo em Desenvolvimento de Software',
+                availValue: 'Imediata | Tempo integral',
+                langValue: 'Espanhol (Nativo) | Inglês B2',
+            },
+            bio: [
+                'Desenvolvedor de software de 20 anos com base Full Stack e foco crescente no desenvolvimento backend com Java e Spring Boot. Oriento-me pela qualidade do código, documentação técnica e trabalho colaborativo em equipes ágeis.',
+                'Sou disciplinado, aprendo rápido e me adapto facilmente a novas tecnologias e metodologias. Busco uma primeira experiência formal onde possa aplicar meus conhecimentos, agregar valor desde o primeiro dia e continuar crescendo continuamente.',
+                'Foco em criar soluções robustas, escaláveis e bem documentadas, mantendo sempre um equilíbrio entre a estética do frontend e a eficiência do backend.',
+            ],
+        },
+        skills: {
+            title: 'Habilidades',
+            subtitle: 'Stack Tecnológico',
+            categories: {
+                backend: 'Backend',
+                frontend: 'Frontend',
+                database: 'Bancos de Dados',
+                tools: 'Ferramentas & DevOps',
+            }
+        },
+        projects: {
+            title: 'Projetos',
+            subtitle: 'Meus Trabalhos Recentes',
+            description: 'Uma seleção de projetos que mostram minhas habilidades em todo o stack.',
+            all: 'Todas',
+            frontend: 'Frontend',
+            backend: 'Backend',
+            fullstack: 'FullStack',
+            viewGithub: 'Código',
+            viewLive: 'Ao Vivo',
+            details: 'Ver Detalhes',
+            featured: 'Destaque',
+            items: {
+                admin: {
+                    title: 'Plataforma de Gestão Administrativa',
+                    desc: 'Sistema integral para administração com backend em Spring Boot e frontend em React.',
+                    long: 'Arquitectura backend con Spring Boot implementando una API REST completa, sistema de roles (RBAC), autenticación JWT y auditoría de acciones. Frontend desarrollado en React con control de accesos dinámico y dashboards administrativos. Desplegado bajo contenedores Docker.',
+                },
+                reg: {
+                    title: 'Sistema de Registro Digital e Auditoria',
+                    desc: 'Aplicação focada em rastreabilidade e segurança de dados operacionais.',
+                    long: 'Design de arquitetura orientada à rastreabilidade extrema: cada operação é registrada, versionada e auditável. Modelo de banco de datos relacional avançado projetado para integridade referencial total e fluxos de segurança rigorosos.',
+                },
+                port: {
+                    title: 'Portfolio 2025',
+                    desc: 'Minha carta de apresentação digital construída com tecnologias de última geração.',
+                    long: 'Portfólio profissional de alto impacto visual e técnico. Utiliza Next.js 14 para otimização extrema, Framer Motion para animações fluidas e micro-interações visuais.',
+                }
+            }
+        },
+        experience: {
+            title: 'Experiência',
+            subtitle: 'Trajetória Profissional',
+            description: 'Minha trajetória profissional e o impacto que tive ao longo do caminho.',
+            present: 'Atualidade',
+            items: {
+                freelance: {
+                    role: 'Desenvolvedor Full Stack',
+                    company: 'Projetos Independentes',
+                    location: 'Remoto (Argentina)',
+                    desc: 'Desenvolvimento end-to-end de aplicações web: design de arquitetura, implementação backend, modelagem de bancos de datos e integração com frontend.',
+                    highlights: [
+                        'Desenvolvimento de APIs REST com Spring Boot e Node.js (autenticação e papéis)',
+                        'Modelado e otimização de bancos de datos relacionais com PostgreSQL',
+                        'Implementação de sistemas de segurança e registro de auditoria',
+                        'Documentação técnica de endpoints e decisões de design arquitectónico',
+                        'Uso de ambientes conteinerizados com Docker para implantações locais',
+                    ]
+                }
+            }
+        },
+        education: {
+            title: 'Educação',
+            subtitle: 'Formação Acadêmica',
+            progress: 'Progresso',
+            items: {
+                ies: {
+                    degree: "Tecnólogo",
+                    institution: 'IES (Instituto de Estudios Superiores)',
+                    field: 'Desenvolvimento de Software',
+                    desc: 'Formação técnica superior focada em algoritmos, POO, bancos de datos e arquitetura. Disponibilidade de nível de inglês técnico B2 integrado.',
+                    status: 'Em curso',
+                },
+                secundario: {
+                    degree: 'Nível Primário e Secundário',
+                    institution: 'Escola local',
+                    field: 'Educação Obrigatória',
+                    desc: 'Educação primária e secundária com base sólida em ciências e tecnologia.',
+                    status: 'Finalizado',
+                }
+            }
+        },
+        contact: {
+            title: 'Contato',
+            subtitle: 'Vamos trabalhar juntos',
+            description: 'Sempre estou interessado em novas oportunidades e projetos emocionantes.',
+            details: 'Se você tem um projeto em mente, uma pergunta ou apenas quer dizer olá, minha caixa de entrada está sempre aberta. Vamos construir algo incrível juntos.',
+            name: 'Nome',
+            email: 'E-mail',
+            subject: 'Assunto',
+            message: 'Mensagem',
+            send: 'Enviar Mensagem',
+            sending: 'Enviando...',
+        },
+        footer: {
+            navigation: 'Navegação',
+            connect: 'Conectar',
+            madeWith: 'Feito com',
+            backToTop: 'Voltar ao topo',
+        },
+    },
+    it: {
+        nav: {
+            home: 'Inizio',
+            about: 'Su di me',
+            skills: 'Competenze',
+            projects: 'Progetti',
+            experience: 'Esperienza',
+            contact: 'Contatto',
+            downloadCV: 'Scarica CV',
+            downloadConfirm: 'Sei sicuro di voler scaricare il mio CV?',
+            downloadCancel: 'Annulla',
+            downloadAccept: 'Sì, scarica',
+        },
+        hero: {
+            greeting: '> ciao, sono',
+            subtitle: 'Trasformo idee in applicazioni web d\'impatto con tecnologie moderne che catturano, connettono e offrono risultati.',
+            viewProjects: 'Vedi Progetti',
+            contact: 'Contattami',
+            scroll: 'SCROLL',
+            roles: {
+                java: 'Sviluppatore Java Jr',
+                fullstack: 'Sviluppatore Full Stack',
+                backend: 'Focus Backend',
+                solver: 'Problem Solver',
+            }
+        },
+        stats: {
+            exp: 'Anno di Esperienza',
+            projects: 'Progetti Realizzati',
+            age: 'Anni di Età',
+            career: 'Progresso di Carriera',
+        },
+        about: {
+            title: 'Su di me',
+            subtitle: 'La mia Storia',
+            description: 'Uno sviluppatore appassionato di codice pulito e crescita costante.',
+            highlights: {
+                location: 'Posizione',
+                education: 'Istruzione',
+                availability: 'Disponibilità',
+                languages: 'Lingue',
+                locValue: 'Santa Fe, Argentina',
+                eduValue: 'IES — Tecnico in Sviluppo Software',
+                availValue: 'Immediata | Tempo pieno',
+                langValue: 'Spagnolo (Madrelingua) | Inglese B2',
+            },
+            bio: [
+                'Sviluppatore software di 20 anni con basi Full Stack e crescente interesse per lo sviluppo backend con Java e Spring Boot. Mi concentro sulla qualità del codice, la documentazione tecnica e il lavoro collaborativo in team agili.',
+                'Sono disciplinato, imparo velocemente e mi adatto facilmente a nuove tecnologie e metodologias. Cerco una prima esperienza formale dove poter applicare le mie conoscenze, apportare valore fin dal primo giorno e continuare a crescere costantemente.',
+                'Mi concentro sulla creazione di soluzioni robuste, scalabili e ben documentate, mantenendo sempre un equilibrio tra estetica del frontend ed efficienza del backend.',
+            ],
+        },
+        skills: {
+            title: 'Competenze',
+            subtitle: 'Tech Stack',
+            categories: {
+                backend: 'Backend',
+                frontend: 'Frontend',
+                database: 'Database',
+                tools: 'Strumenti & DevOps',
+            }
+        },
+        projects: {
+            title: 'Progetti',
+            subtitle: 'I miei lavori recenti',
+            description: 'Una selezione di progetti che mostrano le mie competenze in tutto lo stack.',
+            all: 'Tutto',
+            frontend: 'Frontend',
+            backend: 'Backend',
+            fullstack: 'FullStack',
+            viewGithub: 'Codice',
+            viewLive: 'Live Demo',
+            details: 'Vedi Dettagli',
+            featured: 'In evidenza',
+            items: {
+                admin: {
+                    title: 'Piattaforma di Gestione Amministrativa',
+                    desc: 'Sistema amministrativo integrale con backend in Spring Boot e frontend in React.',
+                    long: 'Architettura backend con Spring Boot che implementa un\'API REST completa, sistema di ruoli (RBAC), autenticazione JWT e auditing delle azioni. Frontend sviluppato in React con controllo d\'accesso dinamico e dashboard amministrative. Distribuito sotto container Docker.',
+                },
+                reg: {
+                    title: 'Sistema di Registrazione Digitale e Audit',
+                    desc: 'Applicazione focalizzata sulla tracciabilità e la sicurezza dei dati operativi.',
+                    long: 'Design dell\'architettura orientata alla tracciabilità estrema: ogni operazione viene registrata, versata e controllabile. Modello di database relazionale avanzato progettato per la totale integrità referenziale e flussi di sicurezza rigorosi.',
+                },
+                port: {
+                    title: 'Portfolio 2025',
+                    desc: 'La mia lettera di presentazione digitale costruita con tecnologie di nuova generazione.',
+                    long: 'Portfolio professionale ad alto impatto visivo e tecnico. Utilizza Next.js 14 per un\'ottimizzazione estrema, Framer Motion per animazioni fluide e micro-interazioni visive.',
+                }
+            }
+        },
+        experience: {
+            title: 'Esperienza',
+            subtitle: 'Percorso Professionale',
+            description: 'La mia carriera professionale e l\'impatto che ho avuto lungo il percorso.',
+            present: 'Attualità',
+            items: {
+                freelance: {
+                    role: 'Sviluppatore Full Stack',
+                    company: 'Progetti Indipendenti',
+                    location: 'Remoto (Argentina)',
+                    desc: 'Sviluppo end-to-end di applicazioni web: progettazione dell\'architettura, implementazione backend, modellazione di database e integrazione con il frontend.',
+                    highlights: [
+                        'Sviluppo di API REST con Spring Boot e Node.js (auth e ruoli)',
+                        'Modellazione e ottimizzazione di database relazionali con PostgreSQL',
+                        'Implementazione di sistemi di sicurezza e log di audit',
+                        'Documentazione tecnica degli endpoint e decisioni di progettazione architettonica',
+                        'Utilizzo di ambienti containerizzati con Docker per implementazioni locali',
+                    ]
+                }
+            }
+        },
+        education: {
+            title: 'Istruzione',
+            subtitle: 'Percorso Accademico',
+            progress: 'Progresso',
+            items: {
+                ies: {
+                    degree: "Laurea Tecnica",
+                    institution: 'IES (Istituto di Studi Superiori)',
+                    field: 'Sviluppo Software',
+                    desc: 'Formazione tecnica superiore focalizzata su algoritmi, OOP, database e architettura. Livello di inglese tecnico B2 integrato.',
+                    status: 'In corso',
+                },
+                secundario: {
+                    degree: 'Livello Primario e Secondario',
+                    institution: 'Scuola locale',
+                    field: 'Istruzione Obbligatoria',
+                    desc: 'Istruzione primaria e secondaria con una solida base in scienza e tecnologia.',
+                    status: 'Completato',
+                }
+            }
+        },
+        contact: {
+            title: 'Contatto',
+            subtitle: 'Lavoriamo Insieme',
+            description: 'Sono sempre interessato a nuove opportunità e progetti entusiasmanti.',
+            details: 'Sia che tu abbia un progetto in mente, una domanda o semplicemente voglia salutarmi, la mia casella di posta è sempre aperta. Costruiamo qualcosa di grande insieme.',
+            name: 'Nome',
+            email: 'Email',
+            oggeto: 'Oggetto',
+            message: 'Messaggio',
+            send: 'Invia Messaggio',
+            sending: 'Invio in corso...',
+        },
+        footer: {
+            navigation: 'Navigazione',
+            connect: 'Connettiti',
+            madeWith: 'Realizzato con',
+            backToTop: 'Torna su',
+        },
+    },
 };
 
 export type TranslationKey = string;

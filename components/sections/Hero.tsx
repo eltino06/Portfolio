@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/Badge';
 import { personalInfo, stats } from '@/lib/data';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { useLanguage } from '@/context/LanguageContext';
+import { DownloadModal } from '@/components/ui/DownloadModal';
+import { Download } from 'lucide-react';
 
 function useTypewriter(words: readonly string[], speed = 100, pause = 2000) {
     const [displayed, setDisplayed] = useState('');
@@ -79,14 +81,14 @@ const ParticleCanvas = () => {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
 
-        const PARTICLE_COUNT = 60; // Reduced from 80
+        const PARTICLE_COUNT = 100; // Increased from 60
         const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
             vx: (Math.random() - 0.5) * 0.35, // Slightly slower
             vy: (Math.random() - 0.5) * 0.35,
             r: Math.random() * 1.5 + 0.5,
-            opacity: Math.random() * 0.4 + 0.1,
+            opacity: Math.random() * 0.2 + 0.05,
         }));
 
         const draw = () => {
@@ -118,7 +120,7 @@ const ParticleCanvas = () => {
                 const dxm = mx - p.x;
                 const dym = my - p.y;
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
-                if (distM < 150) { // Reduced distance to avoid "loose" long lines
+                if (distM < 150) {
                     p.x += dxm * 0.01;
                     p.y += dym * 0.01;
                 }
@@ -134,10 +136,10 @@ const ParticleCanvas = () => {
                 const dxm = mx - particles[i].x;
                 const dym = my - particles[i].y;
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
-                if (distM < 150) { // Reduced mouse connection distance
+                if (distM < 200) { // Increased mouse connection distance
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(130, 80, 255, ${0.2 * (1 - distM / 150)})`;
-                    ctx.lineWidth = 0.6;
+                    ctx.strokeStyle = `rgba(130, 80, 255, ${0.15 * (1 - distM / 200)})`; // Reduced opacity
+                    ctx.lineWidth = 0.8;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mx, my);
                     ctx.stroke();
@@ -147,10 +149,10 @@ const ParticleCanvas = () => {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) { // Reduced inter-particle connection distance
+                    if (dist < 120) { // Increased inter-particle connection distance
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(130, 80, 255, ${0.12 * (1 - dist / 100)})`;
-                        ctx.lineWidth = 0.4;
+                        ctx.strokeStyle = `rgba(130, 80, 255, ${0.08 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
@@ -173,7 +175,7 @@ const ParticleCanvas = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="absolute inset-0 w-full h-full opacity-60"
+            className="absolute inset-0 w-full h-full opacity-80"
             aria-hidden="true"
         />
     );
@@ -182,6 +184,7 @@ const ParticleCanvas = () => {
 // ─── Hero Section ─────────────────────────────────────────────
 export function HeroSection() {
     const { t } = useLanguage();
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const typedText = useTypewriter(personalInfo.roles.map(role => t(role)));
     const techBadges = ['Java', 'Spring Boot', 'Next.js', 'PostgreSQL', 'Docker'];
 
@@ -204,8 +207,8 @@ export function HeroSection() {
             <ParticleCanvas />
 
             {/* Gradient blobs */}
-            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.06] blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-purple-500 opacity-[0.06] blur-[100px] pointer-events-none" />
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.03] blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-purple-500 opacity-[0.03] blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
                 {/* ─── Left: Text Content ─── */}
@@ -326,11 +329,15 @@ export function HeroSection() {
                                 transition={{ delay: 0.5 + i * 0.1 }}
                                 whileHover={{ y: -5, scale: 1.02 }}
                             >
-                                <div className="text-3xl font-bold gradient-text font-code mb-1">
-                                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                                </div>
-                                <div className="text-[10px] sm:text-xs text-[hsl(var(--muted-foreground))] font-medium tracking-wide uppercase px-2 w-full">
-                                    {t(stat.label)}
+                                <div className="flex flex-col items-center justify-center flex-1 w-full gap-1">
+                                    <div className="text-3xl font-bold gradient-text font-code">
+                                        <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                                    </div>
+                                    <div className="h-10 flex items-center justify-center">
+                                        <div className="text-[10px] sm:text-xs text-[hsl(var(--muted-foreground))] font-medium tracking-wide uppercase px-2 w-full leading-tight">
+                                            {t(stat.label)}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* Decorative line */}
@@ -360,6 +367,11 @@ export function HeroSection() {
                     </motion.div>
                 </motion.div>
             </Link>
-        </section>
+
+            <DownloadModal
+                isOpen={isDownloadModalOpen}
+                onClose={() => setIsDownloadModalOpen(false)}
+            />
+        </section >
     );
 }

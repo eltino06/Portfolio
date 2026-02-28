@@ -53,7 +53,7 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
-    font-size: 17px;
+    font-size: 17.85px;
     /* Scales the entire UI to match the user's larger visual reference (10% smaller) */
 }
 
@@ -198,4 +198,43 @@ body {
     50% {
         opacity: 0;
     }
+}
+
+@keyframes moving-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animate-moving-gradient {
+    background-size: 200% 200%;
+    animation: moving-gradient 4s ease infinite;
+}
+
+@keyframes flow-vertical {
+    0% {
+        background-position: 0% -200%;
+    }
+
+    100% {
+        background-position: 0% 200%;
+    }
+}
+
+.animate-flow-vertical {
+    background: linear-gradient(to bottom,
+            transparent,
+            var(--accent-hex) 50%,
+            transparent);
+    background-size: 100% 200%;
+    animation: flow-vertical 2s linear infinite;
+    box-shadow: 0 0 10px var(--accent-glow);
 }

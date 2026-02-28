@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-import { Toaster } from 'sonner';
 import './globals.css';
 import { personalInfo } from '@/lib/data';
-import { Navbar } from '@/components/layout/Navbar';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { ClientLayout } from '@/components/layout/ClientLayout';
+import { ThemeProvider } from 'next-themes';
+import { Toaster } from 'sonner';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -23,6 +23,10 @@ export const metadata: Metadata = {
     title: {
         default: `${personalInfo.name} — ${personalInfo.title}`,
         template: `%s | ${personalInfo.name}`,
+    },
+    icons: {
+        icon: '/icon-brand.png',
+        apple: '/icon-brand.png',
     },
     description: `${personalInfo.name} es un ${personalInfo.title} ubicado en ${personalInfo.location}. Especializado en aplicaciones web modernas con Java, Spring Boot, React y Next.js.`,
     keywords: [
@@ -78,8 +82,9 @@ export default function RootLayout({
                         enableSystem={false}
                         storageKey="portfolio-theme"
                     >
-                        <Navbar />
-                        {children}
+                        <ClientLayout>
+                            {children}
+                        </ClientLayout>
                         <Toaster
                             position="bottom-right"
                             richColors

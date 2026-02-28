@@ -47,8 +47,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 disabled={disabled ?? isLoading}
                 {...props}
             >
-                {/* Shimmer effect on hover */}
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12" />
+                {/* Shimmer effect on hover - constant and repetitive subtle reflection */}
+                <span className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
 
                 {isLoading ? (
                     <>

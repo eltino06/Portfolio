@@ -5,6 +5,7 @@ import { MapPin, GraduationCap, Dumbbell, Target, Sparkles } from 'lucide-react'
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { useLanguage } from '@/context/LanguageContext';
 import { personalInfo, education } from '@/lib/data';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 
 const highlights = [
     {
@@ -164,15 +165,15 @@ export function AboutSection() {
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider">
                                         <span className="opacity-50 text-[hsl(var(--foreground))]">{t('education.progress')}</span>
-                                        <span className="text-[var(--accent-hex)]">{edu.progress}%</span>
+                                        <AnimatedCounter value={edu.progress} suffix="%" className="text-[var(--accent-hex)]" />
                                     </div>
                                     <div className="h-1.5 bg-[hsl(var(--muted))] rounded-full overflow-hidden">
                                         <motion.div
                                             className="h-full bg-gradient-to-r from-[var(--accent-hex)] to-purple-500 rounded-full shadow-[0_0_8px_var(--accent-glow)]"
                                             initial={{ width: 0 }}
                                             whileInView={{ width: `${edu.progress}%` }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 1.5, delay: 0.8, ease: 'easeOut' }}
+                                            viewport={{ once: true, amount: 0.5 }}
+                                            transition={{ duration: 1.5, delay: 0.2, ease: 'easeOut' }}
                                         />
                                     </div>
                                 </div>

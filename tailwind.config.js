@@ -40,6 +40,7 @@ module.exports = {
                 'float': 'float 3s ease-in-out infinite',
                 'spin-slow': 'spin 8s linear infinite',
                 'bounce-slow': 'bounce 2s infinite',
+                'shimmer-loop': 'shimmerLoop 2.5s infinite linear',
             },
             keyframes: {
                 fadeIn: {
@@ -57,6 +58,10 @@ module.exports = {
                 float: {
                     '0%, 100%': { transform: 'translateY(0)' },
                     '50%': { transform: 'translateY(-10px)' },
+                },
+                shimmerLoop: {
+                    '0%': { transform: 'translateX(-100%) skewX(-15deg)' },
+                    '100%': { transform: 'translateX(250%) skewX(-15deg)' },
                 },
             },
             backdropBlur: {
