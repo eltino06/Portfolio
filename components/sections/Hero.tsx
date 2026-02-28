@@ -84,7 +84,9 @@ const ParticleCanvas = () => {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
 
-        const PARTICLE_COUNT = 350; // Increased to 350 for ALTO volumen
+        // Calculate responsive particle count (less on mobile, max 350 for desktop)
+        const density = window.innerWidth < 768 ? 80 : 350;
+        const PARTICLE_COUNT = density;
         const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -122,13 +124,22 @@ const ParticleCanvas = () => {
                 if (p.y < 0) p.y = canvas.height;
                 if (p.y > canvas.height) p.y = 0;
 
-                // Virtual/Real mouse interaction - slight attraction
+                // Virtual/Real mouse interaction
                 const dxm = mx - p.x;
                 const dym = my - p.y;
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
+
+                // Keep particles moving around the mouse but don't let them clump at exactly 0 distance
                 if (distM < 150) {
-                    p.x += dxm * 0.01;
-                    p.y += dym * 0.01;
+                    // Pull slowly towards mouse
+                    p.x += dxm * 0.015;
+                    p.y += dym * 0.015;
+                }
+
+                // Gentle repulsion if too close to prevent the "blob" (singularity)
+                if (distM < 30 && distM > 0) {
+                    p.x -= (dxm / distM) * 2;
+                    p.y -= (dym / distM) * 2;
                 }
 
                 ctx.beginPath();
@@ -140,18 +151,7 @@ const ParticleCanvas = () => {
 
             // Draw connections
             for (let i = 0; i < particles.length; i++) {
-                const dxm = mx - particles[i].x;
-                const dym = my - particles[i].y;
-                const distM = Math.sqrt(dxm * dxm + dym * dym);
-                if (distM < 200) {
-                    ctx.beginPath();
-                    ctx.globalAlpha = 0.2 * (1 - distM / 200) * (isDark ? 1 : 2.5);
-                    ctx.strokeStyle = `rgb(${particleColor})`;
-                    ctx.lineWidth = 0.8;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(mx, my);
-                    ctx.stroke();
-                }
+                // (Removed the code drawing hundreds of direct lines to the mouse to solve the white polygon bug)
 
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
