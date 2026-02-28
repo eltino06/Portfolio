@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, X } from 'lucide-react';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -14,7 +15,20 @@ const cardBg = 'bg-[#FFF9E6]/45 backdrop-blur-sm';
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
     const { t } = useLanguage();
-    return (
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        // Prevent background scrolling while modal is open
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []);
+
+    if (!mounted) return null;
+
+    return createPortal(
         <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
@@ -90,7 +104,8 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                     </div>
                 </div>
             </motion.div>
-        </motion.div>
+        </motion.div>,
+        document.body
     );
 }
 
