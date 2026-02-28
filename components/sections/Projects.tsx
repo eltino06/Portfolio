@@ -291,8 +291,8 @@ export function ProjectsSection() {
                             className={cn(
                                 'px-5 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
                                 activeFilter === cat.id
-                                    ? 'bg-[var(--accent-hex)] text-white border-transparent shadow-[0_0_20px_var(--accent-glow)]'
-                                    : 'glass border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:border-[var(--accent-hex)] hover:text-[hsl(var(--foreground))]'
+                                    ? 'bg-[var(--accent-hex)] text-black font-bold border-transparent shadow-[0_0_20px_var(--accent-glow)]'
+                                    : 'bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:border-[hsl(var(--border))]'
                             )}
                         >
                             {cat.label}

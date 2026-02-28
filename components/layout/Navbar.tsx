@@ -87,7 +87,7 @@ export function Navbar() {
                         onClick={() => setIsMobileOpen(false)}
                     >
                         <div
-                            className="relative w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center text-white shadow-none group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-shadow duration-300 flex-shrink-0"
+                            className="relative w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center text-black font-bold shadow-none group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-shadow duration-300 flex-shrink-0"
                         >
                             <Terminal size={22} className="transition-transform duration-300 group-hover:scale-110" />
                         </div>
