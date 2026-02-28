@@ -149,13 +149,13 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                     >
                         <div className="flex flex-col items-center gap-3">
                             <h2
-                                className="text-4xl sm:text-6xl lg:text-[6.75rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
+                                className="text-3xl sm:text-5xl lg:text-[5.5rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
-                                        ? 'linear-gradient(90deg, #ffffff 0%, #ffffff 45%, #737373 50%, #ffffff 55%, #ffffff 100%)'
+                                        ? 'linear-gradient(90deg, #ffffff 0%, #ffffff 40%, #222222 50%, #ffffff 60%, #ffffff 100%)'
                                         : 'linear-gradient(90deg, #ffffff, #ffffff)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
-                                    animation: showShimmer ? 'shimmer 5s linear infinite' : 'none'
+                                    animation: showShimmer ? 'shimmer 2.5s linear infinite' : 'none'
                                 }}
                             >
                                 {displayedMain}
@@ -170,7 +170,10 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
 
                             <div className="h-8 flex items-center justify-center">
                                 <p className="text-xs sm:text-base lg:text-lg font-code text-[var(--accent-hex)] tracking-[0.8em] font-bold opacity-90 uppercase select-none">
-                                    {displayedSub}
+                                    {displayedSub.slice(0, 11)}
+                                    <span className="text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]">
+                                        {displayedSub.slice(11)}
+                                    </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
                                         <motion.span
                                             animate={{ opacity: [1, 0] }}
