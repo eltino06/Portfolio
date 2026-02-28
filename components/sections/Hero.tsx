@@ -129,17 +129,17 @@ const ParticleCanvas = () => {
                 const dym = my - p.y;
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
 
-                // Keep particles moving around the mouse but don't let them clump at exactly 0 distance
-                if (distM < 150) {
-                    // Pull very slowly towards mouse (weaker magnet)
-                    p.x += dxm * 0.005;
-                    p.y += dym * 0.005;
-                }
-
-                // Gentle repulsion if too close to prevent the "blob" (singularity)
-                if (distM < 30 && distM > 0) {
-                    p.x -= (dxm / distM) * 2;
-                    p.y -= (dym / distM) * 2;
+                // Prevent particles from clumping into a dense "ball" (singularity)
+                if (distM < 150 && distM > 85) {
+                    // Pull very slowly towards mouse only if they are not already "captured" in the inner ring
+                    p.x += dxm * 0.003;
+                    p.y += dym * 0.003;
+                } else if (distM <= 85 && distM > 0) {
+                    // Repel particles that are too close to create a 'dead zone' around the cursor. 
+                    // This prevents the cluster of nodes and lines that creates the white blob.
+                    const repelPower = 0.02 * (1 - distM / 85);
+                    p.x -= dxm * repelPower;
+                    p.y -= dym * repelPower;
                 }
 
                 ctx.beginPath();

@@ -149,7 +149,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                     >
                         <div className="flex flex-col items-center gap-3">
                             <h2
-                                className="text-3xl sm:text-5xl lg:text-[5.5rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
+                                className="text-3xl sm:text-5xl lg:text-[4.75rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
                                         ? 'linear-gradient(90deg, #525252 0%, #525252 40%, #ffffff 50%, #525252 60%, #525252 100%)'
@@ -169,22 +169,19 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             </h2>
 
                             <div className="h-8 flex items-center justify-center">
-                                <p className="text-xs sm:text-base lg:text-lg font-code text-[#525252] tracking-[0.8em] font-bold uppercase select-none">
+                                <p className="text-[10px] sm:text-xs lg:text-sm font-code text-[#737373] tracking-[0.5em] font-medium uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <motion.span
-                                        animate={{
-                                            color: ['#ffffff', '#a3a3a3', '#ffffff'],
-                                            textShadow: [
-                                                '0 0 10px rgba(255,255,255,0.3)',
-                                                '0 0 20px rgba(255,255,255,0.1)',
-                                                '0 0 10px rgba(255,255,255,0.3)'
-                                            ]
-                                        }}
-                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                        className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
-                                    >
+                                    <span className="text-white relative">
                                         {displayedSub.slice(11)}
-                                    </motion.span>
+                                        {displayedSub.length >= subText.length && (
+                                            <motion.span
+                                                initial={{ scaleX: 0 }}
+                                                animate={{ scaleX: 1 }}
+                                                transition={{ delay: 0.5, duration: 1 }}
+                                                className="absolute -bottom-1 left-0 w-full h-px bg-white/40 origin-left"
+                                            />
+                                        )}
+                                    </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
                                         <motion.span
                                             animate={{ opacity: [1, 0] }}
