@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import { translations, TranslationKey } from '@/lib/translations';
 
 type Language = 'es' | 'en' | 'pt' | 'it';
@@ -16,7 +15,6 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const LANGUAGE_CYCLE: Language[] = ['es', 'en', 'pt', 'it'];
-let globalTransitionEndTime = 0;
 
 export function LanguageProvider({
     children,
@@ -26,29 +24,8 @@ export function LanguageProvider({
     initialLanguage: Language;
 }) {
     const [language, setLanguage] = useState<Language>(initialLanguage);
-    const [isTransitioning, setIsTransitioning] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return Date.now() < globalTransitionEndTime;
-        }
-        return false;
-    });
-    const wasAlreadyTransitioning = React.useRef(isTransitioning);
     const router = useRouter();
     const pathname = usePathname();
-
-    useEffect(() => {
-        if (isTransitioning) {
-            const remaining = globalTransitionEndTime - Date.now();
-            if (remaining > 0) {
-                const timer = setTimeout(() => {
-                    setIsTransitioning(false);
-                }, remaining);
-                return () => clearTimeout(timer);
-            } else {
-                setIsTransitioning(false);
-            }
-        }
-    }, [isTransitioning]);
 
     useEffect(() => {
         setLanguage(initialLanguage);
@@ -66,9 +43,60 @@ export function LanguageProvider({
     }, [initialLanguage]);
 
     const toggleLanguage = () => {
-        globalTransitionEndTime = Date.now() + 3000;
-        wasAlreadyTransitioning.current = false; // We initiated it manually, so it must fade in from 0
-        setIsTransitioning(true);
+        if (typeof window === 'undefined') return;
+
+        // Prevent clicking multiple times
+        if (document.getElementById('vanilla-lang-overlay')) return;
+
+        const isDark = document.documentElement.classList.contains('dark');
+
+        // Create the ultimate bulletproof Vanilla JS overlay
+        // This is 100% immune to Next.js destroying/re-rendering Layout trees on locale change
+        const overlay = document.createElement('div');
+        overlay.id = 'vanilla-lang-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.inset = '0';
+        overlay.style.zIndex = '99999';
+        overlay.style.backgroundColor = isDark ? '#050507' : '#ffffff';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.4s ease-in-out';
+        overlay.style.pointerEvents = 'auto'; // Block everything underneath
+
+        const spinner = document.createElement('div');
+        spinner.style.width = '2.5rem';
+        spinner.style.height = '2.5rem';
+        spinner.style.borderRadius = '9999px';
+        spinner.style.borderWidth = '2px';
+        spinner.style.borderStyle = 'solid';
+        spinner.style.borderColor = 'transparent';
+        spinner.style.borderTopColor = isDark ? '#ffffff' : '#000000';
+        spinner.style.borderRightColor = isDark ? '#ffffff' : '#000000';
+
+        if (!document.getElementById('vanilla-spinner-styles')) {
+            const style = document.createElement('style');
+            style.id = 'vanilla-spinner-styles';
+            style.textContent = `
+                @keyframes vanilla-spin-anim {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        spinner.style.animation = 'vanilla-spin-anim 1s linear infinite';
+
+        overlay.appendChild(spinner);
+        document.body.appendChild(overlay);
+
+        // Force reflow
+        void overlay.offsetWidth;
+
+        // Start smooth fade-in
+        overlay.style.opacity = '1';
 
         setTimeout(() => {
             const currentIndex = LANGUAGE_CYCLE.indexOf(language);
@@ -83,24 +111,27 @@ export function LanguageProvider({
             const currentHash = window.location.hash;
             const newPath = (pathSegments.join('/') || '/') + currentHash;
 
-            // Set a flag to bypass the LoginScreen since we are doing a language transition
-            if (typeof window !== 'undefined') {
-                sessionStorage.setItem('languageChange', 'true');
-                sessionStorage.setItem('savedScrollPos', window.scrollY.toString());
-            }
+            // Mark language change
+            sessionStorage.setItem('languageChange', 'true');
+            sessionStorage.setItem('savedScrollPos', window.scrollY.toString());
 
-            // CRITICAL: scroll: false prevents the page from jumping to the top!
+            // Fire the Next.js Route Swap
             router.push(newPath, { scroll: false });
 
-            // Aggressively lock scroll position while Next.js swaps out the DOM
+            // Aggressively lock scroll
             const savedScroll = window.scrollY;
             const lockInterval = setInterval(() => {
                 window.scrollTo(0, savedScroll);
             }, 10);
 
-            setTimeout(() => clearInterval(lockInterval), 2900);
+            // Wait 2500ms for translations to load safely, then fade out and destroy
+            setTimeout(() => {
+                clearInterval(lockInterval);
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.remove(), 400); // 0.4s to fade out before destroying DOM
+            }, 2500);
 
-        }, 450); // Wait 450ms for the 0.4s fade-in to complete before swapping the layout
+        }, 450); // Wait 450ms for the 0.4s fade-in to COMPLETE entirely before triggering Next.js swap
     };
 
     const t = (path: TranslationKey, options?: { returnObjects?: boolean }): any => {
@@ -121,24 +152,6 @@ export function LanguageProvider({
     return (
         <LanguageContext.Provider value={{ language, toggleLanguage, t }}>
             {children}
-            <AnimatePresence>
-                {isTransitioning && (
-                    <motion.div
-                        className="fixed inset-0 z-[9999] bg-white dark:bg-[#050507] flex items-center justify-center pointer-events-none"
-                        initial={{ opacity: wasAlreadyTransitioning.current ? 1 : 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    >
-                        {/* Explicit dark and light classes to guarantee perfect coloring in standard and dark mode */}
-                        <motion.div
-                            className="w-10 h-10 rounded-full border-2 border-transparent border-t-black border-r-black dark:border-t-white dark:border-r-white"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </LanguageContext.Provider>
     );
 }
