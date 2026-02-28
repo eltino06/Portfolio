@@ -53,13 +53,38 @@ export const translations = {
             ],
         },
         skills: {
-            title: 'Habilidades',
-            subtitle: 'Stack Tecnológico',
+            title: 'Arsenal Técnico',
+            subtitle: 'Skill Matrix',
             categories: {
-                backend: 'Backend',
-                frontend: 'Frontend',
-                database: 'Bases de Datos',
-                tools: 'Herramientas & DevOps',
+                backend: 'Core Backend & API',
+                frontend: 'Client & UI Architecture',
+                database: 'Data & Persistence',
+                tools: 'DevOps & Tooling',
+            },
+        },
+        architecture: {
+            title: 'Pensamiento Sistémico',
+            subtitle: 'Arquitectura & Escalabilidad',
+            description: 'Mi enfoque en ingeniería va más allá de escribir código. Diseño sistemas resilientes que resuelven cuellos de botella del negocio, priorizando la seguridad, la escalabilidad horizontal y la experiencia del desarrollador.',
+            pillars: {
+                resilience: {
+                    title: 'Resiliencia & Alta Disponibilidad',
+                    desc: 'Diseño de servicios stateless y arquitecturas tolerantes a fallos (fault-tolerant) para asegurar uptime óptimo.'
+                },
+                security: {
+                    title: 'Seguridad desde el Diseño',
+                    desc: 'Implementación de controles de acceso estrictos (RBAC), encriptación de datos e inmutabilidad (auditoría).'
+                },
+                scalability: {
+                    title: 'Escalabilidad Horizontal',
+                    desc: 'Construcción de servicios débilmente acoplados que permiten escalar de forma independiente según demanda.'
+                }
+            },
+            diagram: {
+                client: 'Cliente',
+                gateway: 'API Gateway / Auth Layer',
+                services: 'Core Microservices',
+                database: 'Almacenamiento Persistente'
             }
         },
         projects: {
@@ -226,13 +251,38 @@ export const translations = {
             ],
         },
         skills: {
-            title: 'Skills',
-            subtitle: 'Tech Stack',
+            title: 'Technical Arsenal',
+            subtitle: 'Domain Matrix',
             categories: {
-                backend: 'Backend',
-                frontend: 'Frontend',
-                database: 'Databases',
-                tools: 'Tools & DevOps',
+                backend: 'Core Backend & API',
+                frontend: 'Client & UI Architecture',
+                database: 'Data & Persistence',
+                tools: 'DevOps & Tooling',
+            },
+        },
+        architecture: {
+            title: 'Systems Thinking',
+            subtitle: 'Architecture & Scalability',
+            description: 'My approach to software engineering goes beyond writing code. I design resilient systems that solve business bottlenecks, prioritizing security, horizontal scalability, and developer experience.',
+            pillars: {
+                resilience: {
+                    title: 'Resilience & High Availability',
+                    desc: 'Designing stateless services and fault-tolerant architectures to ensure smooth user experiences.'
+                },
+                security: {
+                    title: 'Security by Design',
+                    desc: 'Implementing strict access controls (RBAC), data encryption, and adopting zero-trust policies inside the network.'
+                },
+                scalability: {
+                    title: 'Horizontal Scalability',
+                    desc: 'Building loosely coupled microservices and event-driven architectures that can scale independently.'
+                }
+            },
+            diagram: {
+                client: 'Client',
+                gateway: 'API Gateway / Auth Layer',
+                services: 'Core Microservices',
+                database: 'Persistent Storage'
             }
         },
         projects: {
@@ -399,13 +449,38 @@ export const translations = {
             ],
         },
         skills: {
-            title: 'Habilidades',
-            subtitle: 'Stack Tecnológico',
+            title: 'Arsenal Técnico',
+            subtitle: 'Matriz de Domínios',
             categories: {
-                backend: 'Backend',
-                frontend: 'Frontend',
-                database: 'Bancos de Dados',
-                tools: 'Ferramentas & DevOps',
+                backend: 'Core Backend & API',
+                frontend: 'Client & UI Architecture',
+                database: 'Data & Persistence',
+                tools: 'DevOps & Tooling',
+            },
+        },
+        architecture: {
+            title: 'Pensamento Sistêmico',
+            subtitle: 'Arquitetura e Escalabilidade',
+            description: 'Minha abordagem à engenharia de software vai além de escrever código. Projeto sistemas resilientes que resolvem gargalos de negócios, priorizando a segurança, escalabilidade horizontal e a experiência do desenvolvedor.',
+            pillars: {
+                resilience: {
+                    title: 'Resiliência e Alta Disponibilidade',
+                    desc: 'Projetando serviços stateless e arquiteturas tolerantes a falhas para garantir zero tempo de inatividade.'
+                },
+                security: {
+                    title: 'Segurança desde o Design',
+                    desc: 'Implementando controles rigorosos de acesso (RBAC), criptografia de dados e políticas zero-trust na rede.'
+                },
+                scalability: {
+                    title: 'Escalabilidade Horizontal',
+                    desc: 'Construindo microsserviços fracamente acoplados e arquiteturas orientadas a eventos que escalam independentemente.'
+                }
+            },
+            diagram: {
+                client: 'Cliente',
+                gateway: 'API Gateway / Auth Layer',
+                services: 'Serviços Principais',
+                database: 'Armazenamento Persistente'
             }
         },
         projects: {
@@ -572,13 +647,38 @@ export const translations = {
             ],
         },
         skills: {
-            title: 'Competenze',
-            subtitle: 'Tech Stack',
+            title: 'Arsenale Tecnico',
+            subtitle: 'Matrice dei Domini',
             categories: {
-                backend: 'Backend',
-                frontend: 'Frontend',
-                database: 'Database',
-                tools: 'Strumenti & DevOps',
+                backend: 'Core Backend & API',
+                frontend: 'Client & UI Architecture',
+                database: 'Data & Persistence',
+                tools: 'DevOps & Tooling',
+            },
+        },
+        architecture: {
+            title: 'Pensiero Sistemico',
+            subtitle: 'Architettura e Scalabilità',
+            description: 'Il mio approccio all\'ingegneria del software va oltre la scrittura di codice. Progetto sistemi resilienti che risolvono i colli di bottiglia aziendali, dando priorità alla sicurezza, alla scalabilità orizzontale e all\'esperienza degli sviluppatori.',
+            pillars: {
+                resilience: {
+                    title: 'Resilienza e Alta Affidabilità',
+                    desc: 'Progettazione di servizi stateless e architetture tolleranti ai guasti per garantire zero tempi di inattività e fluidità.'
+                },
+                security: {
+                    title: 'Sicurezza dal Design',
+                    desc: 'Implementazione di rigorosi controlli di accesso (RBAC), crittografia dei dati e adozione di criteri zero-trust nella rete.'
+                },
+                scalability: {
+                    title: 'Scalabilità Orizzontale',
+                    desc: 'Costruzione di microservizi debolmente accoppiati e architetture basate su eventi che possono scalare in modo indipendente.'
+                }
+            },
+            diagram: {
+                client: 'Cliente',
+                gateway: 'API Gateway / Auth Layer',
+                services: 'Servizi Principali',
+                database: 'Archiviazione Persistente'
             }
         },
         projects: {
