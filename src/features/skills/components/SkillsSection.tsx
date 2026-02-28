@@ -44,13 +44,18 @@ export function SkillsSection({ dict }: SkillsSectionProps) {
                         className="glass relative flex flex-col p-6 rounded-2xl border border-[hsl(var(--border))] group hover:border-[var(--accent-hex)] transition-colors h-full"
                     >
                         {/* Domain Header */}
-                        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[hsl(var(--border))]">
+                        <div className="relative flex items-center gap-3 mb-6 pb-4">
                             <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center shrink-0 border border-[hsl(var(--border))]">
                                 {categoryIcons[category.id]}
                             </div>
                             <h3 className="font-bold text-sm text-[hsl(var(--foreground))] uppercase tracking-widest">
                                 {dict.categories[category.id]}
                             </h3>
+
+                            {/* Animated Underline */}
+                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[hsl(var(--border))] overflow-hidden">
+                                <div className="absolute inset-0 bg-[hsl(var(--foreground))] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
+                            </div>
                         </div>
 
                         {/* Skills Grid */}
