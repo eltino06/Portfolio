@@ -131,9 +131,9 @@ const ParticleCanvas = () => {
 
                 // Keep particles moving around the mouse but don't let them clump at exactly 0 distance
                 if (distM < 150) {
-                    // Pull slowly towards mouse
-                    p.x += dxm * 0.015;
-                    p.y += dym * 0.015;
+                    // Pull very slowly towards mouse (weaker magnet)
+                    p.x += dxm * 0.005;
+                    p.y += dym * 0.005;
                 }
 
                 // Gentle repulsion if too close to prevent the "blob" (singularity)

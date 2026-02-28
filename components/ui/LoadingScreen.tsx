@@ -152,10 +152,10 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                 className="text-3xl sm:text-5xl lg:text-[5.5rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
-                                        ? 'linear-gradient(90deg, #ffffff 0%, #ffffff 40%, #222222 50%, #ffffff 60%, #ffffff 100%)'
-                                        : 'linear-gradient(90deg, #ffffff, #ffffff)',
+                                        ? 'linear-gradient(90deg, #525252 0%, #525252 40%, #ffffff 50%, #525252 60%, #525252 100%)'
+                                        : 'linear-gradient(90deg, #525252, #525252)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
-                                    animation: showShimmer ? 'shimmer 2.5s linear infinite' : 'none'
+                                    animation: showShimmer ? 'shimmer 2s linear infinite' : 'none'
                                 }}
                             >
                                 {displayedMain}
@@ -169,11 +169,22 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             </h2>
 
                             <div className="h-8 flex items-center justify-center">
-                                <p className="text-xs sm:text-base lg:text-lg font-code text-[var(--accent-hex)] tracking-[0.8em] font-bold opacity-90 uppercase select-none">
+                                <p className="text-xs sm:text-base lg:text-lg font-code text-[#525252] tracking-[0.8em] font-bold uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <span className="text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]">
+                                    <motion.span
+                                        animate={{
+                                            color: ['#ffffff', '#a3a3a3', '#ffffff'],
+                                            textShadow: [
+                                                '0 0 10px rgba(255,255,255,0.3)',
+                                                '0 0 20px rgba(255,255,255,0.1)',
+                                                '0 0 10px rgba(255,255,255,0.3)'
+                                            ]
+                                        }}
+                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                        className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
+                                    >
                                         {displayedSub.slice(11)}
-                                    </span>
+                                    </motion.span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
                                         <motion.span
                                             animate={{ opacity: [1, 0] }}
