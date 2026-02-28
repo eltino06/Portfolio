@@ -52,6 +52,9 @@ export function smoothScrollTo(targetId: string, duration: number = 1200): void 
         return (c / 2) * (t * t * t + 2) + b;
     };
 
+    // Temporarily disable CSS smooth scroll to prevent lag/fighting
+    document.documentElement.style.scrollBehavior = 'auto';
+
     const animation = (currentTime: number) => {
         if (startTime === null) startTime = currentTime;
         const timeElapsed = currentTime - startTime;
@@ -62,8 +65,9 @@ export function smoothScrollTo(targetId: string, duration: number = 1200): void 
         if (timeElapsed < duration) {
             requestAnimationFrame(animation);
         } else {
-            // Snap to exact position at the very end to avoid sub-pixel precision issues
+            // Snap to exact position and restore CSS smooth scroll
             window.scrollTo(0, offsetPosition);
+            document.documentElement.style.scrollBehavior = '';
         }
     };
 

@@ -215,54 +215,56 @@ export function ProjectsSection() {
     ];
 
     return (
-        <Section id="projects" alternate>
-            <SectionHeading
-                label={t('projects.title')}
-                title={t('projects.subtitle')}
-                subtitle={t('projects.description')}
-            />
+        <>
+            <Section id="projects" alternate>
+                <SectionHeading
+                    label={t('projects.title')}
+                    title={t('projects.subtitle')}
+                    subtitle={t('projects.description')}
+                />
 
-            {/* Filter buttons */}
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
-                {translatedCategories.map((cat) => (
-                    <button
-                        key={cat.id}
-                        onClick={() => setActiveFilter(cat.id as ProjectCategory)}
-                        className={cn(
-                            'px-5 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
-                            activeFilter === cat.id
-                                ? 'bg-[var(--accent-hex)] text-white border-transparent shadow-[0_0_20px_var(--accent-glow)]'
-                                : 'glass border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:border-[var(--accent-hex)] hover:text-[hsl(var(--foreground))]'
-                        )}
-                    >
-                        {cat.label}
-                        <span className="ml-1.5 text-xs opacity-60">
-                            ({cat.id === 'Todas' ? projects.length : projects.filter((p) => p.category === cat.id).length})
-                        </span>
-                    </button>
-                ))}
-            </div>
-
-            {/* Projects grid */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={activeFilter}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    {filtered.map((project, i) => (
-                        <ProjectCard
-                            key={project.id}
-                            project={project}
-                            index={i}
-                            onClick={() => setSelectedProject(project)}
-                        />
+                {/* Filter buttons */}
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                    {translatedCategories.map((cat) => (
+                        <button
+                            key={cat.id}
+                            onClick={() => setActiveFilter(cat.id as ProjectCategory)}
+                            className={cn(
+                                'px-5 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
+                                activeFilter === cat.id
+                                    ? 'bg-[var(--accent-hex)] text-white border-transparent shadow-[0_0_20px_var(--accent-glow)]'
+                                    : 'glass border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:border-[var(--accent-hex)] hover:text-[hsl(var(--foreground))]'
+                            )}
+                        >
+                            {cat.label}
+                            <span className="ml-1.5 text-xs opacity-60">
+                                ({cat.id === 'Todas' ? projects.length : projects.filter((p) => p.category === cat.id).length})
+                            </span>
+                        </button>
                     ))}
-                </motion.div>
-            </AnimatePresence>
+                </div>
+
+                {/* Projects grid */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeFilter}
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {filtered.map((project, i) => (
+                            <ProjectCard
+                                key={project.id}
+                                project={project}
+                                index={i}
+                                onClick={() => setSelectedProject(project)}
+                            />
+                        ))}
+                    </motion.div>
+                </AnimatePresence>
+            </Section>
 
             {/* Project detail modal */}
             <AnimatePresence>
@@ -270,6 +272,6 @@ export function ProjectsSection() {
                     <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
                 )}
             </AnimatePresence>
-        </Section>
+        </>
     );
 }
