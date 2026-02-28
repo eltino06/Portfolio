@@ -264,9 +264,9 @@ export const education: Education[] = [
 // ─────────────────────────────────────────
 export const navLinks = [
     { href: '#hero', label: 'nav.home' },
-    { href: '#about', label: 'nav.about' },
-    { href: '#skills', label: 'nav.skills' },
     { href: '#projects', label: 'nav.projects' },
     { href: '#experience', label: 'nav.experience' },
+    { href: '#skills', label: 'nav.skills' },
+    { href: '#about', label: 'nav.about' },
     { href: '#contact', label: 'nav.contact' },
 ] as const;
