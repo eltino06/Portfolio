@@ -38,6 +38,10 @@ export function LanguageProvider({
                 window.scrollTo(0, scrollPos);
                 // Also schedule a micro-delay restore just in case images bump the layout
                 setTimeout(() => window.scrollTo(0, scrollPos), 50);
+
+                // CRITICAL: Clear the flags so if the user presses F5 later, it behaves as a fresh visit (Top scroll + LoginScreen)
+                sessionStorage.removeItem('languageChange');
+                sessionStorage.removeItem('savedScrollPos');
             }
         }
     }, [initialLanguage]);
