@@ -40,14 +40,6 @@ export async function generateMetadata({ params }: { params: { lang: string } })
             default: `${personalInfo.name} — ${personalInfo.title}`,
             template: `%s | ${personalInfo.name}`,
         },
-        icons: {
-            icon: [
-                { url: `${basePath}/favicon.svg`, type: 'image/svg+xml' },
-            ],
-            apple: [
-                { url: `${basePath}/favicon.svg`, type: 'image/svg+xml' },
-            ],
-        },
         description: dict.hero.subtitle,
         keywords: [
             'Santino Bondioni',
