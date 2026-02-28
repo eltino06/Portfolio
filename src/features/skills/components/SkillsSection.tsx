@@ -54,27 +54,29 @@ export function SkillsSection({ dict }: SkillsSectionProps) {
                         </div>
 
                         {/* Skills Grid */}
-                        <div className="grid grid-cols-2 gap-3 mt-auto">
-                            {category.skills.map(skill => {
-                                const IconComponent = iconMap[skill.icon];
-                                return (
-                                    <div
-                                        key={skill.name}
-                                        className="flex items-center gap-2.5 p-2 rounded-lg hover:bg-[hsl(var(--accent-opacity))] transition-colors"
-                                    >
-                                        <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                            {IconComponent ? (
-                                                <IconComponent size={16} className="text-[hsl(var(--muted-foreground))] group-hover:text-[var(--accent-hex)] transition-colors" />
-                                            ) : (
-                                                <span className="text-[10px]">💻</span>
-                                            )}
+                        <div className="flex-1 flex flex-col justify-center">
+                            <div className="grid grid-cols-2 gap-3">
+                                {category.skills.map(skill => {
+                                    const IconComponent = iconMap[skill.icon];
+                                    return (
+                                        <div
+                                            key={skill.name}
+                                            className="flex items-center gap-2.5 p-2 rounded-lg hover:bg-[hsl(var(--accent-opacity))] transition-colors"
+                                        >
+                                            <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                                                {IconComponent ? (
+                                                    <IconComponent size={16} className="text-[hsl(var(--muted-foreground))] group-hover:text-[var(--accent-hex)] transition-colors" />
+                                                ) : (
+                                                    <span className="text-[10px]">💻</span>
+                                                )}
+                                            </div>
+                                            <span className="text-xs font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] transition-colors truncate">
+                                                {skill.name}
+                                            </span>
                                         </div>
-                                        <span className="text-xs font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] transition-colors truncate">
-                                            {skill.name}
-                                        </span>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
                         </div>
                     </FadeIn>
                 ))}
