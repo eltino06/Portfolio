@@ -13,11 +13,20 @@ export function useScrollSpy(sectionIds: string[], offset: number = 100): string
         const handler = (): void => {
             const scrollPos = window.scrollY + offset;
 
+            // Check if we reached the absolute bottom of the page
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+                setActiveSection(sectionIds[sectionIds.length - 1] ?? '');
+                return;
+            }
+
             for (const id of [...sectionIds].reverse()) {
                 const el = document.getElementById(id.replace('#', ''));
-                if (el && el.offsetTop <= scrollPos) {
-                    setActiveSection(id);
-                    return;
+                if (el) {
+                    const topPos = el.getBoundingClientRect().top + window.scrollY;
+                    if (topPos <= scrollPos) {
+                        setActiveSection(id);
+                        return;
+                    }
                 }
             }
 

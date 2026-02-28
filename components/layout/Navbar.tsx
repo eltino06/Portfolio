@@ -208,7 +208,7 @@ export function Navbar() {
                                             href={link.href}
                                             className={cn(
                                                 'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                                                activeSection === link.href.substring(1)
+                                                activeSection === link.href
                                                     ? 'bg-[var(--accent-hex)] text-[var(--accent-fg)] font-bold hover:shadow-[0_0_30px_var(--accent-glow)]'
                                                     : 'text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]'
                                             )}
