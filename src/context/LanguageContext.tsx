@@ -98,7 +98,7 @@ export function LanguageProvider({
 
             setTimeout(() => clearInterval(lockInterval), 2900);
 
-        }, 50); // Instant screen cover, small 50ms pulse for React state update before route swap
+        }, 450); // Wait 450ms for the 0.4s fade-in to complete before swapping the layout
     };
 
     const t = (path: TranslationKey, options?: { returnObjects?: boolean }): any => {
@@ -123,10 +123,10 @@ export function LanguageProvider({
                 {isTransitioning && (
                     <motion.div
                         className="fixed inset-0 z-[9999] bg-white dark:bg-[#050507] flex items-center justify-center pointer-events-none"
-                        initial={{ opacity: 1 }}
+                        initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.4, ease: 'easeInOut' }}
                     >
                         {/* Explicit dark and light classes to guarantee perfect coloring in standard and dark mode */}
                         <motion.div
