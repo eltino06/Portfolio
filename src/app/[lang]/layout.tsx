@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '../globals.css';
 import { personalInfo } from '@/features/hero/data/hero';
@@ -23,6 +23,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const basePath = process.env.GITHUB_ACTIONS ? '/Portfolio' : '';
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    themeColor: '#050507',
+};
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
     const lang = params.lang as any;
@@ -74,7 +80,6 @@ export async function generateMetadata({ params }: { params: { lang: string } })
             images: [`${basePath}/og-image.png`],
             creator: '@santinobondioni',
         },
-        viewport: 'width=device-width, initial-scale=1',
         robots: {
             index: true,
             follow: true,
