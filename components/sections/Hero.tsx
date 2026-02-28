@@ -84,14 +84,14 @@ const ParticleCanvas = () => {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
 
-        const PARTICLE_COUNT = 150; // Increased to 150 per user request
+        const PARTICLE_COUNT = 350; // Increased to 350 for ALTO volumen
         const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.35, // Slightly slower
-            vy: (Math.random() - 0.5) * 0.35,
-            r: Math.random() * 1.5 + 0.5,
-            opacity: Math.random() * 0.2 + 0.05,
+            vx: (Math.random() - 0.5) * 0.45, // Slightly faster
+            vy: (Math.random() - 0.5) * 0.45,
+            r: Math.random() * 2.0 + 1.0, // Larger size for better visibility
+            opacity: Math.random() * 0.5 + 0.3, // Higher base opacity
         }));
 
         const draw = () => {
@@ -102,8 +102,8 @@ const ParticleCanvas = () => {
             let mx = mouseRef.current.x;
             let my = mouseRef.current.y;
 
-            const particleColor = isDark ? '255, 255, 255' : '150, 150, 150'; // White or Grayish for light mode
-            const alphaMultiplier = isDark ? 1.5 : 4.5; // Boosted in light mode
+            const particleColor = isDark ? '255, 255, 255' : '30, 30, 30'; // White or Graphite/Black for light mode
+            const alphaMultiplier = 1.6; // Consistent strong intensity
 
             if (!isInteracting.current) {
                 // Smooth circular path in the middle
@@ -184,7 +184,12 @@ const ParticleCanvas = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="absolute inset-0 w-full h-full opacity-60 pointer-events-none"
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{
+                // Fade out particles towards the bottom so they don't cut off abruptly
+                maskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)'
+            }}
             aria-hidden="true"
         />
     );
@@ -216,8 +221,8 @@ export function HeroSection() {
             <ParticleCanvas />
 
             {/* Gradient blobs (Very low intensity) */}
-            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] dark:opacity-[0.01] blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] dark:opacity-[0.01] blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.005] dark:opacity-[0.003] blur-[150px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.005] dark:opacity-[0.003] blur-[150px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
                 {/* ─── Left: Text Content ─── */}
