@@ -84,6 +84,9 @@ export async function generateMetadata({ params }: { params: { lang: string } })
             index: true,
             follow: true,
         },
+        other: {
+            google: 'notranslate',
+        },
     };
 }
 
@@ -102,7 +105,7 @@ export default async function RootLayout({
     const dict = await getDictionary(lang);
 
     return (
-        <html lang={lang} suppressHydrationWarning>
+        <html lang={lang} translate="no" suppressHydrationWarning>
             <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[hsl(var(--background))] text-[hsl(var(--foreground))] selection:bg-[var(--accent-hex)] selection:text-white`}>
                 <LanguageProvider initialLanguage={lang}>
                     <ThemeProvider
@@ -111,8 +114,8 @@ export default async function RootLayout({
                         enableSystem={false}
                         storageKey="portfolio-theme"
                     >
+                        <Navbar dict={dict} lang={lang} />
                         <ClientLayout lang={lang}>
-                            <Navbar dict={dict} lang={lang} />
                             {children}
                             <Footer dict={dict} lang={lang} />
                         </ClientLayout>

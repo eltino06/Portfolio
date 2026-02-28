@@ -9,26 +9,25 @@ interface ClientLayoutProps {
     lang: string;
 }
 
-let isInitialLoad = typeof window !== 'undefined';
+// Global variable preserved only within the active JavaScript context.
+// Resets unconditionally on F5 (hard reload), but remains preserved on Next.js soft navigation (router.push)
+let isFirstVisit = true;
 
 export function ClientLayout({ children, lang }: ClientLayoutProps) {
-    const [isLoading, setIsLoading] = useState(isInitialLoad);
+    // Both Server and initial Client hydrate with `isFirstVisit = true` avoiding mismatch.
+    // If the component remounts purely on client via Language change, it initializes to false.
+    const [isLoading, setIsLoading] = useState(isFirstVisit);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (isFirstVisit) {
             window.history.scrollRestoration = 'manual';
-            if (isInitialLoad) {
-                window.scrollTo(0, 0);
-            }
-        }
-        if (!isInitialLoad) {
-            setIsLoading(false);
+            window.scrollTo(0, 0);
+            isFirstVisit = false;
         }
     }, [lang]);
 
     const handleLoadingComplete = () => {
         setIsLoading(false);
-        isInitialLoad = false;
     };
 
     return (

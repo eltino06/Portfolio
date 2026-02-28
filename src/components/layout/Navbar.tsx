@@ -23,16 +23,28 @@ export function Navbar({ dict, lang }: NavbarProps) {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
-
-    const lastScrollY = useRef(0);
-
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const lastScrollY = useRef(0);
+    const isHoveredRef = useRef(false);
+
     const { scrollY } = useScroll();
     const sectionIds = navLinks.map((l) => l.href);
     const activeSection = useScrollSpy(sectionIds, 120);
+
+    const startHideTimer = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (isHoveredRef.current) return; // Don't hide if hovered
+
+        timeoutRef.current = setTimeout(() => {
+            if (!isHoveredRef.current && window.scrollY > 50) {
+                setIsVisible(false);
+            }
+        }, 2000);
+    };
 
     useMotionValueEvent(scrollY, 'change', (latest) => {
         if (isMobileOpen) {
@@ -40,26 +52,40 @@ export function Navbar({ dict, lang }: NavbarProps) {
             return;
         }
 
-        const diff = latest - lastScrollY.current;
-        const isScrollingDown = latest > lastScrollY.current;
-        const absDiff = Math.abs(diff);
-
-        if (latest > 20) {
-            setIsScrolled(true);
-        } else {
-            setIsScrolled(false);
-        }
+        setIsScrolled(latest > 20);
 
         if (latest < 50) {
             setIsVisible(true);
-        } else if (isScrollingDown && absDiff > 5) {
-            setIsVisible(false);
-        } else if (!isScrollingDown && absDiff > 5) {
-            setIsVisible(true);
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            lastScrollY.current = latest;
+            return;
+        }
+
+        const previous = scrollY.getPrevious() ?? 0;
+        const diff = latest - previous;
+
+        if (diff > 0) {
+            // Scrolling DOWN
+            // If it's currently visible and not hovered, ensure timer is running
+            if (isVisible) {
+                startHideTimer();
+            }
+        } else if (diff < 0) {
+            // Scrolling UP
+            // Show immediately, but then start timer to hide if not used
+            if (!isVisible) setIsVisible(true);
+            startHideTimer();
         }
 
         lastScrollY.current = latest;
     });
+
+    // Clean up timer on unmount
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
 
     useEffect(() => {
         if (isMobileOpen) {
@@ -84,12 +110,28 @@ export function Navbar({ dict, lang }: NavbarProps) {
 
     return (
         <>
+            {/* Invisible hover trigger zone at the very top of the screen */}
+            <div
+                className="fixed top-0 left-0 w-[100vw] h-6 z-[90]"
+                onMouseEnter={() => setIsVisible(true)}
+            />
+
             <motion.header
+                onMouseEnter={() => {
+                    isHoveredRef.current = true;
+                    setIsVisible(true);
+                    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                }}
+                onMouseLeave={() => {
+                    isHoveredRef.current = false;
+                    startHideTimer();
+                }}
                 className={cn(
-                    'fixed top-0 left-0 right-0 z-50',
+                    'fixed top-0 left-0 w-[100vw] z-[100]',
                     isScrolled
                         ? 'glass border-b border-[hsl(var(--border))] shadow-sm transition-colors duration-300'
-                        : 'bg-transparent transition-colors duration-300'
+                        : 'bg-transparent transition-colors duration-300',
+                    !isVisible && 'pointer-events-none'
                 )}
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: isVisible ? 0 : -100, opacity: isVisible ? 1 : 0 }}

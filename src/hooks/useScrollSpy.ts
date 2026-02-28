@@ -9,35 +9,56 @@ import { useState, useEffect } from 'react';
 export function useScrollSpy(sectionIds: string[], offset: number = 100): string {
     const [activeSection, setActiveSection] = useState<string>(sectionIds[0] ?? '');
 
+    // Stabilize dependency to avoid infinite resets
+    const stableIds = sectionIds.join(',');
+
     useEffect(() => {
+        let ticking = false;
+
         const handler = (): void => {
-            // Using 0.5 centers the trigger point exactly middle of viewport
-            const scrollPos = window.scrollY + window.innerHeight * 0.5;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    // Using the offset parameter (default 100px down from top) instead of the middle of the screen
+                    const scrollPos = window.scrollY + offset;
 
-            // Check if we reached the absolute bottom of the page
-            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
-                setActiveSection(sectionIds[sectionIds.length - 1] ?? '');
-                return;
-            }
-
-            for (const id of [...sectionIds].reverse()) {
-                const el = document.getElementById(id.replace('#', ''));
-                if (el) {
-                    const topPos = el.getBoundingClientRect().top + window.scrollY;
-                    if (topPos <= scrollPos) {
-                        setActiveSection(id);
+                    // If exactly at the top, default to first section to avoid hydration height bugs
+                    if (window.scrollY === 0) {
+                        setActiveSection(sectionIds[0] ?? '');
+                        ticking = false;
                         return;
                     }
-                }
-            }
 
-            setActiveSection(sectionIds[0] ?? '');
+                    // Check if we reached the absolute bottom of the page
+                    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+                        setActiveSection(sectionIds[sectionIds.length - 1] ?? '');
+                        ticking = false;
+                        return;
+                    }
+
+                    let foundSection = sectionIds[0] ?? '';
+                    for (const id of [...sectionIds].reverse()) {
+                        const el = document.getElementById(id.replace('#', ''));
+                        if (el) {
+                            // DOM read operation (now safe because of rAF)
+                            const topPos = el.getBoundingClientRect().top + window.scrollY;
+                            if (topPos <= scrollPos) {
+                                foundSection = id;
+                                break;
+                            }
+                        }
+                    }
+
+                    setActiveSection(foundSection);
+                    ticking = false;
+                });
+                ticking = true;
+            }
         };
 
         window.addEventListener('scroll', handler, { passive: true });
-        handler();
+        handler(); // init call
         return () => window.removeEventListener('scroll', handler);
-    }, [sectionIds, offset]);
+    }, [stableIds]);
 
     return activeSection;
 }

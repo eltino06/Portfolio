@@ -29,6 +29,9 @@
     --accent-fg: #000000;
     --accent-glow: rgba(255, 255, 255, 0.05);
     /* Minimal glow if any */
+
+    --loader-shimmer-bg: linear-gradient(90deg, #666666 0%, #666666 40%, #ffffff 50%, #666666 60%, #666666 100%);
+    --loader-idle-bg: linear-gradient(90deg, #666666, #666666);
 }
 
 /* Light mode overrides (Ultra clean off-white) */
@@ -52,6 +55,8 @@
     --accent-hex: #000000;
     --accent-fg: #ffffff;
     --accent-glow: rgba(0, 0, 0, 0.05);
+
+    --loader-shimmer-bg: linear-gradient(90deg, #666666 0%, #666666 40%, #000000 50%, #666666 60%, #666666 100%);
 }
 
 /* ─────────────────────────────────────────
@@ -64,10 +69,11 @@
 }
 
 html {
-    scroll-behavior: smooth;
     scroll-padding-top: 80px;
     font-size: 17.85px;
     /* Scales the entire UI to match the user's larger visual reference (10% smaller) */
+    scrollbar-color: var(--accent-hex) transparent;
+    scrollbar-width: thin;
 }
 
 body {
@@ -75,30 +81,15 @@ body {
     color: hsl(var(--foreground));
     font-family: var(--font-inter), system-ui, sans-serif;
     line-height: 1.6;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ─────────────────────────────────────────
-   CUSTOM SCROLLBAR
+   CUSTOM SCROLLBAR (Minimal & Single Color)
 ───────────────────────────────────────── */
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--accent-hex);
-    border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--accent-h), var(--accent-s), 55%);
-}
+/* Using native standards above in html to avoid Edge/Windows double scrollbar bugs */
 
 /* ─────────────────────────────────────────
    SELECTION

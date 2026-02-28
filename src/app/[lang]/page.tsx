@@ -13,7 +13,7 @@ export default async function Home({ params }: { params: { lang: string } }) {
     const dict = await getDictionary(lang);
 
     return (
-        <main className="flex flex-col w-full overflow-x-hidden">
+        <main className="flex flex-col w-full">
             <HeroSection dict={dict.hero} statsDict={dict.stats} />
             <AboutSection dict={dict.about} />
 

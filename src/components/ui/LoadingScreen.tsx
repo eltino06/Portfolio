@@ -53,6 +53,9 @@ const ParticleCanvas = () => {
             opacity: Math.random() * 0.4 + 0.1,
         }));
 
+        const isLight = document.documentElement.classList.contains('light');
+        const colorBase = isLight ? '0, 0, 0' : '255, 255, 255';
+
         const draw = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach((p) => {
@@ -64,7 +67,7 @@ const ParticleCanvas = () => {
                 if (p.y > canvas.height) p.y = 0;
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`;
+                ctx.fillStyle = `rgba(${colorBase}, ${isLight ? Math.min(1, p.opacity * 1.8) : p.opacity * 0.5})`;
                 ctx.fill();
             });
 
@@ -75,8 +78,8 @@ const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 140) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - dist / 140)})`;
-                        ctx.lineWidth = 0.4;
+                        ctx.strokeStyle = `rgba(${colorBase}, ${(isLight ? 0.7 : 0.05) * (1 - dist / 140)})`;
+                        ctx.lineWidth = isLight ? 0.6 : 0.4;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
@@ -111,6 +114,17 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     const displayedSub = useSlowerTypewriter(subText, 70, 1800);
 
     useEffect(() => {
+        if (isVisible) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isVisible]);
+
+    useEffect(() => {
         if (displayedMain === mainText) {
             const delayTimer = setTimeout(() => setShowShimmer(true), 500);
             return () => clearTimeout(delayTimer);
@@ -120,7 +134,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 5500);
+        }, 6500);
 
         return () => clearTimeout(timer);
     }, []);
@@ -129,7 +143,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050507] overflow-hidden"
+                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#050507] overflow-hidden"
                     exit={{
                         opacity: 0,
                         scale: 1.05,
@@ -155,8 +169,8 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                 className="text-[2rem] sm:text-[3.15rem] lg:text-[5rem] font-black tracking-tighter font-inter select-none leading-none text-transparent bg-clip-text transition-[background-image] duration-1000 pr-2"
                                 style={{
                                     backgroundImage: showShimmer
-                                        ? 'linear-gradient(90deg, #666666 0%, #666666 40%, #ffffff 50%, #666666 60%, #666666 100%)'
-                                        : 'linear-gradient(90deg, #666666, #666666)',
+                                        ? 'var(--loader-shimmer-bg)'
+                                        : 'var(--loader-idle-bg)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
                                     animation: showShimmer ? 'shimmer 3.5s linear infinite' : 'none'
                                 }}
@@ -174,7 +188,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             <div className="h-8 flex items-center justify-center">
                                 <p className="text-[10px] sm:text-xs lg:text-sm font-code text-[#737373] tracking-[0.5em] font-medium uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <span className="text-white font-bold">
+                                    <span className="text-black dark:text-white font-black drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:drop-shadow-none">
                                         {displayedSub.slice(11)}
                                     </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
@@ -188,22 +202,14 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             </div>
                         </div>
 
-                        {/* Video Game Style Corner Spinner - Ultra Minimalist */}
-                        <div className="fixed bottom-4 right-4 flex items-center justify-center">
+                        {/* Bottom Progress Bar */}
+                        <div className="fixed bottom-0 left-0 w-full h-[5px] bg-black/5 dark:bg-white/5">
                             <motion.div
-                                className="w-4 h-4 rounded-full border-[2px] border-transparent border-t-[var(--accent-hex)] border-r-[var(--accent-hex)]"
-                                style={{
-                                    backfaceVisibility: 'hidden',
-                                    transform: 'translateZ(0)',
-                                }}
-                                animate={{ rotate: 360 }}
-                                transition={{
-                                    duration: 1,
-                                    repeat: Infinity,
-                                    ease: "linear"
-                                }}
+                                className="h-full bg-[var(--accent-hex)]"
+                                initial={{ width: '0%' }}
+                                animate={{ width: '100%' }}
+                                transition={{ duration: 6.5, ease: 'linear' }}
                             />
-                            <div className="absolute w-4 h-4 rounded-full border-[2px] border-white/[0.05]" />
                         </div>
                     </motion.div>
                 </motion.div>
