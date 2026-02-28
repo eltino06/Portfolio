@@ -84,7 +84,7 @@ const ParticleCanvas = () => {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
 
-        const PARTICLE_COUNT = 100; // Increased from 60
+        const PARTICLE_COUNT = 150; // Increased to 150 per user request
         const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -132,7 +132,7 @@ const ParticleCanvas = () => {
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${particleRGB}, ${p.opacity * 2})`; // Increased noticeable intensity
+                ctx.fillStyle = `rgba(${particleRGB}, ${p.opacity * (isDark ? 3.5 : 1.5)})`; // Much higher intensity in dark mode
                 ctx.fill();
             });
 
@@ -143,7 +143,7 @@ const ParticleCanvas = () => {
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
                 if (distM < 200) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(${particleRGB}, ${0.25 * (1 - distM / 200)})`; // Notable intensity
+                    ctx.strokeStyle = `rgba(${particleRGB}, ${(isDark ? 0.6 : 0.25) * (1 - distM / 200)})`; // Bright connections in dark mode
                     ctx.lineWidth = 0.8;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mx, my);
@@ -156,7 +156,7 @@ const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 120) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(${particleRGB}, ${0.2 * (1 - dist / 120)})`; // Notable intensity
+                        ctx.strokeStyle = `rgba(${particleRGB}, ${(isDark ? 0.4 : 0.2) * (1 - dist / 120)})`; // Bright connections in dark mode
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -211,9 +211,9 @@ export function HeroSection() {
             {/* Particle background */}
             <ParticleCanvas />
 
-            {/* Gradient blobs (Increased intensity so they are visible in both modes) */}
-            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-5 dark:opacity-[0.03] blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-5 dark:opacity-[0.03] blur-[100px] pointer-events-none" />
+            {/* Gradient blobs (Very low intensity) */}
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] dark:opacity-[0.01] blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] dark:opacity-[0.01] blur-[120px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
                 {/* ─── Left: Text Content ─── */}
