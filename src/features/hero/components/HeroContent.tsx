@@ -20,15 +20,14 @@ interface HeroContentProps {
 }
 
 export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroContentProps) {
-    const typedText = useTypewriter(personalInfo.roles.map((roleKey: string) => {
-        // Simple mock of t() logic for the typewriter if needed, 
-        // but it's better if page.tsx passes resolved strings if possible.
-        // However, roles are keys. 
-        return roleKey;
-    }));
+    const typewriterRoles = [
+        dict.roles?.java || 'Arquitectura Backend',
+        dict.roles?.fullstack || 'Ingeniería de Producto',
+        dict.roles?.backend || 'Sistemas Escalables',
+        dict.roles?.solver || 'Resolución de Problemas'
+    ];
+    const typedText = useTypewriter(typewriterRoles, 60, 2500);
 
-    // In a real refactor, we'd resolve keys on the server.
-    const techBadges = ['Java', 'Spring Boot', 'Next.js', 'PostgreSQL', 'Docker'];
 
     const containerVariants = {
         hidden: {},
@@ -66,17 +65,15 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                         {dict.subtitle}
                     </motion.p>
 
-                    <motion.div variants={itemVariants} className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                        {techBadges.map((tech, i) => (
-                            <motion.div
-                                key={tech}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.6 + i * 0.08 }}
-                            >
-                                <Badge variant="accent">{tech}</Badge>
-                            </motion.div>
-                        ))}
+                    <motion.div variants={itemVariants} className="flex min-h-[40px] items-center justify-center lg:justify-start">
+                        <Badge variant="accent" className="text-sm px-4 py-1.5 font-medium tracking-wide select-none">
+                            {typedText}
+                            <motion.span
+                                animate={{ opacity: [1, 0] }}
+                                transition={{ repeat: Infinity, duration: 0.8 }}
+                                className="inline-block w-[2px] h-[14px] bg-current ml-1 align-middle"
+                            />
+                        </Badge>
                     </motion.div>
 
                     <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6 mt-4 justify-center lg:justify-start">

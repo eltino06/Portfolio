@@ -1,0 +1,68 @@
+﻿
+> santino-portfolio@1.0.0 start
+> next start
+
+node.exe :  Ô¿» Failed 
+to start server
+En línea: 1 Carácter: 1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ( Ô¿» Failed t   
+ o start server:Str    
+ing) [], RemoteExc    
+eption
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Error: listen 
+EADDRINUSE: address 
+already in use :::3000
+    at Server.setupList
+enHandle [as _listen2] 
+(node:net:1940:16)
+    at listenInCluster 
+(node:net:1997:12)
+    at Server.listen 
+(node:net:2102:7)
+    at C:\Users\Usuario
+\OneDrive\Desktop\portf
+olio\Portfolio\node_mod
+ules\next\dist\server\l
+ib\start-server.js:280:
+16
+    at new Promise 
+(<anonymous>)
+    at startServer (C:\
+Users\Usuario\OneDrive\
+Desktop\portfolio\Portf
+olio\node_modules\next\
+dist\server\lib\start-s
+erver.js:191:11)
+    at 
+Module.nextStart (C:\Us
+ers\Usuario\OneDrive\De
+sktop\portfolio\Portfol
+io\node_modules\next\di
+st\cli\next-start.js:25
+:40)
+    at C:\Users\Usuario
+\OneDrive\Desktop\portf
+olio\Portfolio\node_mod
+ules\next\dist\bin\next
+:105:856 {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
