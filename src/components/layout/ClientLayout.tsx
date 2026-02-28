@@ -15,6 +15,12 @@ export function ClientLayout({ children, lang }: ClientLayoutProps) {
     const [isLoading, setIsLoading] = useState(isInitialLoad);
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.history.scrollRestoration = 'manual';
+            if (isInitialLoad) {
+                window.scrollTo(0, 0);
+            }
+        }
         if (!isInitialLoad) {
             setIsLoading(false);
         }

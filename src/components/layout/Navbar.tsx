@@ -41,6 +41,8 @@ export function Navbar({ dict, lang }: NavbarProps) {
         }
 
         const diff = latest - lastScrollY.current;
+        const isScrollingDown = latest > lastScrollY.current;
+        const absDiff = Math.abs(diff);
 
         if (latest > 20) {
             setIsScrolled(true);
@@ -50,9 +52,9 @@ export function Navbar({ dict, lang }: NavbarProps) {
 
         if (latest < 50) {
             setIsVisible(true);
-        } else if (diff > 10) { // Even less sensitive to hide
+        } else if (isScrollingDown && absDiff > 5) {
             setIsVisible(false);
-        } else if (diff < -2) { // Extremely sensitive to show
+        } else if (!isScrollingDown && absDiff > 5) {
             setIsVisible(true);
         }
 

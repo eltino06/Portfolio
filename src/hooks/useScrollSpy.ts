@@ -11,10 +11,8 @@ export function useScrollSpy(sectionIds: string[], offset: number = 100): string
 
     useEffect(() => {
         const handler = (): void => {
-            // Instead of a static px offset, we use 40% of the screen height. 
-            // This ensures short sections at the bottom of the page become active
-            // when they enter the "viewing area" (middle of screen).
-            const scrollPos = window.scrollY + window.innerHeight * 0.4;
+            // Using 0.5 centers the trigger point exactly middle of viewport
+            const scrollPos = window.scrollY + window.innerHeight * 0.5;
 
             // Check if we reached the absolute bottom of the page
             if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
