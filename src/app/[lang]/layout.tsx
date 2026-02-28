@@ -102,7 +102,7 @@ export default async function RootLayout({
 
     return (
         <html lang={lang} translate="no" suppressHydrationWarning>
-            <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[hsl(var(--background))] text-[hsl(var(--foreground))] selection:bg-[var(--accent-hex)] selection:text-white`}>
+            <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[hsl(var(--background))] text-[hsl(var(--foreground))] selection:bg-[var(--accent-hex)] selection:text-white overflow-x-hidden w-full relative`}>
                 <LanguageProvider initialLanguage={lang}>
                     <ThemeProvider
                         attribute="class"

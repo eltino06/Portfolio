@@ -112,7 +112,7 @@ export function Navbar({ dict, lang }: NavbarProps) {
         <>
             {/* Invisible hover trigger zone at the very top of the screen */}
             <div
-                className="fixed top-0 left-0 w-[100vw] h-6 z-[90]"
+                className="fixed top-0 left-0 w-full h-6 z-[90]"
                 onMouseEnter={() => setIsVisible(true)}
             />
 
@@ -127,7 +127,7 @@ export function Navbar({ dict, lang }: NavbarProps) {
                     startHideTimer();
                 }}
                 className={cn(
-                    'fixed top-0 left-0 w-[100vw] z-[100]',
+                    'fixed top-0 left-0 w-full z-[100]',
                     isScrolled
                         ? 'glass border-b border-[hsl(var(--border))] shadow-sm transition-colors duration-300'
                         : 'bg-transparent transition-colors duration-300',

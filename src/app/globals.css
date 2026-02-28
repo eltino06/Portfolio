@@ -75,6 +75,7 @@ html {
     /* Scales the entire UI to match the user's larger visual reference (10% smaller) */
     scrollbar-color: var(--accent-hex) transparent;
     scrollbar-width: thin;
+    overflow-x: hidden;
 }
 
 body {
@@ -87,6 +88,9 @@ body {
     -webkit-tap-highlight-color: transparent;
     cursor: default;
     user-select: none;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
 }
 
 /* Allow selection and text cursor in form fields */
