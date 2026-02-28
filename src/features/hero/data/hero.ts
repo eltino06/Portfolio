@@ -12,7 +12,7 @@ export const personalInfo = {
     initials: 'SB',
     socials: {
         github: 'https://github.com/eltino06',
-        linkedin: 'https://www.linkedin.com/in/santino-bondioni/',
+        linkedin: 'https://www.linkedin.com/in/santino-bondioni-283a11305/',
         instagram: 'https://www.instagram.com/santinobondioni/',
     },
 } as const;

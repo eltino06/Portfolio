@@ -85,8 +85,8 @@ Developed with **Next.js 14**, **TypeScript**, and **Framer Motion**, this proje
 
 ## ✉️ Contact
 Developed with ❤️ by **Santino**.
-*   **LinkedIn**: [Santino](your-link-here)
-*   **Email**: [your-email@example.com]
+*   **LinkedIn**: [Santino](https://www.linkedin.com/in/santino-bondioni-283a11305/)
+*   **Email**: [santibon12345@gmail.com]
 
 ---
 *© 2026 - All Rights Reserved*
