@@ -88,12 +88,6 @@ export function ContactSection() {
             value: personalInfo.phone,
             href: `tel:${personalInfo.phone}`,
         },
-        {
-            icon: MapPin,
-            label: t('contact.infoLocation'),
-            value: personalInfo.location,
-            href: null,
-        },
     ];
 
     const {
