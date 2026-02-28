@@ -89,7 +89,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                             <Sparkles size={16} className="text-[var(--accent-hex)]" />
                         </div>
                         <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[hsl(var(--foreground))]">
-                            {dict.subtitle}
+                            {dict.eduSubtitle}
                         </h3>
                     </div>
 
@@ -120,7 +120,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
 
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider">
-                                        <span className="opacity-50 text-[hsl(var(--foreground))]">{dict.progress}</span>
+                                        <span className="opacity-50 text-[hsl(var(--foreground))]">{dict.eduProgress}</span>
                                         <AnimatedCounter value={edu.progress} suffix="%" className="text-[var(--accent-hex)]" />
                                     </div>
                                     <div className="h-1.5 bg-[hsl(var(--muted))] rounded-full overflow-hidden">

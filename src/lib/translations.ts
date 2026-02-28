@@ -51,6 +51,24 @@ export const translations = {
                 'Mi filosofía es que el buen código no solo corre rápido, sino que puede ser leído, mantenido y escalado por el equipo el día de mañana. Priorizo la fiabilidad del sistema (0% downtime) y arquitecturas resilientes.',
                 'Busco unirme a equipos exigentes donde pueda aportar valor desde el diseño del sistema, optimizando procesos y construyendo API RESTful que soporten alta concurrencia y seguridad.',
             ],
+            eduSubtitle: 'Formación Académica',
+            eduProgress: 'Progreso',
+            items: {
+                ies: {
+                    degree: 'Tecnicatura',
+                    institution: 'IES (Instituto de Estudios Superiores)',
+                    field: 'Desarrollo de Software',
+                    desc: 'Formación técnica superior enfocada en algoritmos, POO, bases de datos y arquitectura. Nivel de inglés técnico B2 integrado.',
+                    status: 'En curso',
+                },
+                secundario: {
+                    degree: 'Nivel Primario y Secundario',
+                    institution: 'Colegio local',
+                    field: 'Educación Obligatoria',
+                    desc: 'Educación primaria y secundaria con base sólida en ciencias y tecnología.',
+                    status: 'Finalizado',
+                }
+            }
         },
         skills: {
             title: 'Arsenal Técnico',
@@ -154,27 +172,6 @@ export const translations = {
                 }
             }
         },
-        education: {
-            title: 'Educación',
-            subtitle: 'Formación Académica',
-            progress: 'Progreso',
-            items: {
-                ies: {
-                    degree: 'Tecnicatura',
-                    institution: 'IES (Instituto de Estudios Superiores)',
-                    field: 'Desarrollo de Software',
-                    desc: 'Formación técnica superior enfocada en algoritmos, POO, bases de datos y arquitectura. Nivel de inglés técnico B2 integrado.',
-                    status: 'En curso',
-                },
-                secundario: {
-                    degree: 'Nivel Primario y Secundario',
-                    institution: 'Colegio local',
-                    field: 'Educación Obligatoria',
-                    desc: 'Educación primaria y secundaria con base sólida en ciencias y tecnología.',
-                    status: 'Finalizado',
-                }
-            }
-        },
         contact: {
             title: 'Contacto',
             subtitle: 'Trabajemos juntos',
@@ -249,6 +246,24 @@ export const translations = {
                 'My philosophy is that good code not only runs fast but can be read, maintained, and scaled by the team tomorrow. I prioritize system reliability (0% downtime) and resilient architectures.',
                 'I seek to join demanding teams where I can add value from system design to building RESTful APIs that support high concurrency and strict security workflows.',
             ],
+            eduSubtitle: 'Academic Background',
+            eduProgress: 'Progress',
+            items: {
+                ies: {
+                    degree: "Associate's Degree",
+                    institution: 'IES (Institute of Higher Studies)',
+                    field: 'Software Development',
+                    desc: 'Higher technical training focused on algorithms, OOP, databases, and architecture. Integrated B2 technical English level.',
+                    status: 'In progress',
+                },
+                secundario: {
+                    degree: 'Primary & Secondary Level',
+                    institution: 'Local school',
+                    field: 'Mandatory Education',
+                    desc: 'Primary and secondary education with a solid foundation in science and technology.',
+                    status: 'Completed',
+                }
+            }
         },
         skills: {
             title: 'Technical Arsenal',
@@ -352,27 +367,6 @@ export const translations = {
                 }
             }
         },
-        education: {
-            title: 'Education',
-            subtitle: 'Academic Background',
-            progress: 'Progress',
-            items: {
-                ies: {
-                    degree: "Associate's Degree",
-                    institution: 'IES (Institute of Higher Studies)',
-                    field: 'Software Development',
-                    desc: 'Higher technical training focused on algorithms, OOP, databases, and architecture. Integrated B2 technical English level.',
-                    status: 'In progress',
-                },
-                secundario: {
-                    degree: 'Primary & Secondary Level',
-                    institution: 'Local school',
-                    field: 'Mandatory Education',
-                    desc: 'Primary and secondary education with a solid foundation in science and technology.',
-                    status: 'Completed',
-                }
-            }
-        },
         contact: {
             title: 'Contact',
             subtitle: "Let's Work Together",
@@ -447,6 +441,24 @@ export const translations = {
                 'Minha filosofia é que um bom código não apenas roda rápido, mas pode ser lido, mantido e escalado pela equipe no futuro. Priorizo a confiabilidade do sistema (0% downtime) e arquiteturas resilientes.',
                 'Busco me juntar a equipes exigentes onde possa agregar valor desde o design do sistema, otimizando processos e construindo APIs RESTful que suportem alta concorrência e segurança.',
             ],
+            eduSubtitle: 'Formação Académica',
+            eduProgress: 'Progresso',
+            items: {
+                ies: {
+                    degree: "Tecnólogo",
+                    institution: 'IES (Instituto de Estudios Superiores)',
+                    field: 'Desenvolvimento de Software',
+                    desc: 'Formação técnica superior enfocada em algoritmos, POO, bancos de datos e arquitetura. Disponibilidade de nível de inglês técnico B2 integrado.',
+                    status: 'Em curso',
+                },
+                secundario: {
+                    degree: 'Nivel Primário e Secundário',
+                    institution: 'Escola local',
+                    field: 'Educação Obrigatória',
+                    desc: 'Educação primária e secundária com base sólida em ciências e tecnologia.',
+                    status: 'Finalizado',
+                }
+            }
         },
         skills: {
             title: 'Arsenal Técnico',
@@ -642,9 +654,27 @@ export const translations = {
             },
             bio: [
                 'Sono un Software Engineer focalizzato sugli ecosistemi Java/Spring Boot e sulle architetture moderne. Mi piace svelare la complessità tecnica per fornire prodotti stabili.',
-                'La mia filosofia è che un buon codice non solo viene eseguito velocemente, ma può essere letto, mantenuto e scalato dal team in futuro. Do priorità all\'affidabilità del sistema (0% downtime) e alle architetture resilienti.',
+                'La mia filosofia è che un buon codice non solo viene eseguito velocemente, ma può essere letto, mantenuto e scalato dal team in futuro. Do priorità all\'affidabilidad del sistema (0% downtime) e alle architetture resilienti.',
                 'Cerco di unirmi a team esigenti dove posso aggiungere valore dalla progettazione del sistema, ottimizzando i processi e costruendo API RESTful che supportino elevata concorrenza e rigorosa sicurezza.',
             ],
+            eduSubtitle: 'Percorso Accademico',
+            eduProgress: 'Progresso',
+            items: {
+                ies: {
+                    degree: "Laurea Tecnica",
+                    institution: 'IES (Istituto di Studi Superiori)',
+                    field: 'Sviluppo Software',
+                    desc: 'Formazione tecnica superiore focalizzata su algoritmi, OOP, database e architettura. Livello di inglese tecnico B2 integrato.',
+                    status: 'In corso',
+                },
+                secundario: {
+                    degree: 'Livello Primario e Secondario',
+                    institution: 'Scuola locale',
+                    field: 'Istruzione Obbligatoria',
+                    desc: 'Istruzione primaria e secondaria con una solida base in scienza e tecnologia.',
+                    status: 'Completato',
+                }
+            }
         },
         skills: {
             title: 'Arsenale Tecnico',

@@ -53,9 +53,30 @@ export async function generateMetadata({ params }: { params: { lang: string } })
         openGraph: {
             type: 'website',
             locale: lang === 'es' ? 'es_AR' : 'en_US',
+            url: `https://santinobondioni.vercel.app/${lang}`, // Placeholder based on Vercel
             title: `${personalInfo.name} — ${personalInfo.title}`,
             description: dict.hero.subtitle,
             siteName: `${personalInfo.name} Portfolio`,
+            images: [
+                {
+                    url: `${basePath}/og-image.png`,
+                    width: 1200,
+                    height: 630,
+                    alt: personalInfo.name,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${personalInfo.name} — ${personalInfo.title}`,
+            description: dict.hero.subtitle,
+            images: [`${basePath}/og-image.png`],
+            creator: '@santinobondioni',
+        },
+        viewport: 'width=device-width, initial-scale=1',
+        robots: {
+            index: true,
+            follow: true,
         },
     };
 }
