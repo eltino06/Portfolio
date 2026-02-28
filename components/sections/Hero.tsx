@@ -130,9 +130,8 @@ const ParticleCanvas = () => {
                     p.y += dym * 0.01;
                 }
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${particleRGB}, ${p.opacity * (isDark ? 3.5 : 1.5)})`; // Much higher intensity in dark mode
+                // If isDark is true, 3.5x. If light, 3.0x to make them much more visible
+                ctx.fillStyle = `rgba(${particleRGB}, ${p.opacity * (isDark ? 3.5 : 3.0)})`;
                 ctx.fill();
             });
 
@@ -143,7 +142,7 @@ const ParticleCanvas = () => {
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
                 if (distM < 200) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(${particleRGB}, ${(isDark ? 0.6 : 0.25) * (1 - distM / 200)})`; // Bright connections in dark mode
+                    ctx.strokeStyle = `rgba(${particleRGB}, ${(isDark ? 0.6 : 0.45) * (1 - distM / 200)})`; // Bright connections
                     ctx.lineWidth = 0.8;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mx, my);
@@ -156,7 +155,7 @@ const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 120) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(${particleRGB}, ${(isDark ? 0.4 : 0.2) * (1 - dist / 120)})`; // Bright connections in dark mode
+                        ctx.strokeStyle = `rgba(${particleRGB}, ${(isDark ? 0.4 : 0.3) * (1 - dist / 120)})`; // Bright connections
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
