@@ -128,7 +128,7 @@ const ParticleCanvas = () => {
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(130, 80, 255, ${p.opacity})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`; // White, lower opacity
                 ctx.fill();
             });
 
@@ -139,7 +139,7 @@ const ParticleCanvas = () => {
                 const distM = Math.sqrt(dxm * dxm + dym * dym);
                 if (distM < 200) { // Increased mouse connection distance
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(130, 80, 255, ${0.15 * (1 - distM / 200)})`; // Reduced opacity
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distM / 200)})`; // White, faint
                     ctx.lineWidth = 0.8;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mx, my);
@@ -152,7 +152,7 @@ const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 120) { // Increased inter-particle connection distance
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(130, 80, 255, ${0.08 * (1 - dist / 120)})`;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - dist / 120)})`; // White, faint
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -176,7 +176,7 @@ const ParticleCanvas = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="absolute inset-0 w-full h-full opacity-80"
+            className="absolute inset-0 w-full h-full opacity-30 pointer-events-none"
             aria-hidden="true"
         />
     );
@@ -204,7 +204,8 @@ export function HeroSection() {
             id="hero"
             className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8"
         >
-            {/* Particle background removed for a cleaner, brutalist look */}
+            {/* Particle background */}
+            <ParticleCanvas />
 
             {/* Gradient blobs (Reduced for brutalist look) */}
             <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] blur-[100px] pointer-events-none" />
