@@ -124,9 +124,18 @@ export function LanguageProvider({
                 window.scrollTo(0, savedScroll);
             }, 10);
 
+            // Zombie protection: Next.js destroys the root layout when changing [lang]. 
+            // We instantly resurrect our overlay in the new DOM if Next.js kills it.
+            const zombieInterval = setInterval(() => {
+                if (!document.getElementById('vanilla-lang-overlay')) {
+                    document.body.appendChild(overlay);
+                }
+            }, 10);
+
             // Wait 3500ms for translations to load safely, then fade out and destroy
             setTimeout(() => {
                 clearInterval(lockInterval);
+                clearInterval(zombieInterval);
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.remove(), 400); // 0.4s to fade out before destroying DOM
             }, 3500);
