@@ -25,7 +25,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         const variants = {
             primary:
-                'bg-[var(--accent-hex)] text-white hover:bg-[hsl(var(--accent-h),var(--accent-s),55%)] hover:shadow-[0_0_30px_var(--accent-glow)] active:scale-[0.97]',
+                'bg-[var(--accent-hex)] text-black font-bold hover:bg-[hsl(var(--accent-h),var(--accent-s),85%)] hover:shadow-[0_0_30px_var(--accent-glow)] active:scale-[0.97]',
             secondary:
                 'bg-[hsl(var(--muted))] text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted-foreground)/0.15)] active:scale-[0.97]',
             ghost:

@@ -233,9 +233,9 @@ export function ContactSection() {
                             variant="primary"
                             size="lg"
                             isLoading={isSubmitting}
-                            className="w-full gap-2"
+                            className="w-full gap-3 h-14 text-base font-bold shadow-lg"
                         >
-                            <Send size={17} />
+                            <Send size={20} />
                             {isSubmitting ? t('contact.sending') : t('contact.send')}
                         </Button>
                     </form>
