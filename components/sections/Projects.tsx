@@ -30,73 +30,117 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
     return createPortal(
         <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
             {/* Backdrop */}
             <div
-                className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/80 backdrop-blur-sm"
                 onClick={onClose}
             />
 
             {/* Modal */}
             <motion.div
-                className="relative w-full max-w-2xl glass rounded-2xl border border-[hsl(var(--border))] overflow-hidden shadow-2xl"
-                initial={{ scale: 0.9, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.9, y: 20 }}
+                className="relative w-full max-w-4xl glass rounded-2xl border border-[hsl(var(--border))] shadow-2xl flex flex-col md:flex-row overflow-hidden max-h-full"
+                initial={{ scale: 0.95, y: 20, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.95, y: 20, opacity: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
-                {/* Image header */}
-                <div className={cn('h-48 flex items-center justify-center', cardBg)}>
-                    <span className="text-[var(--accent-hex)] text-5xl font-bold opacity-60">
+                {/* Image header - Move to left side for desktop */}
+                <div className={cn('h-32 md:h-auto md:w-1/3 flex flex-col items-center justify-center shrink-0 border-b md:border-b-0 md:border-r border-[hsl(var(--border))]', cardBg)}>
+                    <span className="text-[var(--accent-hex)] text-5xl md:text-7xl font-bold opacity-60 mb-2">
                         {project.title.charAt(0)}
                     </span>
+                    <Badge variant="accent" className="hidden md:flex">{t(`projects.${project.category.toLowerCase()}`)}</Badge>
                 </div>
 
                 {/* Close button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition-colors"
+                    className="absolute top-3 right-3 md:top-4 md:right-4 z-10 w-8 h-8 rounded-full bg-[hsl(var(--muted))] flex items-center justify-center text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--accent-opacity))] transition-colors"
                     aria-label="Close"
                 >
                     <X size={16} />
                 </button>
 
                 {/* Content */}
-                <div className="p-6 space-y-4">
-                    <div className="flex items-start justify-between gap-3">
-                        <h3 className="text-xl font-bold">{t(`projects.items.${project.translationKey}.title`)}</h3>
-                        <Badge variant="accent">{t(`projects.${project.category.toLowerCase()}`)}</Badge>
+                <div className="flex-1 p-6 md:p-8 overflow-y-auto custom-scrollbar flex flex-col gap-6">
+                    <div className="space-y-1 pr-8">
+                        <h3 className="text-xl md:text-2xl font-bold tracking-tight">{t(`projects.items.${project.translationKey}.title`)}</h3>
+                        <p className="text-[hsl(var(--muted-foreground))] text-sm">
+                            {t(`projects.items.${project.translationKey}.desc`)}
+                        </p>
+                        <Badge variant="accent" className="md:hidden mt-3">{t(`projects.${project.category.toLowerCase()}`)}</Badge>
                     </div>
 
-                    <p className="text-[hsl(var(--muted-foreground))] leading-relaxed">
-                        {t(`projects.items.${project.translationKey}.long`)}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2">
-                        {project.stack.map((tech) => (
-                            <Badge key={tech} variant="outline">
-                                {tech}
-                            </Badge>
-                        ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
+                        <div className="space-y-2">
+                            <h4 className="text-[11px] font-semibold tracking-wider text-[hsl(var(--foreground))] uppercase flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-hex)]" />
+                                {t('projects.caseStudy.context')}
+                            </h4>
+                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                                {t(`projects.items.${project.translationKey}.context`)}
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <h4 className="text-[11px] font-semibold tracking-wider text-[hsl(var(--foreground))] uppercase flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                                {t('projects.caseStudy.challenge')}
+                            </h4>
+                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                                {t(`projects.items.${project.translationKey}.challenge`)}
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <h4 className="text-[11px] font-semibold tracking-wider text-[hsl(var(--foreground))] uppercase flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                {t('projects.caseStudy.solution')}
+                            </h4>
+                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                                {t(`projects.items.${project.translationKey}.solution`)}
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <h4 className="text-[11px] font-semibold tracking-wider text-[hsl(var(--foreground))] uppercase flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                                {t('projects.caseStudy.impact')}
+                            </h4>
+                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                                {t(`projects.items.${project.translationKey}.impact`)}
+                            </p>
+                        </div>
                     </div>
 
-                    <div className="flex gap-3 pt-2">
+                    <div className="pt-2">
+                        <h4 className="text-[10px] font-bold tracking-widest text-[hsl(var(--muted-foreground))] uppercase mb-3">
+                            {t('projects.caseStudy.stack')}
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                            {project.stack.map((tech) => (
+                                <Badge key={tech} variant="outline" className="text-xs">
+                                    {tech}
+                                </Badge>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-4 mt-auto border-t border-[hsl(var(--border))]">
                         {project.github && (
-                            <a href={project.github} target="_blank" rel="noopener noreferrer">
-                                <Button variant="secondary" size="sm" className="gap-2">
-                                    <Github size={15} />
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex-1">
+                                <Button variant="secondary" className="w-full gap-2 py-5">
+                                    <Github size={16} />
                                     {t('projects.viewGithub')}
                                 </Button>
                             </a>
                         )}
                         {project.live && (
-                            <a href={project.live} target="_blank" rel="noopener noreferrer">
-                                <Button variant="primary" size="sm" className="gap-2">
-                                    <ExternalLink size={15} />
+                            <a href={project.live} target="_blank" rel="noopener noreferrer" className="flex-1">
+                                <Button variant="primary" className="w-full gap-2 py-5 border border-transparent hover:border-[var(--accent-hex)] transition-colors">
+                                    <ExternalLink size={16} />
                                     {t('projects.viewLive')}
                                 </Button>
                             </a>
