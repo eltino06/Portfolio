@@ -30,8 +30,8 @@
     --accent-glow: rgba(255, 255, 255, 0.05);
     /* Minimal glow if any */
 
-    --loader-shimmer-bg: linear-gradient(90deg, #666666 0%, #666666 40%, #ffffff 50%, #666666 60%, #666666 100%);
-    --loader-idle-bg: linear-gradient(90deg, #666666, #666666);
+    --loader-shimmer-bg: linear-gradient(90deg, #444444 0%, #444444 35%, #ffffff 50%, #444444 65%, #444444 100%);
+    --loader-idle-bg: linear-gradient(90deg, #444444, #444444);
 }
 
 /* Light mode overrides (Ultra clean off-white) */
@@ -56,7 +56,8 @@
     --accent-fg: #ffffff;
     --accent-glow: rgba(0, 0, 0, 0.05);
 
-    --loader-shimmer-bg: linear-gradient(90deg, #666666 0%, #666666 40%, #000000 50%, #666666 60%, #666666 100%);
+    --loader-shimmer-bg: linear-gradient(90deg, #999999 0%, #999999 35%, #000000 50%, #999999 65%, #999999 100%);
+    --loader-idle-bg: linear-gradient(90deg, #999999, #999999);
 }
 
 /* ─────────────────────────────────────────

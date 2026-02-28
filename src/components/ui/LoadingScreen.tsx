@@ -188,7 +188,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             <div className="h-8 flex items-center justify-center">
                                 <p className="text-[10px] sm:text-xs lg:text-sm font-code text-[#737373] tracking-[0.5em] font-medium uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <span className="text-black dark:text-white font-black drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:drop-shadow-none">
+                                    <span className="text-black dark:text-white font-black tracking-[0.6em] drop-shadow-[0_0_1px_rgba(0,0,0,0.8)] dark:drop-shadow-[0_0_12px_rgba(255,255,255,0.7)] ml-1">
                                         {displayedSub.slice(11)}
                                     </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (
