@@ -207,9 +207,9 @@ export function HeroSection() {
             {/* Particle background */}
             <ParticleCanvas />
 
-            {/* Gradient blobs */}
-            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.03] blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-purple-500 opacity-[0.03] blur-[100px] pointer-events-none" />
+            {/* Gradient blobs (Reduced for brutalist look) */}
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[var(--accent-hex)] opacity-[0.015] blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center py-24">
                 {/* ─── Left: Text Content ─── */}
@@ -236,14 +236,8 @@ export function HeroSection() {
                         <span className="gradient-text"> Bondioni</span>
                     </motion.h1>
 
-                    {/* Typewriter role */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="text-xl sm:text-2xl font-semibold text-[hsl(var(--muted-foreground))] h-8"
-                    >
-                        <span className="text-[hsl(var(--foreground))]">{typedText}</span>
-                        <span className="ml-1 inline-block w-1 h-6 bg-[var(--accent-hex)] animate-pulse align-middle" />
-                    </motion.div>
+                    {/* Typewriter role (Hidden for Premium Minimal, replaced by subtext) */}
+                    <div className="h-4" />
 
                     {/* Description */}
                     <motion.p
@@ -272,22 +266,21 @@ export function HeroSection() {
                         ))}
                     </motion.div>
 
-                    {/* CTA Buttons */}
+                    {/* Single strong CTA + Secondary Link */}
                     <motion.div
                         variants={itemVariants}
-                        className="flex flex-wrap gap-4 mt-2 justify-center lg:justify-start"
+                        className="flex flex-col sm:flex-row items-center gap-6 mt-4 justify-center lg:justify-start"
                     >
                         <Link href="#projects">
-                            <Button size="lg" className="gap-3 h-14 px-8 sm:px-10 text-base sm:text-lg">
+                            <Button size="lg" className="w-full sm:w-auto h-14 px-10 text-base sm:text-lg bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:bg-[hsl(var(--muted-foreground))] rounded-none">
                                 {t('hero.viewProjects')}
-                                <ArrowRight size={20} />
                             </Button>
                         </Link>
-                        <Link href="#contact">
-                            <Button variant="outline" size="lg" className="gap-3 h-14 px-8 sm:px-10 text-base sm:text-lg">
-                                <Mail size={20} />
-                                {t('hero.contact')}
-                            </Button>
+                        <Link
+                            href="#experience"
+                            className="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors text-sm font-medium border-b border-transparent hover:border-[hsl(var(--foreground))] pb-1"
+                        >
+                            {t('hero.viewExperience')}
                         </Link>
                     </motion.div>
 
@@ -316,33 +309,26 @@ export function HeroSection() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
                 >
-                    {/* Background Decorative Element */}
-                    <div className="absolute inset-0 bg-gradient-radial from-[var(--accent-hex)]/10 to-transparent blur-[120px] opacity-40" />
+                    {/* Background Decorative Element (Removed for brutalism) */}
 
                     {/* Floating Abstract "Code" Shapes or Higher-Fi Stats */}
-                    <div className="relative w-full grid grid-cols-2 gap-4 max-w-sm">
+                    <div className="relative w-full grid grid-cols-2 gap-px bg-[hsl(var(--border))] border border-[hsl(var(--border))] max-w-sm rounded-[2px] overflow-hidden">
                         {stats.map((stat, i) => (
                             <motion.div
                                 key={stat.label}
-                                className="glass group rounded-xl p-4 flex flex-col items-center justify-center text-center border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 shadow-xl h-[110px] relative overflow-hidden active:scale-95"
+                                className="bg-[hsl(var(--background))] group p-5 flex flex-col items-center justify-center text-center h-[120px] relative overflow-hidden"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 + i * 0.1 }}
-                                whileHover={{ y: -5, scale: 1.02 }}
                             >
-                                <div className="flex flex-col items-center justify-center flex-1 w-full gap-1">
-                                    <div className="text-3xl font-bold gradient-text font-code">
+                                <div className="flex flex-col items-center justify-center flex-1 w-full gap-2 z-10">
+                                    <div className="text-3xl font-medium text-[hsl(var(--foreground))]">
                                         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                                     </div>
-                                    <div className="h-10 flex items-center justify-center">
-                                        <div className="text-[10px] sm:text-xs text-[hsl(var(--muted-foreground))] font-medium tracking-wide uppercase px-2 w-full leading-tight">
-                                            {t(stat.label)}
-                                        </div>
+                                    <div className="text-[10px] text-[hsl(var(--muted-foreground))] tracking-wider uppercase px-2 w-full leading-tight">
+                                        {t(stat.label)}
                                     </div>
                                 </div>
-
-                                {/* Decorative line */}
-                                <div className="mt-auto pt-3 w-full h-px bg-gradient-to-r from-transparent via-[var(--accent-hex)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             </motion.div>
                         ))}
                     </div>

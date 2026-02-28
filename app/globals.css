@@ -3,42 +3,49 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────
-   CSS VARIABLES — DARK MODE (default)
+   CSS VARIABLES — DARK MODE (Premium Minimal)
 ───────────────────────────────────────── */
 :root {
-    /* Accent: vibrant violet-blue */
-    --accent: 255 85 100;
-    /* hsl: tweaked to violet-blue-ish, override below */
-    --accent-foreground: 0 0 100;
+    /* Minimalist Dark Theme */
+    --background: 0 0% 4%;
+    /* #0A0A0A */
+    --foreground: 0 0% 93%;
+    /* #EDEDED */
+    --muted: 0 0% 10%;
+    /* #1A1A1A */
+    --muted-foreground: 0 0% 65%;
+    /* #A6A6A6 */
+    --card: 0 0% 6%;
+    /* #0F0F0F */
+    --card-foreground: 0 0% 93%;
+    --border: 0 0% 16%;
+    /* #292929 */
 
-    /* Dark theme defaults */
-    --background: 220 20% 6%;
-    --foreground: 210 40% 98%;
-    --muted: 217 20% 14%;
-    --muted-foreground: 215 20% 65%;
-    --card: 220 20% 9%;
-    --card-foreground: 210 40% 98%;
-    --border: 217 20% 18%;
-
-    /* Custom accent — Electric Violet */
-    --accent-h: 258;
-    --accent-s: 90%;
-    --accent-l: 66%;
-    --accent-rgb: 130, 80, 255;
-    --accent-hex: #8250ff;
-    --accent-glow: rgba(130, 80, 255, 0.4);
+    /* Custom accent — White/Subtle Gray for high contrast */
+    --accent-h: 0;
+    --accent-s: 0%;
+    --accent-l: 100%;
+    --accent-hex: #ffffff;
+    --accent-glow: rgba(255, 255, 255, 0.05);
+    /* Minimal glow if any */
 }
 
-/* Light mode overrides */
+/* Light mode overrides (Ultra clean off-white) */
 .light {
-    --background: 210 40% 98%;
-    --foreground: 220 20% 8%;
-    --muted: 210 40% 94%;
-    --muted-foreground: 215 16% 47%;
+    --background: 0 0% 98%;
+    /* #FAFAFA */
+    --foreground: 0 0% 6%;
+    /* #111111 */
+    --muted: 0 0% 93%;
+    /* #EDEDED */
+    --muted-foreground: 0 0% 40%;
+    /* #666666 */
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 8%;
-    --border: 214 32% 88%;
-    --accent-glow: rgba(130, 80, 255, 0.2);
+    /* #FFFFFF */
+    --card-foreground: 0 0% 6%;
+    --border: 0 0% 90%;
+    /* #E5E5E5 */
+    --accent-glow: rgba(0, 0, 0, 0.03);
 }
 
 /* ─────────────────────────────────────────
@@ -100,17 +107,16 @@ body {
 ───────────────────────────────────────── */
 @layer utilities {
 
-    /* Glassmorphism card */
+    /* Premium solid card instead of glassmorphism */
     .glass {
-        background: rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--border));
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .light .glass {
-        background: rgba(255, 255, 255, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.8);
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--border));
     }
 
     /* Glow text effect */

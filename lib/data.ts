@@ -16,7 +16,7 @@ export const personalInfo = {
     /** Solo primer nombre (usado en el saludo del hero) */
     firstName: 'Santino',
     /** Título profesional */
-    title: 'Desarrollador FullStack Jr',
+    title: 'Software Engineer & Backend Architect',
     /** Palabras que rotan en el efecto typewriter (Keys) */
     roles: ['hero.roles.java', 'hero.roles.fullstack', 'hero.roles.backend', 'hero.roles.solver'],
     /** Bio corta (Keys) */
