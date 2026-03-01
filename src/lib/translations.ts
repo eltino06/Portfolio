@@ -186,7 +186,7 @@ export const translations = {
             message: 'Mensaje',
             send: 'Enviar Mensaje',
             sending: 'Enviando...',
-            confirmSend: '¿Tus datos están correctos? Clic para enviar',
+            confirmSend: '¿Tus datos son correctos? Confirmar',
             success: '¡Mensaje enviado con éxito! Te responderé a la brevedad.',
             error: 'Ocurrió un error al enviar el mensaje. Por favor, intenta de nuevo.',
         },
