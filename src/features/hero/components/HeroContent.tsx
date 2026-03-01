@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Github } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -82,16 +82,25 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                                 {dict.viewProjects}
                             </Button>
                         </Link>
-                        <Link href="#experience" className="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors text-sm font-medium border-b border-transparent hover:border-[hsl(var(--foreground))] pb-1">
-                            {dict.viewExperience}
+                        <Link href="#contact" className="flex items-center gap-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors text-sm font-bold border-b border-transparent hover:border-[hsl(var(--foreground))] pb-1 uppercase tracking-wider">
+                            <Mail size={16} />
+                            {dict.contact}
                         </Link>
                     </motion.div>
 
                     <motion.div variants={itemVariants} className="flex gap-4 justify-center lg:justify-start">
-                        <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200">
-                            <Github size={18} />
-                            <span className="hidden sm:inline">GitHub</span>
-                        </a>
+                        {personalInfo.socials.linkedin && (
+                            <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))] hover:text-[#0a66c2] transition-colors duration-200">
+                                <Linkedin size={18} />
+                                <span className="hidden sm:inline">LinkedIn</span>
+                            </a>
+                        )}
+                        {personalInfo.socials.github && (
+                            <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200">
+                                <Github size={18} />
+                                <span className="hidden sm:inline">GitHub</span>
+                            </a>
+                        )}
                     </motion.div>
                 </motion.div>
 

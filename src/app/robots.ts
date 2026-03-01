@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/api/', '/_next/'],
             },
         ],
-        sitemap: 'https://santino-bondioni.com/sitemap.xml', // Ajustar al dominio real
+        sitemap: 'https://santinobondioni.vercel.app/sitemap.xml', // Ajustar al dominio real
     };
 }

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://santinobondioni.dev';
+    const baseUrl = 'https://santinobondioni.vercel.app';
     const locales = ['es', 'en', 'pt', 'it'];
 
     const routes = locales.flatMap((lang) => [
