@@ -145,16 +145,29 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                 <motion.div
                     className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#000000] overflow-hidden"
                     style={{ willChange: 'opacity' }}
-                    exit={{
-                        opacity: 0,
-                        transition: { duration: 0.8, ease: 'easeOut' }
-                    }}
+                    exit={{ opacity: 0 }}
                     onAnimationComplete={() => {
                         if (!isVisible && onLoadingComplete) {
                             onLoadingComplete();
                         }
                     }}
                 >
+                    {/* Overlay Panels for elegant transition */}
+                    <div className="absolute inset-0 z-[50] flex flex-col pointer-events-none">
+                        <motion.div
+                            initial={{ x: '-100%' }}
+                            exit={{ x: '100%' }}
+                            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+                            className="h-1/2 w-full bg-[#0a0a0a]"
+                        />
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            exit={{ x: '-100%' }}
+                            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+                            className="h-1/2 w-full bg-[#0a0a0a]"
+                        />
+                    </div>
+
                     <ParticleCanvas />
 
                     <motion.div
