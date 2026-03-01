@@ -72,7 +72,7 @@ export const translations = {
         },
         skills: {
             title: 'Arsenal Técnico',
-            subtitle: 'Skills',
+            subtitle: 'Habilidades',
             categories: {
                 backend: 'Core Backend & API',
                 frontend: 'Arquitectura Client & UI',
