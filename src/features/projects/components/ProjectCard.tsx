@@ -29,8 +29,8 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
             <div className={cn('relative h-44 shrink-0 overflow-hidden border-b border-[hsl(var(--border))] group-hover:border-[var(--accent-hex)]/30 transition-colors duration-300', cardBg)}>
                 <ArchitectureDiagram type={project.category.toLowerCase() as any} />
 
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                    <div className="relative bg-[var(--accent-hex)] px-5 py-2.5 rounded-xl text-[var(--accent-fg)] text-xs font-black border border-[var(--accent-hex)] shadow-[0_0_20px_var(--accent-glow)] overflow-hidden group/btn uppercase tracking-widest">
+                <div className="absolute inset-0 bg-[hsl(var(--background))/40] backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                    <div className="relative bg-[var(--accent-hex)] px-5 py-2.5 rounded-xl text-[var(--accent-fg)] text-xs font-black border border-[var(--accent-hex)] shadow-[0_8px_30px_var(--accent-glow)] overflow-hidden group/btn uppercase tracking-widest hover:scale-105 transition-transform duration-300">
                         {dict.details}
                         <div className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                     </div>
