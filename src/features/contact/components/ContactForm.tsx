@@ -1,7 +1,7 @@
 'use client';
 
 import emailjs from '@emailjs/browser';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
@@ -47,20 +47,48 @@ function FormField({
 export function ContactForm({ dict }: ContactFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isConfirming, setIsConfirming] = useState(false);
+    const [lastClickTime, setLastClickTime] = useState(0);
 
     const {
         register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors },
     } = useForm<ContactFormData>({
         resolver: zodResolver(contactSchema),
         mode: 'onTouched'
     });
 
+    const formValues = watch();
+    const [initialValues, setInitialValues] = useState<ContactFormData | null>(null);
+
+    // Reset confirmation if any field value changes
+    useEffect(() => {
+        if (isConfirming && initialValues) {
+            const hasChanged = JSON.stringify(formValues) !== JSON.stringify(initialValues);
+            if (hasChanged) {
+                setIsConfirming(false);
+            }
+        }
+    }, [formValues, isConfirming, initialValues]);
+
     const onSubmit = async (data: ContactFormData) => {
+        const now = Date.now();
+        // Prevent rapid double-clicks (common on mobile)
+        if (now - lastClickTime < 500) return;
+        setLastClickTime(now);
+
         if (!isConfirming) {
             setIsConfirming(true);
+            setInitialValues(data);
+            return;
+        }
+
+        // Check if data changed since confirmation
+        if (JSON.stringify(data) !== JSON.stringify(initialValues)) {
+            setIsConfirming(true);
+            setInitialValues(data);
             return;
         }
 
@@ -112,15 +140,13 @@ export function ContactForm({ dict }: ContactFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <FormField label={dict.name} error={errors.name?.message}>
                     <input
-                        {...register('name', {
-                            onChange: () => setIsConfirming(false)
-                        })}
+                        {...register('name')}
                         type="text"
                         placeholder="Santino"
                         className={cn(
                             inputCls,
                             errors.name && 'border-red-400/50',
-                            isConfirming && 'border-white dark:border-white shadow-[0_0_20px_rgba(255,255,255,0.4)] dark:shadow-[0_0_25px_rgba(255,255,255,0.25)] scale-[1.02] ring-1 ring-white/50 transition-all duration-500'
+                            isConfirming && 'border-white/50 dark:border-white/40 shadow-[0_0_8px_rgba(255,255,255,0.1)] ring-1 ring-white/10 transition-all duration-500'
                         )}
                         autoComplete="name"
                     />
@@ -128,15 +154,13 @@ export function ContactForm({ dict }: ContactFormProps) {
 
                 <FormField label={dict.email} error={errors.email?.message}>
                     <input
-                        {...register('email', {
-                            onChange: () => setIsConfirming(false)
-                        })}
+                        {...register('email')}
                         type="email"
                         placeholder="tucorreo@ejemplo.com"
                         className={cn(
                             inputCls,
                             errors.email && 'border-red-400/50',
-                            isConfirming && 'border-white dark:border-white shadow-[0_0_20px_rgba(255,255,255,0.4)] dark:shadow-[0_0_25px_rgba(255,255,255,0.25)] scale-[1.02] ring-1 ring-white/50 transition-all duration-500'
+                            isConfirming && 'border-white/50 dark:border-white/40 shadow-[0_0_8px_rgba(255,255,255,0.1)] ring-1 ring-white/10 transition-all duration-500'
                         )}
                         autoComplete="email"
                     />
@@ -145,9 +169,7 @@ export function ContactForm({ dict }: ContactFormProps) {
 
             <FormField label={dict.subject} error={errors.subject?.message}>
                 <input
-                    {...register('subject', {
-                        onChange: () => setIsConfirming(false)
-                    })}
+                    {...register('subject')}
                     type="text"
                     placeholder="..."
                     className={cn(inputCls, errors.subject && 'border-red-400/50')}
@@ -156,9 +178,7 @@ export function ContactForm({ dict }: ContactFormProps) {
 
             <FormField label={dict.message} error={errors.message?.message}>
                 <textarea
-                    {...register('message', {
-                        onChange: () => setIsConfirming(false)
-                    })}
+                    {...register('message')}
                     rows={5}
                     placeholder="..."
                     className={cn(inputCls, 'resize-none', errors.message && 'border-red-400/50')}
@@ -167,22 +187,22 @@ export function ContactForm({ dict }: ContactFormProps) {
 
             <Button
                 type="submit"
-                variant={isConfirming ? "outline" : "primary"}
+                variant="primary"
                 size="lg"
                 isLoading={isSubmitting}
                 className={cn(
                     "w-full gap-3 h-14 text-base font-bold shadow-lg transition-all duration-500 relative overflow-hidden",
-                    isConfirming && "bg-white/20 border-white text-white hover:bg-white/30 backdrop-blur-xl"
+                    isConfirming && "brightness-110 saturate-110 ring-2 ring-white/20"
                 )}
             >
-                {/* Intense Shimmer Layer */}
+                {/* Automatic Shimmer Layer during confirmation */}
                 {isConfirming && (
                     <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_1.2s_infinite]" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
                     </div>
                 )}
 
-                <Send size={20} className={cn("transition-transform duration-300 relative z-10", isConfirming && "scale-125 animate-pulse")} />
+                <Send size={20} className={cn("transition-transform duration-300 relative z-10", isConfirming && "scale-110")} />
                 <span className="relative z-10">
                     {isSubmitting ? dict.sending : isConfirming ? dict.confirmSend : dict.send}
                 </span>
