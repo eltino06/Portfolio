@@ -43,10 +43,10 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
         <>
             <ParticleCanvas />
 
-            <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col items-center py-24 sm:py-32">
+            <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col items-center pt-20 pb-16 sm:pt-24 sm:pb-20">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center w-full">
                     <motion.div
-                        className="flex flex-col gap-6 text-center lg:text-left"
+                        className="flex flex-col gap-4 text-center lg:text-left"
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
@@ -60,7 +60,7 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                             <span className="gradient-text"> Bondioni</span>
                         </motion.h1>
 
-                        <div className="h-4" />
+
 
                         <motion.p variants={itemVariants} className="text-[hsl(var(--muted-foreground))] max-w-lg mx-auto lg:mx-0 leading-relaxed text-lg lg:text-xl">
                             {dict.subtitle}
@@ -77,7 +77,7 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                             </Badge>
                         </motion.div>
 
-                        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6 mt-4 justify-center lg:justify-start">
+                        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6 mt-2 justify-center lg:justify-start">
                             <Link
                                 href="#projects"
                                 onClick={(e) => {
@@ -122,9 +122,8 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                     <div className="hidden lg:block h-1" />
                 </div>
 
-                {/* Statistics Row - Full Width Bottom */}
                 <motion.div
-                    className="w-full max-w-7xl mt-12 sm:mt-16 lg:mt-20"
+                    className="w-full max-w-7xl mt-8 sm:mt-12 lg:mt-14"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6 }}
