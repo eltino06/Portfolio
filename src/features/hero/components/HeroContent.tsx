@@ -124,7 +124,7 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
 
                 {/* Statistics Row - Full Width Bottom */}
                 <motion.div
-                    className="w-full max-w-7xl mt-16 sm:mt-24 lg:mt-32"
+                    className="w-full max-w-7xl mt-12 sm:mt-16 lg:mt-20"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6 }}
@@ -133,16 +133,16 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                         {stats.map((stat: any, i: number) => (
                             <motion.div
                                 key={stat.label}
-                                className="bg-[hsl(var(--background))] group p-6 flex flex-col items-center justify-center text-center h-[140px] relative overflow-hidden"
+                                className="bg-[hsl(var(--background))] group p-4 flex flex-col items-center justify-center text-center h-[100px] relative overflow-hidden"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.8 + i * 0.1 }}
                             >
-                                <div className="flex flex-col items-center justify-center flex-1 w-full gap-3 z-10 font-code">
-                                    <div className="text-4xl sm:text-5xl font-bold text-[hsl(var(--foreground))]">
+                                <div className="flex flex-col items-center justify-center flex-1 w-full gap-1 z-10 font-code">
+                                    <div className="text-3xl sm:text-4xl font-bold text-[hsl(var(--foreground))]">
                                         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                                     </div>
-                                    <div className="text-[10px] sm:text-xs text-[hsl(var(--muted-foreground))] tracking-[0.2em] uppercase px-2 w-full leading-tight font-bold opacity-70">
+                                    <div className="text-[9px] sm:text-[10px] text-[hsl(var(--muted-foreground))] tracking-[0.2em] uppercase px-2 w-full leading-tight font-bold opacity-70">
                                         {statsDict?.[stat.label.split('.')[1]] || stat.label}
                                     </div>
                                 </div>
