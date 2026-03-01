@@ -9,7 +9,7 @@ interface ArchitectureDiagramProps {
 
 export function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
     return (
-        <div className="relative w-full h-full bg-[hsl(var(--muted)/0.5)] dark:bg-[#050508] text-foreground overflow-hidden flex items-center justify-center p-6 select-none">
+        <div className="relative w-full h-full bg-[hsl(var(--muted)/0.5)] dark:bg-[#050508] text-foreground overflow-hidden flex items-center justify-center p-3 sm:p-6 select-none">
             {/* Background Grid */}
             <div className="absolute inset-0 opacity-[0.05] dark:opacity-10"
                 style={{
@@ -25,10 +25,10 @@ export function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
             />
 
-            <div className="relative flex items-center gap-12 z-10">
+            <div className="relative flex items-center gap-3 xs:gap-8 sm:gap-12 z-10 scale-[0.9] xs:scale-100 transition-transform duration-300">
                 {/* Client / UI Node */}
                 {(type === 'fullstack' || type === 'frontend') && (
-                    <Node icon={<Smartphone size={18} />} label="CLIENT / UI" sub="REACT / NEXT" />
+                    <Node icon={<Smartphone className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-[18px] sm:h-[18px]" />} label="CLIENT / UI" sub="REACT / NEXT" />
                 )}
 
                 {/* Data Flow Line 1 */}
@@ -36,7 +36,7 @@ export function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
 
                 {/* API / Server Node */}
                 <Node
-                    icon={type === 'frontend' ? <Zap size={18} /> : <Server size={18} />}
+                    icon={type === 'frontend' ? <Zap className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-[18px] sm:h-[18px]" /> : <Server className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-[18px] sm:h-[18px]" />}
                     label={type === 'frontend' ? "VITE / SSG" : "REST API"}
                     sub={type === 'frontend' ? "CDN EDGE" : "SPRING BOOT"}
                     highlight
@@ -47,7 +47,7 @@ export function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
 
                 {/* Database Node */}
                 {(type === 'fullstack' || type === 'backend') && (
-                    <Node icon={<Database size={18} />} label="PERSISTENCE" sub="POSTGRESQL" />
+                    <Node icon={<Database className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-[18px] sm:h-[18px]" />} label="PERSISTENCE" sub="POSTGRESQL" />
                 )}
             </div>
 
@@ -67,16 +67,16 @@ export function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
 function Node({ icon, label, sub, highlight }: { icon: React.ReactNode, label: string, sub: string, highlight?: boolean }) {
     return (
         <motion.div
-            className={`flex flex-col items-center gap-2`}
+            className={`flex flex-col items-center gap-1.5 sm:gap-2`}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-colors ${highlight ? 'bg-[var(--accent-hex)]/20 border-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)]' : 'bg-foreground/5 border-foreground/10'}`}>
+            <div className={`w-9 h-9 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center border transition-colors ${highlight ? 'bg-[var(--accent-hex)]/20 border-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)]' : 'bg-foreground/5 border-foreground/10'}`}>
                 {icon}
             </div>
             <div className="flex flex-col items-center">
-                <span className="text-[9px] font-bold tracking-tighter text-foreground/90">{label}</span>
-                <span className="text-[7px] font-mono text-[var(--accent-hex)] opacity-70 uppercase tracking-widest">{sub}</span>
+                <span className="text-[7px] xs:text-[8px] sm:text-[9px] font-bold tracking-tighter text-foreground/90 whitespace-nowrap">{label}</span>
+                <span className="text-[5px] xs:text-[6px] sm:text-[7px] font-mono text-[var(--accent-hex)] opacity-70 uppercase tracking-widest">{sub}</span>
             </div>
         </motion.div>
     );
@@ -84,7 +84,7 @@ function Node({ icon, label, sub, highlight }: { icon: React.ReactNode, label: s
 
 function FlowLine({ active }: { active?: boolean }) {
     return (
-        <div className="relative w-8 h-[2px] bg-foreground/10 overflow-hidden">
+        <div className="relative w-4 xs:w-6 sm:w-8 h-[2px] bg-foreground/10 overflow-hidden shrink-0">
             {active && (
                 <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent-hex)] to-transparent w-4 h-full"
