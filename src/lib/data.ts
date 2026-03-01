@@ -28,7 +28,7 @@ export const personalInfo = {
     /** Teléfono (opcional) */
     phone: '+54 3446377968',
     /** Ruta al CV PDF en /public */
-    resumeUrl: '/assets/cv-santino-bondioni.pdf',
+    resumeUrl: '/assets/Santino-Bondioni-CV.pdf',
     /** URL del avatar en /public (null para usar iniciales) */
     avatarUrl: null as string | null,
     /** Iniciales (se muestran si no hay avatar) */
