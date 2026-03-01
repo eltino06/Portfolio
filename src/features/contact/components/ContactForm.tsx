@@ -46,6 +46,7 @@ function FormField({
 
 export function ContactForm({ dict }: ContactFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isConfirming, setIsConfirming] = useState(false);
 
     const {
         register,
@@ -58,6 +59,12 @@ export function ContactForm({ dict }: ContactFormProps) {
     });
 
     const onSubmit = async (data: ContactFormData) => {
+        if (!isConfirming) {
+            setIsConfirming(true);
+            return;
+        }
+
+        setIsConfirming(false);
         setIsSubmitting(true);
         try {
             const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
@@ -83,6 +90,7 @@ export function ContactForm({ dict }: ContactFormProps) {
 
             if (result.status === 200) {
                 toast.success(dict.success || '¡Mensaje enviado con éxito! 🚀');
+                setIsConfirming(false);
                 reset();
             } else {
                 throw new Error('Failed to send email');
@@ -109,6 +117,7 @@ export function ContactForm({ dict }: ContactFormProps) {
                         placeholder="Santino"
                         className={cn(inputCls, errors.name && 'border-red-400/50')}
                         autoComplete="name"
+                        onChange={() => setIsConfirming(false)}
                     />
                 </FormField>
 
@@ -119,6 +128,7 @@ export function ContactForm({ dict }: ContactFormProps) {
                         placeholder="tucorreo@ejemplo.com"
                         className={cn(inputCls, errors.email && 'border-red-400/50')}
                         autoComplete="email"
+                        onChange={() => setIsConfirming(false)}
                     />
                 </FormField>
             </div>
@@ -129,6 +139,7 @@ export function ContactForm({ dict }: ContactFormProps) {
                     type="text"
                     placeholder="..."
                     className={cn(inputCls, errors.subject && 'border-red-400/50')}
+                    onChange={() => setIsConfirming(false)}
                 />
             </FormField>
 
@@ -138,18 +149,22 @@ export function ContactForm({ dict }: ContactFormProps) {
                     rows={5}
                     placeholder="..."
                     className={cn(inputCls, 'resize-none', errors.message && 'border-red-400/50')}
+                    onChange={() => setIsConfirming(false)}
                 />
             </FormField>
 
             <Button
                 type="submit"
-                variant="primary"
+                variant={isConfirming ? "secondary" : "primary"}
                 size="lg"
                 isLoading={isSubmitting}
-                className="w-full gap-3 h-14 text-base font-bold shadow-lg"
+                className={cn(
+                    "w-full gap-3 h-14 text-base font-bold shadow-lg transition-all duration-300",
+                    isConfirming && "bg-amber-500 hover:bg-amber-600 text-white border-transparent dark:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/50 dark:hover:bg-amber-500/30"
+                )}
             >
-                <Send size={20} />
-                {isSubmitting ? dict.sending : dict.send}
+                <Send size={20} className={cn(isConfirming && "animate-bounce")} />
+                {isSubmitting ? dict.sending : isConfirming ? dict.confirmSend : dict.send}
             </Button>
         </form>
     );
