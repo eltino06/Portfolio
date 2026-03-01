@@ -121,11 +121,13 @@ export default async function RootLayout({
                         enableSystem={false}
                         storageKey="portfolio-theme"
                     >
-                        <Navbar dict={dict} lang={lang} />
-                        <ClientLayout lang={lang}>
-                            {children}
-                            <Footer dict={dict} lang={lang} />
-                        </ClientLayout>
+                        <div className="relative flex flex-col w-full min-h-screen overflow-x-hidden max-w-[100vw]">
+                            <Navbar dict={dict} lang={lang} />
+                            <ClientLayout lang={lang}>
+                                {children}
+                                <Footer dict={dict} lang={lang} />
+                            </ClientLayout>
+                        </div>
                         <Toaster
                             position="bottom-right"
                             richColors
