@@ -29,20 +29,20 @@ export function ProjectsContent({ projects, dict }: ProjectsContentProps) {
     return (
         <>
             {/* Filter buttons */}
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-2 sm:gap-3 mb-10">
                 {CATEGORIES.map((cat) => (
                     <button
                         key={cat.id}
                         onClick={() => setActiveFilter(cat.id)}
                         className={cn(
-                            'px-5 py-2 rounded-xl text-sm font-medium border transition-all duration-200',
+                            'w-full sm:w-auto px-3 sm:px-5 py-2.5 sm:py-2 flex items-center justify-center gap-1.5 rounded-xl text-xs sm:text-sm font-medium border transition-all duration-200',
                             activeFilter === cat.id
                                 ? 'bg-[var(--accent-hex)] text-[var(--accent-fg)] font-bold border-transparent shadow-[0_0_20px_var(--accent-glow)]'
                                 : 'bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:border-[hsl(var(--border))]'
                         )}
                     >
-                        {dict[cat.labelKey]}
-                        <span className="ml-1.5 text-xs opacity-60">
+                        <span>{dict[cat.labelKey]}</span>
+                        <span className="text-[10px] sm:text-xs opacity-60">
                             ({cat.id === 'Todas' ? projects.length : projects.filter((p) => p.category === cat.id).length})
                         </span>
                     </button>
