@@ -28,9 +28,15 @@ Developed with **Next.js 14**, **TypeScript**, and **Framer Motion**, this proje
 - **Subtle Shimmer FX**: Native Tailwind-registered animations for continuous interactive feedback on primary CTAs.
 - **Minimalist Branding**: A balanced visual hierarchy with a 5% global scaling strategy for enhanced readability.
 
-### 2. **Advanced Skills Visualization**
+### 2. **Advanced Skills Visualization & Architecture**
 - **Fan-out Stack Pattern**: Interactive technology stacks using vertical card displacement with intelligent height detection.
+- **Technical Evidence**: Custom-built `ArchitectureDiagram` component to visually communicate backend systems and data flow.
 - **Optimized Layout**: Compacted grid design for high-density information without sacrificing white space.
+
+### 3. **Conversion & ATS Optimization**
+- **Recruiter-centric UX**: Perfectly positioned CTAs and direct access to LinkedIn/CV without unnecessary scrolling.
+- **SEO & Metadata**: Deeply enriched metadata targeting high-impact Senior/Architecture roles and ensuring flawless parsing by ATS scrapers.
+- **Symmetrical Grids**: Flexbox-driven layouts ensuring consistent card heights and aesthetic balance across all screen sizes.
 
 ### 3. **Developer Experience (DX)**
 - **Strict Linting**: ESLint and Prettier integration for codebase consistency.
