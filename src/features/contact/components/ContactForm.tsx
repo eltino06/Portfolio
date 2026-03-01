@@ -155,15 +155,15 @@ export function ContactForm({ dict }: ContactFormProps) {
 
             <Button
                 type="submit"
-                variant={isConfirming ? "secondary" : "primary"}
+                variant={isConfirming ? "outline" : "primary"}
                 size="lg"
                 isLoading={isSubmitting}
                 className={cn(
-                    "w-full gap-3 h-14 text-base font-bold shadow-lg transition-all duration-300",
-                    isConfirming && "bg-amber-500 hover:bg-amber-600 text-white border-transparent dark:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/50 dark:hover:bg-amber-500/30"
+                    "w-full gap-3 h-14 text-base font-bold shadow-lg transition-all duration-500 relative overflow-hidden",
+                    isConfirming && "bg-[hsl(var(--foreground))/0.05] border-[hsl(var(--foreground))/0.2] text-[hsl(var(--foreground))] hover:bg-[hsl(var(--foreground))/0.1] hover:border-[hsl(var(--foreground))/0.4] backdrop-blur-md shimmer"
                 )}
             >
-                <Send size={20} className={cn(isConfirming && "animate-bounce")} />
+                <Send size={20} className={cn("transition-transform duration-300", isConfirming && "scale-110 animate-pulse")} />
                 {isSubmitting ? dict.sending : isConfirming ? dict.confirmSend : dict.send}
             </Button>
         </form>
