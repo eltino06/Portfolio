@@ -38,14 +38,14 @@ export function ArchitectureSection({ dict }: ArchitectureSectionProps) {
                 >
                     <div className="flex flex-col items-center w-full max-w-sm gap-4">
                         {/* Client */}
-                        <div className="w-full bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg py-3 text-center text-sm font-semibold tracking-wide text-[hsl(var(--foreground))] shadow-md">
+                        <div className="w-full bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg py-3 text-center text-base font-semibold tracking-wide text-[hsl(var(--foreground))] shadow-md">
                             {dict.diagram.client}
                         </div>
 
                         <ArrowRight size={20} className="text-[hsl(var(--muted-foreground))] rotate-90" />
 
                         {/* Gateway */}
-                        <div className="w-full bg-[hsl(var(--background))] border border-[var(--accent-hex)] rounded-lg py-3 text-center text-sm font-bold tracking-wide text-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)]">
+                        <div className="w-full bg-[hsl(var(--background))] border border-[var(--accent-hex)] rounded-lg py-3 text-center text-base font-bold tracking-wide text-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)]">
                             {dict.diagram.gateway}
                         </div>
 
@@ -53,10 +53,10 @@ export function ArchitectureSection({ dict }: ArchitectureSectionProps) {
 
                         {/* Core Services */}
                         <div className="w-full grid grid-cols-2 gap-3">
-                            <div className="bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg py-4 text-center text-[11px] font-semibold text-[hsl(var(--foreground))]">
+                            <div className="bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg py-4 text-center text-sm font-semibold text-[hsl(var(--foreground))]">
                                 {dict.diagram.services} A
                             </div>
-                            <div className="bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg py-4 text-center text-[11px] font-semibold text-[hsl(var(--foreground))]">
+                            <div className="bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg py-4 text-center text-sm font-semibold text-[hsl(var(--foreground))]">
                                 {dict.diagram.services} B
                             </div>
                         </div>
@@ -64,7 +64,7 @@ export function ArchitectureSection({ dict }: ArchitectureSectionProps) {
                         <ArrowRight size={20} className="text-[hsl(var(--muted-foreground))] rotate-90" />
 
                         {/* DB */}
-                        <div className="w-3/4 bg-[hsl(var(--background))] border-2 border-dashed border-[hsl(var(--border))] rounded-lg py-4 text-center text-sm font-bold text-[hsl(var(--muted-foreground))]">
+                        <div className="w-3/4 bg-[hsl(var(--background))] border-2 border-dashed border-[hsl(var(--border))] rounded-lg py-4 text-center text-base font-bold text-[hsl(var(--muted-foreground))]">
                             [( {dict.diagram.database} )]
                         </div>
                     </div>
@@ -86,7 +86,7 @@ export function ArchitectureSection({ dict }: ArchitectureSectionProps) {
                                 <h4 className="text-lg font-bold text-[hsl(var(--foreground))] mb-1">
                                     {dict.pillars[pillar.id].title}
                                 </h4>
-                                <p className="text-[hsl(var(--muted-foreground))] leading-relaxed text-sm">
+                                <p className="text-[hsl(var(--muted-foreground))] leading-relaxed text-base">
                                     {dict.pillars[pillar.id].desc}
                                 </p>
                             </div>

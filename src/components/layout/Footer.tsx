@@ -39,7 +39,7 @@ export function Footer({ dict, lang }: FooterProps) {
 
                     <div className="md:col-span-5 flex flex-col items-center">
                         <div className="w-fit">
-                            <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-2 opacity-60 text-center">
+                            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-2 opacity-60 text-center">
                                 {dict.footer.navigation}
                             </h3>
                             <nav aria-label="Footer navigation">
@@ -50,7 +50,7 @@ export function Footer({ dict, lang }: FooterProps) {
                                             <li key={link.href}>
                                                 <Link
                                                     href={`/${lang}${link.href}`}
-                                                    className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200 flex items-center gap-2 group"
+                                                    className="text-base text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200 flex items-center gap-2 group"
                                                 >
                                                     <span className="w-1 h-1 rounded-full bg-[var(--accent-hex)] opacity-0 group-hover:opacity-100 transition-opacity" />
                                                     {label}
@@ -64,7 +64,7 @@ export function Footer({ dict, lang }: FooterProps) {
                     </div>
 
                     <div className="md:col-span-3">
-                        <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-2 opacity-60">
+                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[hsl(var(--muted-foreground))] mb-2 opacity-60">
                             {dict.footer.connect}
                         </h3>
                         <div className="flex flex-wrap gap-2.5">
@@ -90,7 +90,7 @@ export function Footer({ dict, lang }: FooterProps) {
                     </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[hsl(var(--border))] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[hsl(var(--muted-foreground))]">
+                <div className="mt-6 pt-4 border-t border-[hsl(var(--border))] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[hsl(var(--muted-foreground))]">
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-5">
                         <p>© {year} {personalInfo.name}.</p>
                         <p className="font-code hidden sm:block opacity-40">
@@ -108,7 +108,7 @@ export function Footer({ dict, lang }: FooterProps) {
                         className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:text-[var(--accent-hex)] transition-all duration-300 cursor-pointer"
                         aria-label="Back to top"
                     >
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">{dict.footer.backToTop}</span>
+                        <span className="text-xs font-semibold uppercase tracking-wider">{dict.footer.backToTop}</span>
                         <ArrowUp size={12} className="group-hover:-translate-y-1 transition-transform" />
                     </a>
                 </div>

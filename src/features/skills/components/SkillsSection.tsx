@@ -17,10 +17,10 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
 };
 
 const categoryIcons: Record<string, React.ReactNode> = {
-    backend: <Server size={14} className="text-[var(--accent-hex)]" />,
-    frontend: <MonitorSmartphone size={14} className="text-[var(--accent-hex)]" />,
-    database: <Database size={14} className="text-[var(--accent-hex)]" />,
-    tools: <Wrench size={14} className="text-[var(--accent-hex)]" />,
+    backend: <Server size={18} className="text-[var(--accent-hex)]" />,
+    frontend: <MonitorSmartphone size={18} className="text-[var(--accent-hex)]" />,
+    database: <Database size={18} className="text-[var(--accent-hex)]" />,
+    tools: <Wrench size={18} className="text-[var(--accent-hex)]" />,
 };
 
 interface SkillsSectionProps {
@@ -48,7 +48,7 @@ export function SkillsSection({ dict }: SkillsSectionProps) {
                             <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center shrink-0 border border-[hsl(var(--border))]">
                                 {categoryIcons[category.id]}
                             </div>
-                            <h3 className="font-bold text-sm text-[hsl(var(--foreground))] uppercase tracking-widest">
+                            <h3 className="font-bold text-base text-[hsl(var(--foreground))] uppercase tracking-widest">
                                 {dict.categories[category.id]}
                             </h3>
 
@@ -73,17 +73,17 @@ export function SkillsSection({ dict }: SkillsSectionProps) {
                                                 <div className="absolute inset-0 opacity-0 group-hover/skill:opacity-100 bg-gradient-to-r from-transparent via-[hsl(var(--foreground)/0.05)] to-transparent -translate-x-full group-hover/skill:animate-[shimmerLoop_2s_infinite] transition-opacity duration-500" />
                                             </div>
 
-                                            <div className="relative z-10 w-6 h-6 flex items-center justify-center shrink-0">
+                                            <div className="relative z-10 w-7 h-7 flex items-center justify-center shrink-0">
                                                 {IconComponent ? (
                                                     <IconComponent
-                                                        size={16}
+                                                        size={20}
                                                         className="text-[hsl(var(--muted-foreground))] group-hover:text-[var(--accent-hex)] group-hover/skill:text-[hsl(var(--foreground))] group-hover/skill:scale-110 transition-all duration-300"
                                                     />
                                                 ) : (
-                                                    <span className="text-[10px]">💻</span>
+                                                    <span className="text-xs">💻</span>
                                                 )}
                                             </div>
-                                            <span className="relative z-10 text-xs font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] group-hover/skill:translate-x-0.5 transition-all duration-300 truncate">
+                                            <span className="relative z-10 text-sm font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] group-hover/skill:translate-x-0.5 transition-all duration-300 truncate">
                                                 {skill.name}
                                             </span>
                                         </div>

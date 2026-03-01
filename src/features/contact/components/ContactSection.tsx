@@ -38,7 +38,7 @@ export function ContactSection({ dict }: ContactSectionProps) {
                     direction="right"
                     className="lg:col-span-2 space-y-6"
                 >
-                    <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed">
+                    <p className="text-[hsl(var(--muted-foreground))] text-base leading-relaxed">
                         {dict.details}
                     </p>
 
@@ -55,18 +55,18 @@ export function ContactSection({ dict }: ContactSectionProps) {
                                     <item.icon size={16} className="text-[var(--accent-hex)]" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-[hsl(var(--muted-foreground))] uppercase tracking-wide font-semibold">
+                                    <p className="text-sm text-[hsl(var(--muted-foreground))] uppercase tracking-wide font-semibold">
                                         {item.label}
                                     </p>
                                     {item.href ? (
                                         <a
                                             href={item.href}
-                                            className="text-sm font-medium hover:text-[var(--accent-hex)] transition-colors duration-200"
+                                            className="text-base font-medium hover:text-[var(--accent-hex)] transition-colors duration-200"
                                         >
                                             {item.value}
                                         </a>
                                     ) : (
-                                        <p className="text-sm font-medium">{item.value}</p>
+                                        <p className="text-base font-medium">{item.value}</p>
                                     )}
                                 </div>
                             </FadeIn>

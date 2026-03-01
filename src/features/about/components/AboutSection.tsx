@@ -72,10 +72,10 @@ export function AboutSection({ dict }: AboutSectionProps) {
                                     <item.icon size={18} className="text-[var(--accent-hex)] group-hover:text-[var(--accent-fg)] transition-colors" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-[hsl(var(--muted-foreground))] uppercase tracking-widest font-bold opacity-70">
+                                    <p className="text-xs text-[hsl(var(--muted-foreground))] uppercase tracking-widest font-bold opacity-70">
                                         {item.label}
                                     </p>
-                                    <p className="text-sm font-semibold mt-0.5">{item.value}</p>
+                                    <p className="text-base font-semibold mt-0.5">{item.value}</p>
                                 </div>
                             </FadeIn>
                         ))}
@@ -88,7 +88,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                         <div className="w-8 h-8 rounded-lg bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] flex items-center justify-center">
                             <Sparkles size={16} className="text-[var(--accent-hex)]" />
                         </div>
-                        <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[hsl(var(--foreground))]">
+                        <h3 className="text-base font-bold uppercase tracking-[0.2em] text-[hsl(var(--foreground))]">
                             {dict.eduSubtitle}
                         </h3>
                     </div>
@@ -106,20 +106,20 @@ export function AboutSection({ dict }: AboutSectionProps) {
                                         <h4 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors">
                                             {dict.items[edu.translationKey].institution}
                                         </h4>
-                                        <p className="text-xs text-[var(--accent-hex)] font-semibold mt-1 uppercase tracking-wide">
+                                        <p className="text-sm text-[var(--accent-hex)] font-semibold mt-1 uppercase tracking-wide">
                                             {dict.items[edu.translationKey].degree} — {dict.items[edu.translationKey].field}
                                         </p>
                                     </div>
-                                    <span className="text-[10px] whitespace-nowrap shrink-0 font-code px-2 py-1 rounded-md bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))]">
+                                    <span className="text-xs whitespace-nowrap shrink-0 font-code px-2 py-1 rounded-md bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))]">
                                         {edu.startDate} — {edu.endDate}
                                     </span>
                                 </div>
-                                <p className="text-xs text-[hsl(var(--muted-foreground))] leading-relaxed mb-6">
+                                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed mb-6">
                                     {dict.items[edu.translationKey].desc}
                                 </p>
 
                                 <div className="space-y-2">
-                                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider">
+                                    <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
                                         <span className="opacity-50 text-[hsl(var(--foreground))]">{dict.eduProgress}</span>
                                         <AnimatedCounter value={edu.progress} suffix="%" className="text-[var(--accent-hex)]" />
                                     </div>

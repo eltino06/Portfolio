@@ -40,22 +40,22 @@ export function ExperienceSection({ dict }: ExperienceSectionProps) {
                                     <h3 className="text-lg font-bold">
                                         {dict.items[exp.translationKey].role}
                                     </h3>
-                                    <p className="text-[var(--accent-hex)] font-semibold text-sm">
+                                    <p className="text-[var(--accent-hex)] font-semibold text-base">
                                         {dict.items[exp.translationKey].company}
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col gap-1.5 text-xs text-[hsl(var(--muted-foreground))] shrink-0">
+                                <div className="flex flex-col gap-1.5 text-sm text-[hsl(var(--muted-foreground))] shrink-0">
                                     <span className="flex items-center gap-1.5">
-                                        <Calendar size={12} />
+                                        <Calendar size={14} />
                                         {exp.startDate} — {exp.endDate === 'Actualidad' ? dict.present : exp.endDate}
                                     </span>
                                     <span className="flex items-center gap-1.5">
-                                        <MapPin size={12} />
+                                        <MapPin size={14} />
                                         {dict.items[exp.translationKey].location}
                                     </span>
                                     {exp.endDate === 'Actualidad' && (
-                                        <Badge variant="accent" className="w-fit text-xs">
+                                        <Badge variant="accent" className="w-fit text-sm">
                                             {dict.present}
                                         </Badge>
                                     )}
@@ -63,7 +63,7 @@ export function ExperienceSection({ dict }: ExperienceSectionProps) {
                             </div>
 
                             {/* Description */}
-                            <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed mb-4">
+                            <p className="text-base text-[hsl(var(--muted-foreground))] leading-relaxed mb-4">
                                 {dict.items[exp.translationKey].desc}
                             </p>
 
@@ -74,10 +74,10 @@ export function ExperienceSection({ dict }: ExperienceSectionProps) {
                                         key={j}
                                         direction="left"
                                         delay={j * 0.08}
-                                        className="flex items-start gap-2.5 text-sm"
+                                        className="flex items-start gap-2.5 text-base"
                                     >
                                         <CheckCircle
-                                            size={15}
+                                            size={17}
                                             className="text-[var(--accent-hex)] shrink-0 mt-0.5"
                                         />
                                         <span className="text-[hsl(var(--muted-foreground))]">{achievement}</span>
