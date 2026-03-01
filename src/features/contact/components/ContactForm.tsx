@@ -160,11 +160,20 @@ export function ContactForm({ dict }: ContactFormProps) {
                 isLoading={isSubmitting}
                 className={cn(
                     "w-full gap-3 h-14 text-base font-bold shadow-lg transition-all duration-500 relative overflow-hidden",
-                    isConfirming && "bg-[hsl(var(--foreground))/0.05] border-[hsl(var(--foreground))/0.2] text-[hsl(var(--foreground))] hover:bg-[hsl(var(--foreground))/0.1] hover:border-[hsl(var(--foreground))/0.4] backdrop-blur-md shimmer"
+                    isConfirming && "bg-[hsl(var(--foreground))/0.1] border-[hsl(var(--foreground))/0.3] text-[hsl(var(--foreground))] hover:bg-[hsl(var(--foreground))/0.15] hover:border-[hsl(var(--foreground))/0.5] backdrop-blur-xl"
                 )}
             >
-                <Send size={20} className={cn("transition-transform duration-300", isConfirming && "scale-110 animate-pulse")} />
-                {isSubmitting ? dict.sending : isConfirming ? dict.confirmSend : dict.send}
+                {/* Intense Shimmer Layer */}
+                {isConfirming && (
+                    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[hsl(var(--foreground))/0.3] dark:via-[hsl(var(--foreground))/0.2] to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
+                    </div>
+                )}
+
+                <Send size={20} className={cn("transition-transform duration-300 relative z-10", isConfirming && "scale-110 animate-pulse")} />
+                <span className="relative z-10">
+                    {isSubmitting ? dict.sending : isConfirming ? dict.confirmSend : dict.send}
+                </span>
             </Button>
         </form>
     );
