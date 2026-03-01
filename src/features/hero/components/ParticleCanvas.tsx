@@ -59,7 +59,7 @@ export const ParticleCanvas = () => {
             let my = mouseRef.current.y;
 
             const particleColor = isDark ? '255, 255, 255' : '30, 30, 30';
-            const alphaMultiplier = 1.6;
+            const alphaMultiplier = 1.45;
 
             if (!isInteracting.current) {
                 mx = canvas.width / 2 + Math.cos(time * 0.5) * (canvas.width * 0.12);
@@ -102,7 +102,7 @@ export const ParticleCanvas = () => {
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 120) {
                         ctx.beginPath();
-                        ctx.globalAlpha = 0.15 * (1 - dist / 120) * (isDark ? 1 : 2.5);
+                        ctx.globalAlpha = 0.13 * (1 - dist / 120) * (isDark ? 1 : 2.5);
                         ctx.strokeStyle = `rgb(${particleColor})`;
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
