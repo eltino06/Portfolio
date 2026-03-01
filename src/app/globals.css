@@ -93,7 +93,7 @@ body {
     width: 100%;
 }
 
-/* Allow selection and text cursor in informational content */
+/* Allow selection and text cursor in informational content (About, Hero intro, etc.) */
 h1,
 h2,
 h3,
@@ -108,30 +108,60 @@ blockquote {
     user-select: text;
 }
 
-/* Re-disable selection for UI components (cards, buttons, nav) */
+/* Re-disable selection and text cursor for UI components (cards, buttons, nav) */
 header,
 nav,
 button,
-a,
 .glass,
 [role="button"],
 .select-none {
+    user-select: none !important;
+    cursor: default !important;
+}
+
+/* Ensure text INSIDE cards and buttons doesn't show the I-beam cursor */
+.glass *,
+button *,
+nav * {
+    cursor: inherit !important;
+    user-select: none !important;
+}
+
+/* Links outside of cards/buttons should still be pointers */
+a {
+    cursor: pointer !important;
     user-select: none;
 }
 
-/* Specific cursor overrides for interactive elements */
-a,
-button,
-[role="button"],
-select,
-summary {
-    cursor: pointer !important;
+/* However, if a link contains a title or paragraph (like in a card), it should follow the parent's cursor */
+a h1,
+a h2,
+a h3,
+a h4,
+a h5,
+a h6,
+a p,
+a span {
+    cursor: inherit !important;
 }
 
-/* Ensure inputs and textareas always have the text cursor */
+/* Exception for informational content *outside* of these UI blocks */
+section:not(#contact) h1,
+section:not(#contact) h2,
+section:not(#contact) p,
+.about-content p,
+.hero-content p {
+    cursor: text;
+    user-select: text;
+}
+
+/* Ensure inputs and textareas always have the text cursor and remain selectable */
 input,
 textarea,
-[contenteditable="true"] {
+[contenteditable="true"],
+input *,
+textarea *,
+[contenteditable="true"] * {
     cursor: text !important;
     user-select: text !important;
 }
@@ -207,6 +237,11 @@ textarea,
     /* Font mono shorthand */
     .font-code {
         font-family: var(--font-jetbrains), monospace;
+    }
+
+    /* Hide scrollbar and prevent scroll */
+    .no-scroll {
+        overflow: hidden !important;
     }
 }
 

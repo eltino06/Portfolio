@@ -115,12 +115,12 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
 
     useEffect(() => {
         if (isVisible) {
-            document.body.style.overflow = 'hidden';
+            document.documentElement.classList.add('no-scroll');
         } else {
-            document.body.style.overflow = '';
+            document.documentElement.classList.remove('no-scroll');
         }
         return () => {
-            document.body.style.overflow = '';
+            document.documentElement.classList.remove('no-scroll');
         };
     }, [isVisible]);
 
@@ -143,12 +143,11 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#050507] overflow-hidden"
+                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#000000] overflow-hidden"
+                    style={{ willChange: 'opacity' }}
                     exit={{
                         opacity: 0,
-                        scale: 1.05,
-                        filter: 'blur(20px)',
-                        transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] }
+                        transition: { duration: 0.8, ease: 'easeOut' }
                     }}
                     onAnimationComplete={() => {
                         if (!isVisible && onLoadingComplete) {
@@ -172,7 +171,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                         ? 'var(--loader-shimmer-bg)'
                                         : 'var(--loader-idle-bg)',
                                     backgroundSize: showShimmer ? '200% auto' : '100% auto',
-                                    animation: showShimmer ? 'shimmer 3.5s linear infinite' : 'none'
+                                    animation: showShimmer ? 'shimmer 4s linear infinite' : 'none'
                                 }}
                             >
                                 {displayedMain}
@@ -188,7 +187,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                             <div className="h-8 flex items-center justify-center">
                                 <p className="text-[10px] sm:text-xs lg:text-sm font-code text-[#737373] tracking-[0.5em] font-medium uppercase select-none">
                                     {displayedSub.slice(0, 11)}
-                                    <span className="text-black dark:text-white font-black tracking-[0.6em] drop-shadow-[0_0_1px_rgba(0,0,0,0.8)] dark:drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] ml-1">
+                                    <span className="text-black dark:text-white font-black tracking-[0.6em] ml-1">
                                         {displayedSub.slice(11)}
                                     </span>
                                     {displayedSub.length > 0 && displayedSub.length < subText.length && (

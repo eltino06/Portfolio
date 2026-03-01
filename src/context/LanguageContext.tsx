@@ -61,13 +61,14 @@ export function LanguageProvider({
         overlay.style.position = 'fixed';
         overlay.style.inset = '0';
         overlay.style.zIndex = '99999';
-        overlay.style.backgroundColor = isDark ? '#050507' : '#ffffff';
+        overlay.style.backgroundColor = isDark ? '#000000' : '#ffffff';
         overlay.style.display = 'flex';
         overlay.style.alignItems = 'center';
         overlay.style.justifyContent = 'center';
         overlay.style.opacity = '0';
-        overlay.style.transition = 'opacity 0.4s ease-in-out';
+        overlay.style.transition = 'opacity 0.3s ease-out';
         overlay.style.pointerEvents = 'auto'; // Block everything underneath
+        overlay.style.willChange = 'opacity';
 
         const spinner = document.createElement('div');
         spinner.style.width = '2.5rem';
@@ -95,6 +96,7 @@ export function LanguageProvider({
 
         overlay.appendChild(spinner);
         document.body.appendChild(overlay);
+        document.documentElement.classList.add('no-scroll');
 
         // Force reflow
         void overlay.offsetWidth;
@@ -133,6 +135,7 @@ export function LanguageProvider({
             const zombieInterval = setInterval(() => {
                 if (!document.getElementById('vanilla-lang-overlay')) {
                     document.body.appendChild(overlay);
+                    document.documentElement.classList.add('no-scroll');
                 }
             }, 10);
 
@@ -141,7 +144,10 @@ export function LanguageProvider({
                 clearInterval(lockInterval);
                 clearInterval(zombieInterval);
                 overlay.style.opacity = '0';
-                setTimeout(() => overlay.remove(), 400); // 0.4s to fade out before destroying DOM
+                setTimeout(() => {
+                    overlay.remove();
+                    document.documentElement.classList.remove('no-scroll');
+                }, 300); // 0.3s to fade out before destroying DOM
             }, 3500);
 
         }, 450); // Wait 450ms for the 0.4s fade-in to COMPLETE entirely before triggering Next.js swap

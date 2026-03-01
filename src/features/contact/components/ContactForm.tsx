@@ -1,5 +1,6 @@
 'use client';
 
+import emailjs from '@emailjs/browser';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,7 +10,6 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/Button';
 import { contactSchema, type ContactFormData } from '@/lib/validations';
 import { cn } from '@/lib/utils';
-import { sendEmail } from '../actions';
 
 const inputCls =
     'w-full px-4 py-3 rounded-xl glass border border-[hsl(var(--border))] text-sm placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus:border-[var(--accent-hex)] focus:shadow-[0_0_0_3px_var(--accent-glow)] transition-all duration-200 bg-transparent';
@@ -60,13 +60,32 @@ export function ContactForm({ dict }: ContactFormProps) {
     const onSubmit = async (data: ContactFormData) => {
         setIsSubmitting(true);
         try {
-            const result = await sendEmail(data);
+            const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+            const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-            if (result.success) {
-                toast.success(dict.success || 'Message sent! 🚀');
+            if (!serviceId || !templateId || !publicKey) {
+                throw new Error('EmailJS credentials missing');
+            }
+
+            const result = await emailjs.send(
+                serviceId,
+                templateId,
+                {
+                    from_name: data.name,
+                    from_email: data.email,
+                    subject: data.subject,
+                    message: data.message,
+                    to_name: 'Santino Bondioni',
+                },
+                publicKey
+            );
+
+            if (result.status === 200) {
+                toast.success(dict.success || '¡Mensaje enviado con éxito! 🚀');
                 reset();
-            } else if (result.error) {
-                toast.error(result.error);
+            } else {
+                throw new Error('Failed to send email');
             }
         } catch (error) {
             console.error('Submission error:', error);
