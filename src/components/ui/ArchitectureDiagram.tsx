@@ -9,11 +9,11 @@ interface ArchitectureDiagramProps {
 
 export function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
     return (
-        <div className="relative w-full h-full bg-[#050508] overflow-hidden flex items-center justify-center p-6 select-none">
+        <div className="relative w-full h-full bg-[hsl(var(--muted)/0.5)] dark:bg-[#050508] text-foreground overflow-hidden flex items-center justify-center p-6 select-none">
             {/* Background Grid */}
-            <div className="absolute inset-0 opacity-10"
+            <div className="absolute inset-0 opacity-[0.05] dark:opacity-10"
                 style={{
-                    backgroundImage: `linear-gradient(#4f46e5 1px, transparent 1px), linear-gradient(90(#4f46e5 1px, transparent 1px)`,
+                    backgroundImage: `linear-gradient(var(--accent-hex) 1px, transparent 1px), linear-gradient(90deg, var(--accent-hex) 1px, transparent 1px)`,
                     backgroundSize: '20px 20px'
                 }}
             />
@@ -71,11 +71,11 @@ function Node({ icon, label, sub, highlight }: { icon: React.ReactNode, label: s
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-colors ${highlight ? 'bg-[var(--accent-hex)]/20 border-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)]' : 'bg-white/5 border-white/10'}`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-colors ${highlight ? 'bg-[var(--accent-hex)]/20 border-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)]' : 'bg-foreground/5 border-foreground/10'}`}>
                 {icon}
             </div>
             <div className="flex flex-col items-center">
-                <span className="text-[9px] font-bold tracking-tighter text-white/90">{label}</span>
+                <span className="text-[9px] font-bold tracking-tighter text-foreground/90">{label}</span>
                 <span className="text-[7px] font-mono text-[var(--accent-hex)] opacity-70 uppercase tracking-widest">{sub}</span>
             </div>
         </motion.div>
@@ -84,7 +84,7 @@ function Node({ icon, label, sub, highlight }: { icon: React.ReactNode, label: s
 
 function FlowLine({ active }: { active?: boolean }) {
     return (
-        <div className="relative w-8 h-[2px] bg-white/10 overflow-hidden">
+        <div className="relative w-8 h-[2px] bg-foreground/10 overflow-hidden">
             {active && (
                 <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent-hex)] to-transparent w-4 h-full"
