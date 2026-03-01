@@ -186,6 +186,8 @@ export const translations = {
             message: 'Mensaje',
             send: 'Enviar Mensaje',
             sending: 'Enviando...',
+            success: '¡Mensaje enviado con éxito! Te responderé a la brevedad.',
+            error: 'Ocurrió un error al enviar el mensaje. Por favor, intenta de nuevo.',
         },
         footer: {
             navigation: 'Navegación',
@@ -381,6 +383,8 @@ export const translations = {
             message: 'Message',
             send: 'Send Message',
             sending: 'Sending...',
+            success: 'Message sent successfully! I will get back to you shortly.',
+            error: 'An error occurred while sending the message. Please try again.',
         },
         footer: {
             navigation: 'Navigation',
@@ -597,6 +601,8 @@ export const translations = {
             message: 'Mensagem',
             send: 'Enviar Mensagem',
             sending: 'Enviando...',
+            success: 'Mensagem enviada com sucesso! Responderei em breve.',
+            error: 'Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.',
         },
         footer: {
             navigation: 'Navegação',
@@ -813,6 +819,8 @@ export const translations = {
             message: 'Messaggio',
             send: 'Invia Messaggio',
             sending: 'Invio in corso...',
+            success: 'Messaggio inviato con successo! Ti risponderò a breve.',
+            error: 'Si è verificato un errore durante l\'invio del messaggio. Riprova.',
         },
         footer: {
             navigation: 'Navigazione',
