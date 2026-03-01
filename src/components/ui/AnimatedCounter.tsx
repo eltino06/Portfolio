@@ -19,7 +19,7 @@ export function AnimatedCounter({
     const [count, setCount] = useState(0);
     const [mounted, setMounted] = useState(false);
     const ref = useRef<HTMLSpanElement>(null);
-    const isInView = useInView(ref, { once: true, amount: 0.5 });
+    const isInView = useInView(ref, { once: true, amount: 0.1 });
 
     useEffect(() => {
         setMounted(true);

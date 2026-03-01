@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { DownloadModal } from '@/components/ui/DownloadModal';
+import { ProgressBar } from '@/features/about/components/ProgressBar';
 import { smoothScrollTo } from '@/lib/utils';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { ParticleCanvas } from './ParticleCanvas';
@@ -144,7 +145,13 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                                     <div className="text-[9px] sm:text-[10px] text-[hsl(var(--muted-foreground))] tracking-[0.2em] uppercase px-2 w-full leading-tight font-bold opacity-70">
                                         {statsDict?.[stat.label.split('.')[1]] || stat.label}
                                     </div>
+                                    <div className="w-20 mt-2 h-[2px] bg-[hsl(var(--muted))] rounded-full overflow-hidden opacity-50">
+                                        <ProgressBar progress={stat.value} />
+                                    </div>
                                 </div>
+
+                                {/* Loading Scanline Effect */}
+                                <div className="absolute inset-x-0 top-0 h-full w-full pointer-events-none opacity-[0.03] animate-flow-vertical" />
 
                                 {/* Subtle hover effect background */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--accent-hex)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
