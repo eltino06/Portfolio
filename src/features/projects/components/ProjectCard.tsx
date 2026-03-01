@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { cn } from '@/lib/utils';
+import { ArchitectureDiagram } from '@/components/ui/ArchitectureDiagram';
 import { type Project } from '../data/projects';
 
-const cardBg = 'bg-[#FFF9E6]/45 backdrop-blur-sm';
+const cardBg = 'bg-[#050508]';
 
 interface ProjectCardProps {
     project: Project;
@@ -25,12 +26,8 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
             transition={{ delay: index * 0.08, duration: 0.5 }}
             onClick={onClick}
         >
-            <div className={cn('relative h-44 overflow-hidden', cardBg)}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-[var(--accent-hex)] text-6xl font-bold opacity-60 group-hover:opacity-80 transition-opacity duration-300">
-                        {project.title.charAt(0)}
-                    </span>
-                </div>
+            <div className={cn('relative h-44 overflow-hidden border-b border-[hsl(var(--border))] group-hover:border-[var(--accent-hex)]/30 transition-colors duration-300', cardBg)}>
+                <ArchitectureDiagram type={project.category.toLowerCase() as any} />
 
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                     <div className="relative bg-white px-4 py-2 rounded-xl text-black text-sm font-bold border border-white/20 overflow-hidden group/btn">

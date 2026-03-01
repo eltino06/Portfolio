@@ -16,7 +16,7 @@ export const personalInfo = {
     /** Solo primer nombre (usado en el saludo del hero) */
     firstName: 'Santino',
     /** Título profesional */
-    title: 'Desarrollador FullStack & Backend Architect',
+    title: 'Software Architect & FullStack Developer',
     /** Palabras que rotan en el efecto typewriter (Keys) */
     roles: ['hero.roles.java', 'hero.roles.fullstack', 'hero.roles.backend', 'hero.roles.solver'],
     /** Bio corta (Keys) */
@@ -143,7 +143,7 @@ export const projects: Project[] = [
         title: 'Plataforma de Gestión Administrativa',
         description: 'Sistema integral para administración con backend en Spring Boot y frontend en React.',
         longDescription: 'Arquitectura backend con Spring Boot implementando una API REST completa, sistema de roles (RBAC), autenticación JWT y auditoría de acciones. Frontend desarrollado en React con control de accesos dinámico y dashboards administrativos. Desplegado bajo contenedores Docker.',
-        stack: ['Spring Boot', 'React', 'PostgreSQL', 'Docker', 'Node.js'],
+        stack: ['Spring Boot', 'React', 'PostgreSQL', 'Docker', 'JWT', 'Security'],
         category: 'FullStack',
         image: '',
         github: 'https://github.com/eltino06',
@@ -156,7 +156,7 @@ export const projects: Project[] = [
         title: 'Sistema de Registro Digital y Auditoría',
         description: 'Aplicación enfocada en trazabilidad y seguridad de datos operacionales.',
         longDescription: 'Diseño de arquitectura orientada a trazabilidad extrema: cada operación es registrada, versionada y auditable. Modelo de base de datos relacional avanzado diseñado para integridad referencial total and flujos de seguridad estrictos.',
-        stack: ['Java', 'PostgreSQL', 'Prisma', 'TypeScript', 'Node.js'],
+        stack: ['Java', 'PostgreSQL', 'Prisma', 'REST API', 'Architecture'],
         category: 'Backend',
         image: '',
         github: 'https://github.com/eltino06/rdam',
@@ -212,7 +212,7 @@ export const experiences: Experience[] = [
             'Documentación técnica de endpoints y decisiones de diseño arquitectónico',
             'Uso de entornos contenerizados con Docker para despliegues locales',
         ],
-        technologies: ['Spring Boot', 'Node.js', 'Express', 'PostgreSQL', 'Docker', 'TypeScript'],
+        technologies: ['Spring Boot', 'Next.js', 'PostgreSQL', 'Docker', 'Architecture', 'Security'],
     },
 ];
 
