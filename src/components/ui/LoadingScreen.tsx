@@ -143,7 +143,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black overflow-hidden"
+                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[hsl(var(--background))] overflow-hidden"
                     style={{ willChange: 'transform, opacity' }}
                     exit={{
                         opacity: 0,
@@ -201,17 +201,17 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
                                 </p>
                             </div>
                         </div>
-
-                        {/* Bottom Progress Bar */}
-                        <div className="fixed bottom-0 left-0 w-full h-[5px] bg-black/5 dark:bg-white/5">
-                            <motion.div
-                                className="h-full bg-[var(--accent-hex)]"
-                                initial={{ width: '0%' }}
-                                animate={{ width: '100%' }}
-                                transition={{ duration: 6.5, ease: 'linear' }}
-                            />
-                        </div>
                     </motion.div>
+
+                    {/* Bottom Progress Bar */}
+                    <div className="fixed bottom-0 left-0 w-full h-[5px] bg-black/5 dark:bg-white/5">
+                        <motion.div
+                            className="h-full bg-[var(--accent-hex)]"
+                            initial={{ width: '0%' }}
+                            animate={{ width: '100%' }}
+                            transition={{ duration: 6.5, ease: 'linear' }}
+                        />
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>

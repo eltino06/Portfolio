@@ -40,7 +40,7 @@ export function ClientLayout({ children, lang }: ClientLayoutProps) {
 
             <motion.div
                 key={lang}
-                className="overflow-x-hidden w-full relative bg-black"
+                className="overflow-x-hidden w-full relative bg-[hsl(var(--background))]"
                 initial={{ opacity: 0, scale: 0.97, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{
