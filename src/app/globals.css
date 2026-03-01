@@ -7,8 +7,8 @@
 ───────────────────────────────────────── */
 :root {
     /* Minimalist Dark Theme */
-    --background: 0 0% 4%;
-    /* #0A0A0A */
+    --background: 0 0% 0%;
+    /* #000000 */
     --foreground: 0 0% 93%;
     /* #EDEDED */
     --muted: 0 0% 10%;

@@ -40,12 +40,12 @@ export function ClientLayout({ children, lang }: ClientLayoutProps) {
 
             <motion.div
                 key={lang}
-                className="overflow-x-hidden w-full relative"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                className="overflow-x-hidden w-full relative bg-black"
+                initial={{ opacity: 0, scale: 0.97, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{
-                    duration: 0.8,
-                    delay: 0.2,
+                    duration: 1.2,
+                    delay: 0.1,
                     ease: [0.22, 1, 0.36, 1],
                 }}
             >
