@@ -30,7 +30,7 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
                 <ArchitectureDiagram type={project.category.toLowerCase() as any} />
 
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                    <div className="relative bg-[var(--accent-hex)] px-5 py-2.5 rounded-xl text-black text-xs font-black border border-[var(--accent-hex)] shadow-[0_0_20px_var(--accent-glow)] overflow-hidden group/btn uppercase tracking-widest">
+                    <div className="relative bg-[var(--accent-hex)] px-5 py-2.5 rounded-xl text-[hsl(var(--accent-fg))] text-xs font-black border border-[var(--accent-hex)] shadow-[0_0_20px_var(--accent-glow)] overflow-hidden group/btn uppercase tracking-widest">
                         {dict.details}
                         <div className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                     </div>
