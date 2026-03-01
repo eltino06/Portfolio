@@ -19,14 +19,14 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps) {
     return (
         <motion.article
-            className="group relative glass rounded-2xl border border-[hsl(var(--border))] overflow-hidden hover:border-[var(--accent-hex)] hover:shadow-[0_0_30px_var(--accent-glow)] transition-colors duration-300 cursor-pointer"
+            className="group relative h-full flex flex-col glass rounded-2xl border border-[hsl(var(--border))] overflow-hidden hover:border-[var(--accent-hex)] hover:shadow-[0_0_30px_var(--accent-glow)] transition-colors duration-300 cursor-pointer"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.08, duration: 0.5 }}
             onClick={onClick}
         >
-            <div className={cn('relative h-44 overflow-hidden border-b border-[hsl(var(--border))] group-hover:border-[var(--accent-hex)]/30 transition-colors duration-300', cardBg)}>
+            <div className={cn('relative h-44 shrink-0 overflow-hidden border-b border-[hsl(var(--border))] group-hover:border-[var(--accent-hex)]/30 transition-colors duration-300', cardBg)}>
                 <ArchitectureDiagram type={project.category.toLowerCase() as any} />
 
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
@@ -43,7 +43,7 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
                 )}
             </div>
 
-            <div className="p-5 space-y-3">
+            <div className="p-5 flex flex-col flex-1 gap-3">
                 <div className="flex items-start justify-between gap-2">
                     <h3 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors duration-200">
                         {dict.items[project.translationKey].title}
@@ -55,7 +55,7 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
                     {dict.items[project.translationKey].desc}
                 </p>
 
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
                     {project.stack.slice(0, 4).map((tech) => (
                         <Badge key={tech} variant="outline" className="text-xs">
                             {tech}
@@ -66,7 +66,7 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
                     )}
                 </div>
 
-                <div className="flex gap-2 pt-1" onClick={(e) => e.stopPropagation()}>
+                <div className="flex gap-2 pt-3 border-t border-[hsl(var(--border))/50] mt-1" onClick={(e) => e.stopPropagation()}>
                     {project.github && (
                         <a
                             href={project.github}

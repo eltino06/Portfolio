@@ -102,10 +102,8 @@ export function Footer({ dict, lang }: FooterProps) {
                     <a
                         href={`/${lang}#hero`}
                         onClick={(e) => {
-                            if (window.location.hash === '#hero') {
-                                e.preventDefault();
-                                smoothScrollTo('hero', 1400);
-                            }
+                            e.preventDefault();
+                            smoothScrollTo('hero', 1400);
                         }}
                         className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--muted)/0.3)] border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] hover:text-[var(--accent-hex)] transition-all duration-300 cursor-pointer"
                         aria-label="Back to top"

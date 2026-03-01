@@ -77,12 +77,25 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
                     </motion.div>
 
                     <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6 mt-4 justify-center lg:justify-start">
-                        <Link href="#projects">
+                        <Link
+                            href="#projects"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                smoothScrollTo('projects', 1000);
+                            }}
+                        >
                             <Button size="lg" className="w-full sm:w-auto h-14 px-10 text-base sm:text-lg bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:bg-[hsl(var(--muted-foreground))] rounded-none">
                                 {dict.viewProjects}
                             </Button>
                         </Link>
-                        <Link href="#contact" className="flex items-center gap-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors text-sm font-bold border-b border-transparent hover:border-[hsl(var(--foreground))] pb-1 uppercase tracking-wider">
+                        <Link
+                            href="#contact"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                smoothScrollTo('contact', 1200);
+                            }}
+                            className="flex items-center gap-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors text-sm font-bold border-b border-transparent hover:border-[hsl(var(--foreground))] pb-1 uppercase tracking-wider"
+                        >
                             <Mail size={16} />
                             {dict.contact}
                         </Link>
