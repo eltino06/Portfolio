@@ -66,7 +66,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                                 direction="right"
                                 delay={index * 0.1}
                                 whileHover={{ x: 5 }}
-                                className="flex items-center gap-4 glass rounded-2xl p-4 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 group"
+                                className="flex items-center gap-4 glass rounded-2xl p-4 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 group min-h-[80px]"
                             >
                                 <div className="w-10 h-10 rounded-xl bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] flex items-center justify-center shrink-0 group-hover:bg-[var(--accent-hex)] transition-colors">
                                     <item.icon size={18} className="text-[var(--accent-hex)] group-hover:text-[var(--accent-fg)] transition-colors" />
@@ -99,7 +99,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                                 key={edu.id}
                                 scale={0.95}
                                 delay={index * 0.1 + 0.5}
-                                className="glass rounded-2xl p-6 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 relative overflow-hidden group"
+                                className="glass rounded-2xl p-6 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 relative overflow-hidden group flex flex-col h-full min-h-[300px] md:min-h-0"
                             >
                                 <div className="flex justify-between items-start mb-4 gap-4">
                                     <div>

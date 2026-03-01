@@ -32,7 +32,7 @@ export function ExperienceSection({ dict }: ExperienceSectionProps) {
                             direction="left"
                             delay={index * 0.1}
                             whileHover={{ x: 4 }}
-                            className="glass rounded-2xl border border-[hsl(var(--border))] p-6 hover:border-[var(--accent-hex)] hover:shadow-[0_0_30px_rgba(0,0,0,0.2)] transition-all duration-300"
+                            className="glass rounded-2xl border border-[hsl(var(--border))] p-6 hover:border-[var(--accent-hex)] hover:shadow-[0_0_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex flex-col h-full"
                         >
                             {/* Header */}
                             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
