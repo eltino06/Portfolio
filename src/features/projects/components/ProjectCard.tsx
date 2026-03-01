@@ -1,13 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Github, ExternalLink } from 'lucide-react';
-import { Badge } from '@/components/ui/Badge';
-import { cn } from '@/lib/utils';
-import { ArchitectureDiagram } from '@/components/ui/ArchitectureDiagram';
+import { Github, ExternalLink, Folder } from 'lucide-react';
 import { type Project } from '../data/projects';
-
-const cardBg = 'bg-[hsl(var(--muted)/0.3)] dark:bg-[#050508]';
 
 interface ProjectCardProps {
     project: Project;
@@ -19,63 +14,26 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps) {
     return (
         <motion.article
-            className="group relative h-full flex flex-col glass rounded-2xl border border-[hsl(var(--border))] overflow-hidden hover:border-[var(--accent-hex)] hover:shadow-[0_0_30px_var(--accent-glow)] transition-colors duration-300 cursor-pointer"
-            initial={{ opacity: 0, y: 30 }}
+            className="group relative h-full flex flex-col p-6 rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:border-[var(--accent-hex)] hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.08, duration: 0.5 }}
             onClick={onClick}
         >
-            <div className={cn('relative h-44 shrink-0 overflow-hidden border-b border-[hsl(var(--border))] group-hover:border-[var(--accent-hex)]/30 transition-colors duration-300', cardBg)}>
-                <ArchitectureDiagram type={project.category.toLowerCase() as any} />
-
-                <div className="absolute inset-0 bg-[hsl(var(--background))/40] backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
-                    <div className="relative bg-[var(--accent-hex)] px-5 py-2.5 rounded-xl text-[var(--accent-fg)] text-xs font-black border border-[var(--accent-hex)] shadow-[0_8px_30px_var(--accent-glow)] overflow-hidden group/btn uppercase tracking-widest hover:scale-105 transition-transform duration-300">
-                        {dict.details}
-                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shimmer-loop bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
-                    </div>
-                </div>
-
-                {project.featured && (
-                    <div className="absolute top-3 left-3">
-                        <Badge variant="accent" className="text-xs">⭐ {dict.featured}</Badge>
-                    </div>
-                )}
-            </div>
-
-            <div className="p-5 flex flex-col flex-1 gap-3">
-                <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-bold text-base group-hover:text-[var(--accent-hex)] transition-colors duration-200">
-                        {dict.items[project.translationKey].title}
-                    </h3>
-                    <Badge variant="muted" className="shrink-0 text-xs">{dict[project.category.toLowerCase()]}</Badge>
-                </div>
-
-                <p className="text-xs text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
-                    {dict.items[project.translationKey].desc}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-                    {project.stack.slice(0, 4).map((tech) => (
-                        <Badge key={tech} variant="outline" className="text-xs">
-                            {tech}
-                        </Badge>
-                    ))}
-                    {project.stack.length > 4 && (
-                        <Badge variant="muted" className="text-xs">+{project.stack.length - 4}</Badge>
-                    )}
-                </div>
-
-                <div className="flex gap-2 pt-3 border-t border-[hsl(var(--border))/50] mt-1" onClick={(e) => e.stopPropagation()}>
+            {/* Header row */}
+            <div className="flex items-center justify-between mb-6">
+                <Folder size={36} className="text-[var(--accent-hex)]" />
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                     {project.github && (
                         <a
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200"
+                            className="text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors"
+                            aria-label={dict.viewGithub}
                         >
-                            <Github size={13} />
-                            {dict.viewGithub}
+                            <Github size={18} />
                         </a>
                     )}
                     {project.live && (
@@ -83,13 +41,32 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
                             href={project.live}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors duration-200"
+                            className="text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] transition-colors"
+                            aria-label={dict.viewLive}
                         >
-                            <ExternalLink size={13} />
-                            {dict.viewLive}
+                            <ExternalLink size={18} />
                         </a>
                     )}
                 </div>
+            </div>
+
+            {/* Title */}
+            <h3 className="font-semibold text-[hsl(var(--foreground))] group-hover:text-[var(--accent-hex)] transition-colors mb-2">
+                {dict.items[project.translationKey].title}
+            </h3>
+
+            {/* Description */}
+            <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-3 flex-1 mb-5">
+                {dict.items[project.translationKey].desc}
+            </p>
+
+            {/* Tech stack */}
+            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-auto pt-3 border-t border-[hsl(var(--border))]">
+                {project.stack.slice(0, 5).map((tech) => (
+                    <span key={tech} className="text-[11px] font-mono text-[hsl(var(--muted-foreground))]">
+                        {tech}
+                    </span>
+                ))}
             </div>
         </motion.article>
     );

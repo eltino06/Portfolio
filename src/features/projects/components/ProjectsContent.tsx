@@ -29,20 +29,20 @@ export function ProjectsContent({ projects, dict }: ProjectsContentProps) {
     return (
         <>
             {/* Filter buttons */}
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-2 sm:gap-3 mb-10">
+            <div className="flex flex-wrap gap-2 mb-8">
                 {CATEGORIES.map((cat) => (
                     <button
                         key={cat.id}
                         onClick={() => setActiveFilter(cat.id)}
                         className={cn(
-                            'w-full sm:w-auto px-3 sm:px-5 py-2.5 sm:py-2 flex items-center justify-center gap-1.5 rounded-xl text-xs sm:text-sm font-medium border transition-all duration-200',
+                            'px-4 py-2 text-xs font-mono rounded-md border transition-all duration-200',
                             activeFilter === cat.id
-                                ? 'bg-[var(--accent-hex)] text-[var(--accent-fg)] font-bold border-transparent shadow-[0_0_20px_var(--accent-glow)]'
-                                : 'bg-[hsl(var(--muted)/0.5)] border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:border-[hsl(var(--border))]'
+                                ? 'border-[var(--accent-hex)] text-[var(--accent-hex)] bg-[var(--accent-glow)]'
+                                : 'border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] hover:border-[var(--accent-hex)]'
                         )}
                     >
-                        <span>{dict[cat.labelKey]}</span>
-                        <span className="text-[10px] sm:text-xs opacity-60">
+                        {dict[cat.labelKey]}
+                        <span className="ml-1.5 opacity-50">
                             ({cat.id === 'Todas' ? projects.length : projects.filter((p) => p.category === cat.id).length})
                         </span>
                     </button>
@@ -53,7 +53,7 @@ export function ProjectsContent({ projects, dict }: ProjectsContentProps) {
             <AnimatePresence mode="wait">
                 <motion.div
                     key={activeFilter}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

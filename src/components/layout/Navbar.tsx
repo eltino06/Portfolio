@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
-import { Download, Menu, X, Terminal } from 'lucide-react';
+import { Download, Menu, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
@@ -37,13 +37,13 @@ export function Navbar({ dict, lang }: NavbarProps) {
 
     const startHideTimer = () => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        if (isHoveredRef.current) return; // Don't hide if hovered
+        if (isHoveredRef.current) return;
 
         timeoutRef.current = setTimeout(() => {
             if (!isHoveredRef.current && window.scrollY > 50) {
                 setIsVisible(false);
             }
-        }, 2000);
+        }, 2500);
     };
 
     useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -65,14 +65,10 @@ export function Navbar({ dict, lang }: NavbarProps) {
         const diff = latest - previous;
 
         if (diff > 0) {
-            // Scrolling DOWN
-            // If it's currently visible and not hovered, ensure timer is running
             if (isVisible) {
                 startHideTimer();
             }
         } else if (diff < 0) {
-            // Scrolling UP
-            // Show immediately, but then start timer to hide if not used
             if (!isVisible) setIsVisible(true);
             startHideTimer();
         }
@@ -80,7 +76,6 @@ export function Navbar({ dict, lang }: NavbarProps) {
         lastScrollY.current = latest;
     });
 
-    // Clean up timer on unmount
     useEffect(() => {
         return () => {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -110,7 +105,6 @@ export function Navbar({ dict, lang }: NavbarProps) {
 
     return (
         <>
-            {/* Invisible hover trigger zone at the very top of the screen */}
             <div
                 className="fixed top-0 left-0 w-full h-6 z-[90]"
                 onMouseEnter={() => setIsVisible(true)}
@@ -129,34 +123,32 @@ export function Navbar({ dict, lang }: NavbarProps) {
                 className={cn(
                     'fixed top-0 left-0 w-full z-[100]',
                     isScrolled
-                        ? 'glass border-b border-[hsl(var(--border))] shadow-sm transition-colors duration-300'
-                        : 'bg-transparent transition-colors duration-300',
+                        ? 'bg-[hsl(var(--background)/0.85)] backdrop-blur-lg border-b border-[hsl(var(--border))] transition-all duration-300'
+                        : 'bg-transparent transition-all duration-300',
                     !isVisible && 'pointer-events-none'
                 )}
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: isVisible ? 0 : -100, opacity: isVisible ? 1 : 0 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-                <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <nav className="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+                    {/* Logo */}
                     <Link
                         href={`/${lang}#hero`}
-                        className="group flex items-center gap-2"
+                        className="group flex items-center gap-2.5"
                         aria-label="Home"
                         onClick={() => setIsMobileOpen(false)}
                     >
-                        <div
-                            className="relative w-10 h-10 rounded-xl bg-[var(--accent-hex)] flex items-center justify-center text-[var(--accent-fg)] font-bold shadow-none group-hover:shadow-[0_0_8px_var(--accent-glow)] transition-shadow duration-300 flex-shrink-0"
-                        >
-                            <Terminal size={22} className="transition-transform duration-300 group-hover:scale-110" />
-                        </div>
-                        <span className="hidden sm:block text-sm font-semibold group-hover:text-[var(--accent-hex)] transition-colors duration-200">
-                            {personalInfo.firstName}
-                            <span className="text-[var(--accent-hex)]">.</span>
+                        <span className="font-mono text-[var(--accent-hex)] text-lg font-bold tracking-tight">
+                            {'<'}
+                            <span className="text-[hsl(var(--foreground))] font-sans">{personalInfo.firstName}</span>
+                            <span className="text-[var(--accent-hex)]">{' />'}</span>
                         </span>
                     </Link>
 
+                    {/* Desktop Nav */}
                     <ul className="hidden md:flex items-center gap-1" role="navigation">
-                        {navLinks.map((link) => {
+                        {navLinks.map((link, i) => {
                             const isActive = activeSection === link.href;
                             const label = dict.nav[link.label.split('.')[1]];
 
@@ -165,16 +157,17 @@ export function Navbar({ dict, lang }: NavbarProps) {
                                     <Link
                                         href={`/${lang}${link.href}`}
                                         className={cn(
-                                            'relative px-4 py-2 text-[0.925rem] font-medium rounded-lg transition-all duration-200',
+                                            'relative px-3 py-2 text-[13px] font-mono transition-all duration-200',
                                             isActive
                                                 ? 'text-[var(--accent-hex)]'
-                                                : 'text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]'
+                                                : 'text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)]'
                                         )}
                                     >
+                                        <span className="text-[var(--accent-hex)] text-[11px] mr-0.5">0{i + 1}.</span>
                                         {label}
                                         {isActive && (
                                             <motion.span
-                                                className="absolute bottom-0 left-2 right-2 h-0.5 bg-[var(--accent-hex)] rounded-full"
+                                                className="absolute bottom-0 left-3 right-3 h-px bg-[var(--accent-hex)]"
                                                 layoutId="activeNav"
                                                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                             />
@@ -185,35 +178,34 @@ export function Navbar({ dict, lang }: NavbarProps) {
                         })}
                     </ul>
 
+                    {/* Right side */}
                     <div className="flex items-center gap-2">
                         <LanguageToggle />
                         <ThemeToggle />
 
                         <button
                             onClick={() => setIsDownloadModalOpen(true)}
-                            className={cn(
-                                'hidden sm:flex items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.97] h-11 px-6 text-sm gap-2',
-                                'bg-transparent border border-[var(--accent-hex)] text-[var(--accent-hex)] hover:bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] hover:shadow-[0_0_20px_var(--accent-glow)]'
-                            )}
+                            className="hidden sm:flex items-center justify-center font-mono text-[13px] rounded-md transition-all duration-300 active:scale-[0.97] h-10 px-5 gap-2 bg-transparent border border-[var(--accent-hex)] text-[var(--accent-hex)] hover:bg-[var(--accent-glow)]"
                             aria-label={dict.nav.downloadCV}
                         >
-                            <Download size={16} />
+                            <Download size={14} />
                             <span className="hidden lg:inline">{dict.nav.downloadCV}</span>
                             <span className="lg:hidden">CV</span>
                         </button>
 
                         <button
-                            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--muted)/0.5)]"
+                            className="md:hidden w-9 h-9 flex items-center justify-center rounded-md border border-[hsl(var(--border))] text-[hsl(var(--foreground))]"
                             onClick={() => setIsMobileOpen((v) => !v)}
                             aria-label="Toggle menu"
                             aria-expanded={isMobileOpen}
                         >
-                            {isMobileOpen ? <X size={16} /> : <Menu size={16} />}
+                            {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
                         </button>
                     </div>
                 </nav>
             </motion.header>
 
+            {/* Mobile Menu */}
             <AnimatePresence>
                 {isMobileOpen && (
                     <motion.div
@@ -223,12 +215,12 @@ export function Navbar({ dict, lang }: NavbarProps) {
                         exit={{ opacity: 0 }}
                     >
                         <div
-                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                            className="absolute inset-0 bg-[hsl(var(--background)/0.8)] backdrop-blur-md"
                             onClick={() => setIsMobileOpen(false)}
                         />
 
                         <motion.aside
-                            className="absolute right-0 top-0 bottom-0 w-72 glass border-l border-[hsl(var(--border))] p-6 pt-20 flex flex-col gap-2"
+                            className="absolute right-0 top-0 bottom-0 w-72 bg-[hsl(var(--card))] border-l border-[hsl(var(--border))] p-6 pt-20 flex flex-col gap-1"
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
@@ -247,28 +239,27 @@ export function Navbar({ dict, lang }: NavbarProps) {
                                         <Link
                                             href={`/${lang}${link.href}`}
                                             className={cn(
-                                                'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
+                                                'block px-4 py-3 rounded-md text-sm font-mono transition-all duration-200',
                                                 activeSection === link.href
-                                                    ? 'bg-[var(--accent-hex)] text-[var(--accent-fg)] font-bold hover:shadow-[0_0_30px_var(--accent-glow)]'
-                                                    : 'text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]'
+                                                    ? 'text-[var(--accent-hex)] bg-[var(--accent-glow)]'
+                                                    : 'text-[hsl(var(--muted-foreground))] hover:text-[var(--accent-hex)] hover:bg-[hsl(var(--muted))]'
                                             )}
                                             onClick={() => setIsMobileOpen(false)}
                                         >
+                                            <span className="text-[var(--accent-hex)] text-xs mr-2">0{i + 1}.</span>
                                             {label}
                                         </Link>
                                     </motion.div>
                                 );
                             })}
 
-                            <div className="mt-4 pt-4 border-t border-[hsl(var(--border))]">
+                            <div className="mt-6 pt-4 border-t border-[hsl(var(--border))]">
                                 <button
                                     onClick={() => {
                                         setIsMobileOpen(false);
                                         setIsDownloadModalOpen(true);
                                     }}
-                                    className={cn(
-                                        'w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold bg-[var(--accent-hex)] text-[var(--accent-fg)] hover:shadow-[0_0_30px_var(--accent-glow)] transition-all'
-                                    )}
+                                    className="w-full flex items-center justify-center gap-2 py-3 rounded-md font-mono text-sm border border-[var(--accent-hex)] text-[var(--accent-hex)] hover:bg-[var(--accent-glow)] transition-all"
                                 >
                                     <Download size={16} />
                                     {dict.nav.downloadCV}

@@ -31,7 +31,7 @@ export function Section({
         <motion.section
             id={id}
             className={cn(
-                'relative w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-32',
+                'relative w-full px-6 lg:px-8 py-20 lg:py-28',
                 alternate && 'section-bg-alt',
                 className
             )}
@@ -50,35 +50,43 @@ export function Section({
                     backgroundSize: '60px 60px',
                 }}
             />
-            <div className="relative max-w-7xl mx-auto">{children}</div>
+            <div className="relative max-w-6xl mx-auto">{children}</div>
         </motion.section>
     );
 }
 
-/** Reusable section heading with gradient accent */
+/** Reusable section heading with accent numbering */
 export function SectionHeading({
     label,
     title,
     subtitle,
+    number,
 }: {
     label: string;
     title: string;
     subtitle?: string;
+    number?: string;
 }) {
     return (
-        <div className="text-center mb-16">
-            <motion.span
-                className="inline-block font-code text-xs tracking-widest uppercase text-[var(--accent-hex)] mb-3 px-3 py-1 rounded-full border border-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.3)] bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.08)]"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+        <div className="mb-12 lg:mb-16">
+            <motion.div
+                className="flex items-center gap-3 mb-4"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
             >
-                {label}
-            </motion.span>
+                {number && (
+                    <span className="font-mono text-[var(--accent-hex)] text-sm">{number}.</span>
+                )}
+                <span className="font-mono text-[var(--accent-hex)] text-xs tracking-widest uppercase">
+                    {label}
+                </span>
+                <div className="h-px flex-1 max-w-[200px] bg-[hsl(var(--border))]" />
+            </motion.div>
             <motion.h2
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
-                initial={{ opacity: 0, y: 20 }}
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[hsl(var(--foreground))]"
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
@@ -87,8 +95,8 @@ export function SectionHeading({
             </motion.h2>
             {subtitle && (
                 <motion.p
-                    className="mt-4 text-[hsl(var(--muted-foreground))] max-w-2xl mx-auto"
-                    initial={{ opacity: 0, y: 20 }}
+                    className="mt-3 text-[hsl(var(--muted-foreground))] max-w-xl leading-relaxed"
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 }}

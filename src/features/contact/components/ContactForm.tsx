@@ -12,7 +12,7 @@ import { contactSchema, type ContactFormData } from '@/lib/validations';
 import { cn } from '@/lib/utils';
 
 const inputCls =
-    'w-full px-4 py-3 rounded-xl glass border border-[hsl(var(--border))] text-sm placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus:border-[var(--accent-hex)] focus:shadow-[0_0_0_3px_var(--accent-glow)] transition-all duration-200 bg-transparent';
+    'w-full px-4 py-3 rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--muted))] text-sm text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:outline-none focus:border-[var(--accent-hex)] focus:bg-transparent transition-all duration-200 font-sans';
 
 interface ContactFormProps {
     dict: any;

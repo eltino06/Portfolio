@@ -3,61 +3,60 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────
-   CSS VARIABLES — DARK MODE (Premium Minimal)
+   CSS VARIABLES — DARK NAVY (Premium Senior UX)
 ───────────────────────────────────────── */
 :root {
-    /* Minimalist Dark Theme */
-    --background: 0 0% 0%;
-    /* #000000 */
-    --foreground: 0 0% 93%;
-    /* #EDEDED */
-    --muted: 0 0% 10%;
-    /* #1A1A1A */
-    --muted-foreground: 0 0% 65%;
-    /* #A6A6A6 */
-    --card: 0 0% 6%;
-    /* #0F0F0F */
-    --card-foreground: 0 0% 93%;
-    --border: 0 0% 16%;
-    /* #292929 */
+    /* Deep Navy Dark Theme */
+    --background: 222 47% 5%;
+    /* #0a192f -> darker */
+    --foreground: 210 40% 92%;
+    /* #ccd6f6 */
+    --muted: 222 30% 10%;
+    /* #112240 */
+    --muted-foreground: 219 20% 55%;
+    /* #8892b0 */
+    --card: 222 38% 8%;
+    /* #0d1f3c */
+    --card-foreground: 210 40% 92%;
+    --border: 222 20% 16%;
+    /* #1d3461 */
 
-    /* Custom accent — White/Subtle Gray for high contrast */
-    --accent-h: 0;
-    --accent-s: 0%;
-    --accent-l: 100%;
-    --accent-hex: #ffffff;
-    --accent-fg: #000000;
-    --accent-glow: rgba(255, 255, 255, 0.05);
-    /* Minimal glow if any */
+    /* Accent — Teal / Cyan */
+    --accent-h: 166;
+    --accent-s: 100%;
+    --accent-l: 70%;
+    --accent-hex: #64ffda;
+    --accent-fg: #0a192f;
+    --accent-glow: rgba(100, 255, 218, 0.07);
 
-    --loader-shimmer-bg: linear-gradient(90deg, #444444 0%, #444444 35%, #ffffff 50%, #444444 65%, #444444 100%);
-    --loader-idle-bg: linear-gradient(90deg, #444444, #444444);
+    --loader-shimmer-bg: linear-gradient(90deg, #8892b0 0%, #8892b0 35%, #64ffda 50%, #8892b0 65%, #8892b0 100%);
+    --loader-idle-bg: linear-gradient(90deg, #8892b0, #8892b0);
 }
 
-/* Light mode overrides (Ultra clean off-white) */
+/* Light mode overrides */
 .light {
-    --background: 0 0% 98%;
-    /* #FAFAFA */
-    --foreground: 0 0% 6%;
-    /* #111111 */
-    --muted: 0 0% 93%;
-    /* #EDEDED */
-    --muted-foreground: 0 0% 40%;
-    /* #666666 */
+    --background: 210 20% 98%;
+    /* #f8fafc */
+    --foreground: 222 47% 11%;
+    /* #0f172a */
+    --muted: 214 32% 91%;
+    /* #e2e8f0 */
+    --muted-foreground: 215 16% 47%;
+    /* #64748b */
     --card: 0 0% 100%;
-    /* #FFFFFF */
-    --card-foreground: 0 0% 6%;
-    --border: 0 0% 90%;
-    /* #E5E5E5 */
-    --accent-h: 0;
-    --accent-s: 0%;
-    --accent-l: 0%;
-    --accent-hex: #000000;
+    /* #ffffff */
+    --card-foreground: 222 47% 11%;
+    --border: 214 32% 91%;
+    /* #e2e8f0 */
+    --accent-h: 166;
+    --accent-s: 71%;
+    --accent-l: 38%;
+    --accent-hex: #1ca87e;
     --accent-fg: #ffffff;
-    --accent-glow: rgba(0, 0, 0, 0.05);
+    --accent-glow: rgba(28, 168, 126, 0.08);
 
-    --loader-shimmer-bg: linear-gradient(90deg, #999999 0%, #999999 35%, #000000 50%, #999999 65%, #999999 100%);
-    --loader-idle-bg: linear-gradient(90deg, #999999, #999999);
+    --loader-shimmer-bg: linear-gradient(90deg, #64748b 0%, #64748b 35%, #1ca87e 50%, #64748b 65%, #64748b 100%);
+    --loader-idle-bg: linear-gradient(90deg, #64748b, #64748b);
 }
 
 /* ─────────────────────────────────────────
@@ -71,8 +70,7 @@
 
 html {
     scroll-padding-top: 80px;
-    font-size: 17.85px;
-    /* Scales the entire UI to match the user's larger visual reference (10% smaller) */
+    font-size: 16px;
     scrollbar-color: var(--accent-hex) transparent;
     scrollbar-width: thin;
     overflow-x: hidden;
@@ -184,16 +182,16 @@ textarea *,
 ───────────────────────────────────────── */
 @layer utilities {
 
-    /* Premium solid card instead of glassmorphism */
+    /* Premium card with subtle border */
     .glass {
         background: hsl(var(--card));
         border: 1px solid hsl(var(--border));
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .light .glass {
         background: hsl(var(--card));
         border: 1px solid hsl(var(--border));
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
     }
 
     /* Glow text effect */
@@ -206,11 +204,11 @@ textarea *,
         box-shadow: 0 0 0 1px var(--accent-hex), 0 0 20px var(--accent-glow);
     }
 
-    /* Gradient text */
+    /* Gradient text — accent flavored */
     .gradient-text {
         background: linear-gradient(135deg,
-                hsl(var(--foreground)) 0%,
-                hsl(var(--muted-foreground)) 100%);
+                var(--accent-hex) 0%,
+                hsl(var(--foreground)) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -220,7 +218,7 @@ textarea *,
     .section-bg-alt {
         background: linear-gradient(180deg,
                 hsl(var(--background)) 0%,
-                hsl(var(--muted)) 50%,
+                hsl(var(--muted) / 0.5) 50%,
                 hsl(var(--background)) 100%);
     }
 

@@ -29,67 +29,55 @@ interface SkillsSectionProps {
 
 export function SkillsSection({ dict }: SkillsSectionProps) {
     return (
-        <Section id="skills" className="pb-12 lg:pb-16 pt-12">
+        <Section id="skills" alternate>
             <SectionHeading
                 label={dict.title}
                 title={dict.subtitle}
-                subtitle={dict.description}
+                number="02"
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 w-full items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
                 {skillCategories.map((category, i) => (
                     <FadeIn
                         key={category.id}
-                        delay={i * 0.1}
-                        className="glass relative flex flex-col p-6 rounded-2xl border border-[hsl(var(--border))] group hover:border-[var(--accent-hex)] transition-colors h-full"
+                        delay={i * 0.08}
+                        className="flex flex-col p-5 rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--card))] group hover:border-[var(--accent-hex)] transition-colors duration-200"
                     >
-                        {/* Domain Header */}
-                        <div className="relative flex items-center gap-3 mb-6 pb-4">
-                            <div className="w-10 h-10 rounded-xl bg-[hsl(var(--muted))] flex items-center justify-center shrink-0 border border-[hsl(var(--border))]">
+                        {/* Category Header */}
+                        <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-[hsl(var(--border))]">
+                            <div className="w-8 h-8 rounded-md bg-[var(--accent-glow)] flex items-center justify-center shrink-0">
                                 {categoryIcons[category.id]}
                             </div>
-                            <h3 className="font-bold text-sm text-[hsl(var(--foreground))] uppercase tracking-widest">
+                            <h3 className="font-mono text-xs text-[hsl(var(--foreground))] uppercase tracking-wider">
                                 {dict.categories[category.id]}
                             </h3>
-
-                            {/* Animated Underline */}
-                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[hsl(var(--border))] overflow-hidden">
-                                <div className="absolute inset-0 bg-[hsl(var(--foreground))] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-in-out" />
-                            </div>
                         </div>
 
-                        {/* Skills Grid */}
-                        <div className="flex-1 flex flex-col justify-center">
-                            <div className="grid grid-cols-2 gap-3">
-                                {category.skills.map(skill => {
-                                    const IconComponent = iconMap[skill.icon];
-                                    return (
-                                        <div
-                                            key={skill.name}
-                                            className="relative flex items-center gap-2.5 p-2 rounded-lg hover:bg-[hsl(var(--accent-opacity))] transition-all duration-300 group/skill overflow-hidden"
-                                        >
-                                            {/* Shine/Reflection Effect */}
-                                            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                                                <div className="absolute inset-0 opacity-0 group-hover/skill:opacity-100 bg-gradient-to-r from-transparent via-[hsl(var(--foreground)/0.05)] to-transparent -translate-x-full group-hover/skill:animate-[shimmerLoop_2s_infinite] transition-opacity duration-500" />
-                                            </div>
-
-                                            <div className="relative z-10 w-6 h-6 flex items-center justify-center shrink-0">
-                                                {IconComponent ? (
-                                                    <IconComponent
-                                                        size={16}
-                                                        className="text-[hsl(var(--muted-foreground))] group-hover:text-[var(--accent-hex)] group-hover/skill:text-[hsl(var(--foreground))] group-hover/skill:scale-110 transition-all duration-300"
-                                                    />
-                                                ) : (
-                                                    <span className="text-[10px]">💻</span>
-                                                )}
-                                            </div>
-                                            <span className="relative z-10 text-xs font-semibold text-[hsl(var(--muted-foreground))] uppercase tracking-wide group-hover:text-[hsl(var(--foreground))] group-hover/skill:translate-x-0.5 transition-all duration-300 truncate">
-                                                {skill.name}
-                                            </span>
+                        {/* Skills List */}
+                        <div className="flex flex-col gap-1">
+                            {category.skills.map(skill => {
+                                const IconComponent = iconMap[skill.icon];
+                                return (
+                                    <div
+                                        key={skill.name}
+                                        className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-[var(--accent-glow)] transition-colors duration-150 group/skill"
+                                    >
+                                        <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                                            {IconComponent ? (
+                                                <IconComponent
+                                                    size={14}
+                                                    className="text-[hsl(var(--muted-foreground))] group-hover/skill:text-[var(--accent-hex)] transition-colors duration-200"
+                                                />
+                                            ) : (
+                                                <span className="text-[10px] text-[hsl(var(--muted-foreground))]">*</span>
+                                            )}
                                         </div>
-                                    );
-                                })}
-                            </div>
+                                        <span className="text-sm text-[hsl(var(--muted-foreground))] group-hover/skill:text-[hsl(var(--foreground))] transition-colors duration-200">
+                                            {skill.name}
+                                        </span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </FadeIn>
                 ))}

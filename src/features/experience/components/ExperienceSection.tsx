@@ -1,4 +1,4 @@
-import { Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { Badge } from '@/components/ui/Badge';
 import { experiences } from '../data/experience';
@@ -15,86 +15,72 @@ export function ExperienceSection({ dict }: ExperienceSectionProps) {
                 label={dict.title}
                 title={dict.subtitle}
                 subtitle={dict.description}
+                number="03"
             />
 
-            <div className="relative max-w-3xl mx-auto">
-                {/* Vertical line with flow effect */}
-                <div className="absolute left-4 lg:left-8 top-0 bottom-0 w-0.5 bg-[hsl(var(--border))/0.3] overflow-hidden">
-                    <div className="absolute inset-0 animate-flow-vertical" />
-                </div>
-
+            <div className="max-w-3xl">
                 {experiences.map((exp, index) => (
-                    <div
+                    <FadeIn
                         key={exp.id}
-                        className="relative pl-8 lg:pl-16 pb-12 last:pb-0"
+                        delay={index * 0.1}
+                        className="group"
                     >
-                        <FadeIn
-                            direction="left"
-                            delay={index * 0.1}
-                            whileHover={{ x: 4 }}
-                            className="glass rounded-2xl border border-[hsl(var(--border))] p-6 hover:border-[var(--accent-hex)] hover:shadow-[0_0_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex flex-col h-full"
-                        >
-                            {/* Header */}
-                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                                <div>
-                                    <h3 className="text-lg font-bold">
-                                        {dict.items[exp.translationKey].role}
-                                    </h3>
-                                    <p className="text-[var(--accent-hex)] font-semibold text-sm">
-                                        {dict.items[exp.translationKey].company}
-                                    </p>
-                                </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-4 sm:gap-8 pb-10 last:pb-0">
+                            {/* Date column */}
+                            <div className="flex flex-row sm:flex-col gap-2 sm:gap-1 text-xs text-[hsl(var(--muted-foreground))] font-mono pt-1">
+                                <span className="flex items-center gap-1.5">
+                                    {exp.startDate} - {exp.endDate === 'Actualidad' ? dict.present : exp.endDate}
+                                </span>
+                                <span className="flex items-center gap-1.5">
+                                    <MapPin size={10} />
+                                    {dict.items[exp.translationKey].location}
+                                </span>
+                            </div>
 
-                                <div className="flex flex-col gap-1.5 text-xs text-[hsl(var(--muted-foreground))] shrink-0">
-                                    <span className="flex items-center gap-1.5">
-                                        <Calendar size={12} />
-                                        {exp.startDate} — {exp.endDate === 'Actualidad' ? dict.present : exp.endDate}
-                                    </span>
-                                    <span className="flex items-center gap-1.5">
-                                        <MapPin size={12} />
-                                        {dict.items[exp.translationKey].location}
-                                    </span>
+                            {/* Content */}
+                            <div className="p-5 rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:border-[var(--accent-hex)] transition-colors duration-200">
+                                <div className="flex items-start justify-between gap-3 mb-3">
+                                    <div>
+                                        <h3 className="font-semibold text-[hsl(var(--foreground))] group-hover:text-[var(--accent-hex)] transition-colors">
+                                            {dict.items[exp.translationKey].role}
+                                        </h3>
+                                        <p className="text-[var(--accent-hex)] font-mono text-xs mt-0.5">
+                                            {dict.items[exp.translationKey].company}
+                                        </p>
+                                    </div>
                                     {exp.endDate === 'Actualidad' && (
-                                        <Badge variant="accent" className="w-fit text-xs">
+                                        <Badge variant="accent" className="text-[10px] shrink-0">
                                             {dict.present}
                                         </Badge>
                                     )}
                                 </div>
+
+                                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed mb-4">
+                                    {dict.items[exp.translationKey].desc}
+                                </p>
+
+                                <ul className="flex flex-col gap-2 mb-4">
+                                    {dict.items[exp.translationKey].highlights.map((achievement: string, j: number) => (
+                                        <li
+                                            key={j}
+                                            className="flex items-start gap-2 text-sm text-[hsl(var(--muted-foreground))]"
+                                        >
+                                            <ArrowRight size={12} className="text-[var(--accent-hex)] shrink-0 mt-1" />
+                                            <span>{achievement}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[hsl(var(--border))]">
+                                    {exp.technologies.map((tech) => (
+                                        <span key={tech} className="text-[10px] font-mono text-[var(--accent-hex)] bg-[var(--accent-glow)] px-2 py-0.5 rounded">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
-
-                            {/* Description */}
-                            <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed mb-4">
-                                {dict.items[exp.translationKey].desc}
-                            </p>
-
-                            {/* Achievements */}
-                            <ul className="space-y-2 mb-4">
-                                {dict.items[exp.translationKey].highlights.map((achievement: string, j: number) => (
-                                    <FadeIn
-                                        key={j}
-                                        direction="left"
-                                        delay={j * 0.08}
-                                        className="flex items-start gap-2.5 text-sm"
-                                    >
-                                        <CheckCircle
-                                            size={15}
-                                            className="text-[var(--accent-hex)] shrink-0 mt-0.5"
-                                        />
-                                        <span className="text-[hsl(var(--muted-foreground))]">{achievement}</span>
-                                    </FadeIn>
-                                ))}
-                            </ul>
-
-                            {/* Tech stack */}
-                            <div className="flex flex-wrap gap-1.5">
-                                {exp.technologies.map((tech) => (
-                                    <Badge key={tech} variant="outline" className="text-xs">
-                                        {tech}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </FadeIn>
-                    </div>
+                        </div>
+                    </FadeIn>
                 ))}
             </div>
         </Section>

@@ -8,11 +8,12 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ dict }: ProjectsSectionProps) {
     return (
-        <Section id="projects" alternate>
+        <Section id="projects">
             <SectionHeading
                 label={dict.title}
                 title={dict.subtitle}
                 subtitle={dict.description}
+                number="05"
             />
 
             <ProjectsContent projects={projects} dict={dict} />
