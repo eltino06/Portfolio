@@ -14,7 +14,7 @@ export const translations = {
         },
         hero: {
             greeting: 'DESARROLLADOR FULLSTACK',
-            subtitle: 'Diseñando arquitecturas backend resilientes y sistemas escalables orientados a resolver cuellos de botella y maximizar el impacto de negocio.',
+            subtitle: 'Arquitecturas backend resilientes y sistemas escalables diseñados para maximizar el impacto de negocio.',
             viewProjects: 'Explorar Casos de Estudio',
             viewExperience: 'o ver experiencia profesional ↓',
             contact: 'Contactar',
@@ -47,9 +47,9 @@ export const translations = {
                 langValue: 'Español (Nativo) | Inglés B2',
             },
             bio: [
-                'Arquitecto de Software y Desarrollador Fullstack con foco en ecosistemas Java/Spring Boot. Me especializo en desentrañar complejidad técnica para orquestar sistemas de alta disponibilidad y rendimiento.',
-                'Mi filosofía: el código debe ser una inversión, no una deuda. Diseño arquitecturas resilientes (0% downtime) bajo principios de seguridad por diseño y escalabilidad horizontal, asegurando que el sistema crezca al ritmo del negocio.',
-                'Como consultor técnico, ayudo a las organizaciones a optimizar sus cuellos de botella mediante APIs RESTful robustas, orquestación de microservicios y una cultura de calidad orientada a resultados.',
+                'Arquitecto de Software y Desarrollador Fullstack. Especialista en ecosistemas Java/Spring Boot enfocado en sistemas de alto rendimiento.',
+                'Diseño arquitecturas resilientes y seguras. Mi enfoque garantiza escalabilidad horizontal y disponibilidad total, impulsando el crecimiento del negocio.',
+                'Consultor técnico para la optimización de procesos. Implemento microservicios y APIs robustas bajo una cultura de calidad y resultados.',
             ],
             eduSubtitle: 'Formación Académica',
             eduProgress: 'Progreso',
@@ -83,7 +83,7 @@ export const translations = {
         architecture: {
             title: 'Pensamiento Sistémico',
             subtitle: 'Arquitectura & Escalabilidad',
-            description: 'Mi enfoque en desarrollo va más allá de escribir código. Diseño sistemas resilientes que resuelven cuellos de botella del negocio, priorizando la seguridad, la escalabilidad horizontal y la experiencia del desarrollador.',
+            description: 'Diseño sistemas resilientes que eliminan cuellos de botella, priorizando la seguridad y la escalabilidad horizontal.',
             pillars: {
                 resilience: {
                     title: 'Resiliencia & Alta Disponibilidad',
@@ -212,7 +212,7 @@ export const translations = {
         },
         hero: {
             greeting: "FULLSTACK DEVELOPER",
-            subtitle: 'Designing resilient backend architectures and scalable systems focused on solving bottlenecks and maximizing business impact.',
+            subtitle: 'Resilient backend architectures and scalable systems designed to maximize business impact.',
             viewProjects: 'Explore Case Studies',
             viewExperience: 'or see professional experience ↓',
             contact: 'Contact Me',
@@ -245,9 +245,9 @@ export const translations = {
                 langValue: 'Spanish (Native) | English B2',
             },
             bio: [
-                'Software Architect and Fullstack Developer focused on Java/Spring Boot ecosystems. I specialize in unraveling technical complexity to orchestrate high-availability and high-performance systems.',
-                'My philosophy: code should be an investment, not a debt. I design resilient architectures (0% downtime) based on security-by-design and horizontal scalability principles, ensuring the system grows at the speed of business.',
-                'As a technical consultant, I help organizations optimize their technical bottlenecks through robust RESTful APIs, microservices orchestration, and a results-oriented quality culture.',
+                'Software Architect and Fullstack Developer. Specialist in Java/Spring Boot ecosystems focused on high-performance systems.',
+                'I design resilient and secure architectures. My approach ensures horizontal scalability and total availability, driving business growth.',
+                'Technical consultant for process optimization. I implement robust microservices and APIs under a quality and results-oriented culture.',
             ],
             eduSubtitle: 'Academic Background',
             eduProgress: 'Progress',
@@ -281,7 +281,7 @@ export const translations = {
         architecture: {
             title: 'Systems Thinking',
             subtitle: 'Architecture & Scalability',
-            description: 'My approach to software development goes beyond writing code. I design resilient systems that solve business bottlenecks, prioritizing security, horizontal scalability, and developer experience.',
+            description: 'I design resilient systems that eliminate bottlenecks, prioritizing security and horizontal scalability.',
             pillars: {
                 resilience: {
                     title: 'Resilience & High Availability',
@@ -410,7 +410,7 @@ export const translations = {
         },
         hero: {
             greeting: 'DESENVOLVEDOR FULLSTACK',
-            subtitle: 'Projetando arquiteturas backend resilientes e sistemas escaláveis com foco em resolver gargalos e maximizar o impacto nos negócios.',
+            subtitle: 'Arquiteturas backend resilientes e sistemas escaláveis projetados para maximizar o impacto nos negócios.',
             viewProjects: 'Explorar Casos de Estudo',
             viewExperience: 'ou ver experiência profissional ↓',
             contact: 'Contatar',
@@ -443,9 +443,9 @@ export const translations = {
                 langValue: 'Espanhol (Nativo) | Inglês B2',
             },
             bio: [
-                'Sou um desenvolvedor fullstack focado em ecossistemas Java/Spring Boot e arquiteturas modernas. Gosto de desvendar a complexidade técnica para entregar produtos estáveis.',
-                'Minha filosofia é que um bom código não apenas roda rápido, mas pode ser lido, mantido e escalado pela equipe no futuro. Priorizo a confiabilidade do sistema (0% downtime) e arquiteturas resilientes.',
-                'Busco me juntar a equipes exigentes onde possa agregar valor desde o design do sistema, otimizando processos e construindo APIs RESTful que suportem alta concorrência e segurança.',
+                'Arquiteto de Software e Desenvolvedor Fullstack. Especialista em ecossistemas Java/Spring Boot focado em sistemas de alto desempenho.',
+                'Projeto arquiteturas resilientes e seguras. Minha abordagem garante escalabilidade horizontal e disponibilidade total, impulsionando o crescimento do negócio.',
+                'Consultor técnico para otimização de processos. Implemento microsserviços e APIs robustas sob uma cultura de qualidade e resultados.',
             ],
             eduSubtitle: 'Formação Académica',
             eduProgress: 'Progresso',
@@ -479,7 +479,7 @@ export const translations = {
         architecture: {
             title: 'Pensamento Sistêmico',
             subtitle: 'Arquitetura e Escalabilidade',
-            description: 'Minha abordagem ao desenvolvimento de software vai além de escrever código. Projeto sistemas resilientes que resolvem gargalos de negócios, priorizando a segurança, escalabilidade horizontal e a experiência do desenvolvedor.',
+            description: 'Projeto sistemas resilientes que eliminam gargalos, priorizando a segurança e escalabilidade horizontal.',
             pillars: {
                 resilience: {
                     title: 'Resiliência e Alta Disponibilidade',
@@ -629,7 +629,7 @@ export const translations = {
         },
         hero: {
             greeting: 'SVILUPPATORE FULLSTACK',
-            subtitle: 'Progettazione di architetture backend resilienti e sistemi scalabili focalizzati sulla risoluzione dei colli di bottiglia e sulla massimizzazione dell\'impatto aziendale.',
+            subtitle: 'Architetture backend resilienti e sistemi scalabili progettati per massimizzare l\'impatto aziendale.',
             viewProjects: 'Esplora Casi Studio',
             viewExperience: 'o vedi l\'esperienza professionale ↓',
             contact: 'Contattami',
@@ -662,9 +662,9 @@ export const translations = {
                 langValue: 'Spagnolo (Madrelingua) | Inglese B2',
             },
             bio: [
-                'Sono uno sviluppatore fullstack focalizzato sugli ecosistemi Java/Spring Boot e sulle architetture moderne. Mi piace svelar la complessità tecnica per fornire prodotti stabili.',
-                'La mia filosofia è che un buon codice non solo viene eseguito velocemente, ma può essere letto, mantenuto e scalato dal team in futuro. Do priorità all\'affidabilidad del sistema (0% downtime) e alle architetture resilienti.',
-                'Cerco di unirmi a team esigenti dove posso aggiungere valore dalla progettazione del sistema, ottimizzando i processi e costruendo API RESTful che supportino elevata concorrenza e rigorosa sicurezza.',
+                'Architetto Software e Sviluppatore Fullstack. Specialista in ecosistemi Java/Spring Boot focalizzato su sistemi ad alte prestazioni.',
+                'Progetto architetture resilienti e sicure. Il mio approccio garantisce scalabilità orizzontale e disponibilità totale, guidando la crescita del business.',
+                'Consulente tecnico per l\'ottimizzazione dei processi. Implemento microservizi e API robuste sotto una cultura di qualità e risultati.',
             ],
             eduSubtitle: 'Percorso Accademico',
             eduProgress: 'Progresso',
@@ -698,7 +698,7 @@ export const translations = {
         architecture: {
             title: 'Pensiero Sistemico',
             subtitle: 'Architettura e Scalabilità',
-            description: 'Il mio approccio allo sviluppo del software va oltre la scrittura di codice. Progetto sistemi resilienti che risolvono i colli di bottiglia aziendali, dando priorità alla sicurezza, alla scalabilità orizzontale e all\'esperienza degli sviluppatori.',
+            description: 'Progetto sistemi resilienti che eliminano i colli di bottiglia, dando priorità alla sicurezza e alla scalabilità orizzontale.',
             pillars: {
                 resilience: {
                     title: 'Resilienza e Alta Affidabilità',

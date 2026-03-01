@@ -50,7 +50,7 @@ export function AboutSection({ dict }: AboutSectionProps) {
                             {dict.bio.map((paragraph: string, i: number) => (
                                 <p
                                     key={i}
-                                    className="text-[hsl(var(--muted-foreground))] leading-relaxed text-sm sm:text-base"
+                                    className="text-[hsl(var(--muted-foreground))] leading-relaxed text-base sm:text-lg"
                                 >
                                     {paragraph}
                                 </p>

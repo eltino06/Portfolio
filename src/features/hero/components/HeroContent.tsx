@@ -61,7 +61,7 @@ export function HeroContent({ personalInfo, stats, dict, statsDict }: HeroConten
 
                     <div className="h-4" />
 
-                    <motion.p variants={itemVariants} className="text-[hsl(var(--muted-foreground))] max-w-md mx-auto lg:mx-0 leading-relaxed">
+                    <motion.p variants={itemVariants} className="text-[hsl(var(--muted-foreground))] max-w-lg mx-auto lg:mx-0 leading-relaxed text-lg lg:text-xl">
                         {dict.subtitle}
                     </motion.p>
 

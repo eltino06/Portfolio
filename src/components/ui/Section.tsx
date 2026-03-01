@@ -87,7 +87,7 @@ export function SectionHeading({
             </motion.h2>
             {subtitle && (
                 <motion.p
-                    className="mt-4 text-[hsl(var(--muted-foreground))] max-w-2xl mx-auto"
+                    className="mt-4 text-[hsl(var(--muted-foreground))] max-w-2xl mx-auto text-base sm:text-lg"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}

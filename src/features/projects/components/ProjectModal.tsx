@@ -66,7 +66,7 @@ export function ProjectModal({ project, dict, onClose }: ProjectModalProps) {
                 <div className="flex-1 p-6 md:p-8 overflow-y-auto custom-scrollbar flex flex-col gap-6">
                     <div className="space-y-1 pr-8">
                         <h3 className="text-xl md:text-2xl font-bold tracking-tight">{dict.items[project.translationKey].title}</h3>
-                        <p className="text-[hsl(var(--muted-foreground))] text-sm">
+                        <p className="text-[hsl(var(--muted-foreground))] text-base">
                             {dict.items[project.translationKey].desc}
                         </p>
                         <Badge variant="accent" className="md:hidden mt-3">{dict[project.category.toLowerCase()]}</Badge>
@@ -78,7 +78,7 @@ export function ProjectModal({ project, dict, onClose }: ProjectModalProps) {
                                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-hex)]" />
                                 {dict.caseStudy.context}
                             </h4>
-                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                            <p className="text-[hsl(var(--muted-foreground))] text-base leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
                                 {dict.items[project.translationKey].context}
                             </p>
                         </div>
@@ -87,7 +87,7 @@ export function ProjectModal({ project, dict, onClose }: ProjectModalProps) {
                                 <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
                                 {dict.caseStudy.challenge}
                             </h4>
-                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                            <p className="text-[hsl(var(--muted-foreground))] text-base leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
                                 {dict.items[project.translationKey].challenge}
                             </p>
                         </div>
@@ -96,7 +96,7 @@ export function ProjectModal({ project, dict, onClose }: ProjectModalProps) {
                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
                                 {dict.caseStudy.solution}
                             </h4>
-                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                            <p className="text-[hsl(var(--muted-foreground))] text-base leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
                                 {dict.items[project.translationKey].solution}
                             </p>
                         </div>
@@ -105,7 +105,7 @@ export function ProjectModal({ project, dict, onClose }: ProjectModalProps) {
                                 <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                                 {dict.caseStudy.impact}
                             </h4>
-                            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
+                            <p className="text-[hsl(var(--muted-foreground))] text-base leading-relaxed pl-3.5 border-l border-[hsl(var(--border))]">
                                 {dict.items[project.translationKey].impact}
                             </p>
                         </div>

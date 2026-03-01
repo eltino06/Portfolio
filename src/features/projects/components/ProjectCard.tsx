@@ -51,7 +51,7 @@ export function ProjectCard({ project, index, dict, onClick }: ProjectCardProps)
                     <Badge variant="muted" className="shrink-0 text-xs">{dict[project.category.toLowerCase()]}</Badge>
                 </div>
 
-                <p className="text-xs text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
+                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed line-clamp-2">
                     {dict.items[project.translationKey].desc}
                 </p>
 
