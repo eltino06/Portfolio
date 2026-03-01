@@ -112,44 +112,56 @@ export function ContactForm({ dict }: ContactFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <FormField label={dict.name} error={errors.name?.message}>
                     <input
-                        {...register('name')}
+                        {...register('name', {
+                            onChange: () => setIsConfirming(false)
+                        })}
                         type="text"
                         placeholder="Santino"
-                        className={cn(inputCls, errors.name && 'border-red-400/50')}
+                        className={cn(
+                            inputCls,
+                            errors.name && 'border-red-400/50',
+                            isConfirming && 'border-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)] ring-1 ring-[var(--accent-hex)] transition-all duration-500'
+                        )}
                         autoComplete="name"
-                        onChange={() => setIsConfirming(false)}
                     />
                 </FormField>
 
                 <FormField label={dict.email} error={errors.email?.message}>
                     <input
-                        {...register('email')}
+                        {...register('email', {
+                            onChange: () => setIsConfirming(false)
+                        })}
                         type="email"
                         placeholder="tucorreo@ejemplo.com"
-                        className={cn(inputCls, errors.email && 'border-red-400/50')}
+                        className={cn(
+                            inputCls,
+                            errors.email && 'border-red-400/50',
+                            isConfirming && 'border-[var(--accent-hex)] shadow-[0_0_15px_var(--accent-glow)] ring-1 ring-[var(--accent-hex)] transition-all duration-500'
+                        )}
                         autoComplete="email"
-                        onChange={() => setIsConfirming(false)}
                     />
                 </FormField>
             </div>
 
             <FormField label={dict.subject} error={errors.subject?.message}>
                 <input
-                    {...register('subject')}
+                    {...register('subject', {
+                        onChange: () => setIsConfirming(false)
+                    })}
                     type="text"
                     placeholder="..."
                     className={cn(inputCls, errors.subject && 'border-red-400/50')}
-                    onChange={() => setIsConfirming(false)}
                 />
             </FormField>
 
             <FormField label={dict.message} error={errors.message?.message}>
                 <textarea
-                    {...register('message')}
+                    {...register('message', {
+                        onChange: () => setIsConfirming(false)
+                    })}
                     rows={5}
                     placeholder="..."
                     className={cn(inputCls, 'resize-none', errors.message && 'border-red-400/50')}
-                    onChange={() => setIsConfirming(false)}
                 />
             </FormField>
 
