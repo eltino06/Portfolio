@@ -59,14 +59,14 @@ export function AboutSection({ dict }: AboutSectionProps) {
                     </FadeIn>
 
                     {/* Quick Facts Bento */}
-                    <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                    <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 auto-rows-fr gap-4">
                         {highlights.map((item, index) => (
                             <FadeIn
                                 key={item.label}
                                 direction="right"
                                 delay={index * 0.1}
                                 whileHover={{ x: 5 }}
-                                className="flex items-center gap-4 glass rounded-2xl p-4 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 group min-h-[80px]"
+                                className="flex items-center gap-4 glass rounded-2xl p-4 border border-[hsl(var(--border))] hover:border-[var(--accent-hex)] transition-all duration-300 group h-full min-h-[80px]"
                             >
                                 <div className="w-10 h-10 rounded-xl bg-[hsl(var(--accent-h),var(--accent-s),var(--accent-l)/0.1)] flex items-center justify-center shrink-0 group-hover:bg-[var(--accent-hex)] transition-colors">
                                     <item.icon size={18} className="text-[var(--accent-hex)] group-hover:text-[var(--accent-fg)] transition-colors" />
